@@ -1,21 +1,64 @@
-// import Nav from "./Components/home_nav";
-// import Home from './Pages/homepage'
-// import Why_us from './Components/Why_us'
-// import Footer from './Components/footer'
-// import Side from './Components/dash_nav'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom"; 
+import { Outlet } from "react-router-dom";
 
-import Login from './Pages/Login'
+import Navbar from "./Components/home_nav";
+import Footer from "./Components/footer";
+import Home from "./Pages/homepage";
+import Login from "./Pages/Login";
+import Booking from './Pages/Booking';
+import Stock from './Pages/Stock';
+
+function Layout() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
+  );
+}
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout/>,
+    children: [
+      {
+        path: "/",
+        element: <Home/>,
+      },
+      // {
+      //   path: "/post/:id",
+      //   element: <Single/>,
+      // },
+      // {
+      //   path: "/write",
+      //   element: <Write/>,
+      // },
+    ],
+  },
+  {
+    path: "/booking",
+    element: <Booking/>,
+  },
+  {
+    path: "/login",
+    element: <Login/>,
+  },
+  {
+    path: "/stock",
+    element: <Stock/>,
+  },
+]);
 
 function App() {
   return (
     <div>
-      {/* <Home /> 
-      <Why_us />
-       <Footer /> */}
-       {/* <Dash /> */}
-      {/* <Side />
-       */}
-       <Login />
+      <RouterProvider router={router} />
+
     </div>
   )
 }

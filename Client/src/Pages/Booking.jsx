@@ -5,7 +5,7 @@ function Booking() {
     return (
         <div >
             <div><Nav_bar /> </div>
-            
+
             <div className="container mx-auto p-20 w-3/4 mt-8">
                 <form className="grid grid-cols-2 gap-4 pt-15">
                     {/* Name and Phone Number */}
@@ -39,7 +39,10 @@ function Booking() {
                         <select id="vehicleType" className="w-full p-2 border rounded">
                             <option value="">Select</option>
                             <option value="car">Car</option>
+                            <option value="truck">Van</option>
                             <option value="truck">Truck</option>
+                            <option value="truck">SUV</option>
+                            <option value="truck">Other</option>
                             {/* Other options */}
                         </select>
                     </div>
@@ -102,7 +105,7 @@ function Booking() {
                             <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
                                 <input type="checkbox" id="acidRain" className="mr-2" />
                                 <label htmlFor="acidRain">Acid Rain Removing</label>
-                            </div>                            
+                            </div>
                             <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
                                 <input type="checkbox" id="machineWax" className="mr-2" />
                                 <label htmlFor="machineWax">Machine Wax</label>
@@ -125,7 +128,7 @@ function Booking() {
 
 
                     {/* Branch and Date/Time */}
-                    <div className="col-span-1">
+                    {/* <div className="col-span-1">
                         <label htmlFor="branch" className="block mb-2 font-bold">
                             Branch
                         </label>
@@ -133,21 +136,64 @@ function Booking() {
                             <option value="">Select</option>
                             <option value="dehiwala">Dehiwala</option>
                             {/* Other options */}
-                        </select>
-                    </div>
-                    <div className="col-span-1">
+                    {/* </select>
+                    </div> */}
+
+
+
+
+                    {/* <div className="col-span-1">
                         <label htmlFor="dateTime" className="block mb-2 font-bold">
                             Date/Time
                         </label>
                         <input type="datetime-local" id="dateTime" className="w-full p-2 border rounded" />
+                    </div> */}
+
+
+                    <div className="col-span-1">
+                        <label htmlFor="date" className="block mb-2 font-bold">
+                            Date
+                        </label>
+                        <input
+                            type="date"
+                            id="date"
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <label htmlFor="time" className="block mb-2 font-bold">
+                            Time
+                        </label>
+                        <input
+                            type="time"
+                            id="time"
+                            className="w-full p-2 border rounded"
+                        />
+                    </div>
+
+
+                    <div className="col-span-2">
+                        <label htmlFor="name" className="block mb-2 font-bold">
+                            Anything Else?
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            className="w-full h-20 p-2 border rounded"
+                            required
+                        />
                     </div>
 
                     {/* Anything Else? */}
-                    <div className="col-span-2">
+                    <div className="col-span-2 ">
                         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Submit
                         </button>
                     </div>
+
+
+
+
                 </form>
             </div>
         </div>
