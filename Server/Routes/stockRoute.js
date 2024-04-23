@@ -1,8 +1,9 @@
 import express from 'express';
-import { addStock } from '../controllers/stockController.js'; // Adjust the path as needed
+import { addStock,showStock } from '../controllers/stockController.js'; // Adjust the path as needed
 
 const router = express.Router();
 
 router.post('/stock', addStock);
+router.get('/showstock',showStock)
 
 export default router;

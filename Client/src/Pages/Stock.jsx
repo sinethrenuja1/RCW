@@ -1,7 +1,7 @@
 // import ShopHeader from '../Components/dash_nav'
 import { useState } from 'react';
 import AddItem from './AddItem';
-import BookingUpdate from './UpdateStock';
+import Showstock from './ShowStock';
 import BookingReserved from './DeleteStock';
 
 const Booking = () => {
@@ -29,15 +29,15 @@ const Booking = () => {
         <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
           <button className={`${activeTopic === 'AddItem' ? 'topic' : 'text-gray-500'}`}
             onClick={() => handleTopicClick('AddItem')}>Add Item</button>
-          <button className={`${activeTopic === 'UpdateBooking' ? 'topic' : 'text-gray-500'}`}
-            onClick={() => handleTopicClick('UpdateBooking')}>Update Booking</button>
+          <button className={`${activeTopic === 'ShowStock' ? 'topic' : 'text-gray-500'}`}
+            onClick={() => handleTopicClick('ShowStock')}>Show Stock</button>
           <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}
             onClick={() => handleTopicClick('TodayList')}> Reserved List</button>
         </div>
         {/**end sub nav bar */}
         <div>
           {activeTopic === 'AddItem' && <AddItem />}
-          {activeTopic === 'UpdateBooking' && <BookingUpdate />}
+          {activeTopic === 'ShowStock' && <Showstock />}
           {activeTopic === 'TodayList' && <BookingReserved />}
         </div>
       </div>
