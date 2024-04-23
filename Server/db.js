@@ -6,3 +6,5 @@ export const db = mysql2.createConnection({
     password: '20010312',
     database: 'rcw'
 });
+
+export default db;

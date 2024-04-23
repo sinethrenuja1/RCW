@@ -11,7 +11,9 @@ import Login from "./Pages/Login";
 import Booking from './Pages/Booking';
 import Stock from './Pages/Stock';
 
-function Layout() {
+import Dash_nav from "./Components/dash_nav";
+
+const  WebLayout = () => {
   return (
     <>
       <Navbar />
@@ -21,37 +23,40 @@ function Layout() {
   );
 }
 
+const  DashLayout = () => {
+  return (
+    <div className="flex">
+      <div className="w-[256px]">
+        <Dash_nav />
+      </div>
+      <div className="w-calc">
+       <Outlet />
+      </div>
+    </div>
+  );
+}
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Layout/>,
+    path: "/",element: <WebLayout/>,
     children: [
-      {
-        path: "/",
-        element: <Home/>,
-      },
-      // {
-      //   path: "/post/:id",
-      //   element: <Single/>,
-      // },
-      // {
-      //   path: "/write",
-      //   element: <Write/>,
-      // },
-    ],
+      {path: "/", element: <Home/>,},
+      ],
   },
+  {path: "/booking", element: <Booking/>},
+  {path: "/login", element: <Login/>},
+  
+  
+
   {
-    path: "/booking",
-    element: <Booking/>,
+    path: "/",element: <DashLayout/>,
+    children: [
+      {path: "/stock" , element: <Stock/>,},
+      ],
   },
-  {
-    path: "/login",
-    element: <Login/>,
-  },
-  {
-    path: "/stock",
-    element: <Stock/>,
-  },
+
+
+
 ]);
 
 function App() {
