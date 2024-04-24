@@ -46,3 +46,32 @@ export const showStock = async (req, res) => {
 
     }
 }
+
+export const lowStock = async(req,res) =>{
+    try{
+        const q=`SELECT * FROM stock where min_limit>quantity`
+
+        db.query(q,(err,result) =>{
+            if(err){
+                console.log(err);
+                res.status(500).json({ error: 'An error occurred while fetching the stock' });
+            }else{
+                res.status(200).json(result);
+                console.log(result);
+            }
+        })
+
+    }catch{
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+}
+
+export const updateStock = async(req,res) =>{
+    try{
+
+    }catch{
+        
+    }
+
+}

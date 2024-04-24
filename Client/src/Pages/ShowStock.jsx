@@ -24,7 +24,7 @@ const StockTable = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h2>Stock Data</h2>
+      <h2 className='text-2xl'>Stock Data</h2>
       <table className="min-w-full divide-y divide-gray-200 rounded-lg shadow mt-4">
         <thead>
           <tr className="bg-gray-500 text-white font-bold tracking-wider">

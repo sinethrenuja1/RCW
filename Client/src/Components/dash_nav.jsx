@@ -3,7 +3,7 @@ const dash_nav = () => {
 
 
   return (
-    <div className="bg-lightblue text-white w-64 min-h-screen p-4">
+    <div className="bg-lightblue text-white w-64 min-h-screen p-4 fixed">
       <div className="text-xl font-bold text-white mb-4">Royal Car Wash</div>
       <ul>
       <li className="mb-2">

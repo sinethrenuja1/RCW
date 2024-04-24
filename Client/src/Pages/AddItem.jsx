@@ -117,9 +117,12 @@ function AddItem() {
       await axios.post('http://localhost:8800/api/stockRoute/stock', inputs);
       // Redirect to success page after successful submission
       console.log('Data sent successfully');
+      alert('Item added successfully');
+      window.location.reload();
       
     } catch (err) {
       setError(err.response.data.error);
+      alert(`An error occurred: ${err.response.data.error}`);
     }
   };
 
