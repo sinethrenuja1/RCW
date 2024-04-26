@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import AddItem from './AddItem';
 import Showstock from './ShowStock';
-import BookingReserved from './DeleteStock';
+import UpdateStock from './Update_stock';
 // import LowStock from './Low_stock'
 
 const Booking = () => {
@@ -32,8 +32,8 @@ const Booking = () => {
           onClick={() => handleTopicClick('AddItem')}>Add Item</button>
         <button className={`${activeTopic === 'ShowStock' ? 'topic' : 'text-gray-500'}`}
           onClick={() => handleTopicClick('ShowStock')}>Show Stock</button>
-        <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}
-          onClick={() => handleTopicClick('TodayList')}> Reserved List</button>
+        <button className={`${activeTopic === 'updateStock' ? 'topic' : 'text-gray-500'}`}
+          onClick={() => handleTopicClick('updateStock')}> Update Stock</button>
         {/* <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}
           onClick={() => handleTopicClick('Low')}> Low Stock</button> */}
       </div>
@@ -41,7 +41,7 @@ const Booking = () => {
       <div>
         {activeTopic === 'AddItem' && <AddItem />}
         {activeTopic === 'ShowStock' && <Showstock />}
-        {activeTopic === 'TodayList' && <BookingReserved />}
+        {activeTopic === 'updateStock' && <UpdateStock/>}
         {/* {activeTopic === 'TodayList' && <BookingReserved />} */}
       </div>
     </div>

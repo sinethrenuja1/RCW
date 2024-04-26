@@ -67,11 +67,4 @@ export const lowStock = async(req,res) =>{
     }
 }
 
-export const updateStock = async(req,res) =>{
-    try{
 
-    }catch{
-        
-    }
-
-}

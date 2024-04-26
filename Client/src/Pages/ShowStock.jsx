@@ -41,9 +41,11 @@ const StockTable = () => {
             <tr key={stock.id} className="hover:bg-gray-100">
               <td className="p-4 text-left border border-gray-200">{stock.part_id}</td>
               <td className="p-4 text-left border border-gray-200">{stock.name}</td>
-              <td className="p-4 text-right border border-gray-200">{stock.price}</td>
               <td className="p-4 text-right border border-gray-200">{stock.quantity}</td>
               <td className="p-4 text-right border border-gray-200">{stock.min_limit}</td>
+              <td className="p-4 text-right border border-gray-200">{stock.price}</td>
+              
+              
             </tr>
           ))}
         </tbody>
