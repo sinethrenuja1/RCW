@@ -8,7 +8,8 @@ export default {
     extend: {
       colors: {
         'lightblue': '#1B2A6E',
-        'btncolor': 'EAEBEF'
+        'btncolor': '#EAEBEF',
+        'navclr': '#F7F8FA',
         
       },
       boxShadow: {
