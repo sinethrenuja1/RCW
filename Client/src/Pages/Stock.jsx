@@ -7,7 +7,7 @@ import UpdateStock from './Update_stock';
 
 const Booking = () => {
 
-  const [activeTopic, setActiveTopic] = useState('DashBoard');
+  const [activeTopic, setActiveTopic] = useState('ShowStock');
 
   const handleTopicClick = (topic) => {
     setActiveTopic(topic);
@@ -28,10 +28,10 @@ const Booking = () => {
 
       {/**start sub navbar */}
       <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
+      <button className={`${activeTopic === 'ShowStock' ? 'topic' : 'text-gray-500'}`}
+          onClick={() => handleTopicClick('ShowStock')}>Show Stock</button>
         <button className={`${activeTopic === 'AddItem' ? 'topic' : 'text-gray-500'}`}
           onClick={() => handleTopicClick('AddItem')}>Add Item</button>
-        <button className={`${activeTopic === 'ShowStock' ? 'topic' : 'text-gray-500'}`}
-          onClick={() => handleTopicClick('ShowStock')}>Show Stock</button>
         <button className={`${activeTopic === 'updateStock' ? 'topic' : 'text-gray-500'}`}
           onClick={() => handleTopicClick('updateStock')}> Update Stock</button>
         {/* <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}

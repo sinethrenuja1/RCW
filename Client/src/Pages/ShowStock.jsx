@@ -61,6 +61,8 @@
 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 const ShowStock = () => {
   const [stockData, setStockData] = useState([]);
@@ -92,25 +94,46 @@ const ShowStock = () => {
     stock.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+    const tableColumn = ["Part ID", "Name", "Quantity", "Price"]; // Add more columns as needed
+    const tableRows = [];
+
+    filteredStockData.forEach(stock => {
+      const stockData = [
+        stock.part_id,
+        stock.name,
+        stock.quantity,
+        stock.price,
+        // Add more stock data as needed
+      ];
+      tableRows.push(stockData);
+    });
+
+    doc.autoTable(tableColumn, tableRows, { startY: 20 });
+    doc.text("Stock Data", 14, 15);
+    doc.save(`stock_data.pdf`);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl">Stock Data</h2>
       <input
         type="text"
-        placeholder="Search by Part ID or Name"
+        placeholder="Search by Part Code or Name"
         className="border border-gray-300 rounded-md px-3 py-2 mt-4 w-1/4"
         onChange={handleSearch}
       />
       <table className="min-w-full divide-y divide-gray-200 rounded-lg shadow mt-4">
         <thead>
-          <tr className="bg-gray-500 text-white font-bold tracking-wider">
+          <tr className="bg-gray-400 text-white font-bold tracking-wider">
             {/* <th className="p-4">Stock ID</th> */}
-            <th className="p-4 border border-gray-200">Part ID</th>
+            <th className="p-4 border border-gray-200">Part Code</th>
             <th className="p-4 border border-gray-200">Name</th>
             <th className="p-4 border border-gray-200">Quantity</th>
             <th className="p-4 border border-gray-200">Minimum Limit</th>
             <th className="p-4 border border-gray-200">Price</th>
-            
+
           </tr>
         </thead>
         <tbody>
@@ -125,6 +148,9 @@ const ShowStock = () => {
           ))}
         </tbody>
       </table>
+      <button onClick={generatePDF} className="bg-lightblue hover:bg-blue text-white font-bold py-2 px-4 rounded mt-4">
+        Download PDF
+      </button>
     </div>
   );
 };
