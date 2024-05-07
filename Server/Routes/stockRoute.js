@@ -1,5 +1,5 @@
 import express from 'express';
-import { addStock,showStock,lowStock,autoCompletePartId, getaStock, updateStock} from '../controllers/stockController.js'; // Adjust the path as needed
+import { addStock,showStock,lowStock,autoCompletePartId, getaStock, updateStock, trackStockUpdate} from '../controllers/stockController.js'; // Adjust the path as needed
 
 const router = express.Router();
 
@@ -9,6 +9,6 @@ router.get('/stock/:suggestion', getaStock);
 router.get('/showstock',showStock);
 router.get('/lowStock',lowStock)
 router.get('/autoCompletePartId', autoCompletePartId);
-
+router.post('/trackstock', trackStockUpdate);
 
 export default router;

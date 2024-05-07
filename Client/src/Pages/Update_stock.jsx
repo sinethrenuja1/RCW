@@ -308,14 +308,27 @@ function Update_stock() {
     }
   };
 
+
   const updateStockDetails = async (partId, price, quantity, min_limit) => {
     try {
       const response = await axios.put("http://localhost:8800/api/stockRoute/update-stock", { partId, price, quantity, min_limit });
       console.log(response);
+      trackStockUpdate(partId, quantity);
       window.location.reload();
       alert('Stock updated successfully');
     } catch (error) {
       console.error('Error updating stock:', error);
+    }
+  };
+
+  
+  const trackStockUpdate = async (partId, quantity) => {
+    const date = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+    try {
+      const response = await axios.post('http://localhost:8800/api/stockRoute/trackstock', { partId, date, quantity });
+      console.log(response);
+    } catch (error) {
+      console.error('Error tracking stock update:', error);
     }
   };
 
