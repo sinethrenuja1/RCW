@@ -201,26 +201,53 @@ export const updateStock = async (req, res) => {
 //     });
 //   };
 
+// export const trackStockUpdate = async (req, res) => {
+//     const { partId, quantity } = req.body;
+//     const date = new Date().toISOString().slice(0, 10);
+  
+//     try {
+//       const sqlInsertStockUpdate = "INSERT INTO stock_update (part_id, date, quantity) VALUES (?, ?, ?)";
+//       const valuesInsertStockUpdate = [partId, date, quantity];
+  
+//       // Assuming you have a connection to your SQL database in `db`
+//       db.query(sqlInsertStockUpdate, valuesInsertStockUpdate, (error, results, fields) => {
+//         if (error) {
+//           console.error('Error inserting into stock_update table:', error);
+//           res.status(500).json({ error: 'Failed to update stock' });
+//         } else {
+//           res.json({ message: 'Stock update tracked successfully' });
+//         }
+//       });
+//     } catch (error) {
+//       console.error('Error tracking stock update:', error);
+//       res.status(500).json({ error: 'Failed to update stock' });
+//     }
+//   };
+
 export const trackStockUpdate = async (req, res) => {
     const { partId, quantity } = req.body;
     const date = new Date().toISOString().slice(0, 10);
   
-    try {
-      const sqlInsertStockUpdate = "INSERT INTO stock_update (part_id, date, quantity) VALUES (?, ?, ?)";
-      const valuesInsertStockUpdate = [partId, date, quantity];
+    if (quantity > 0) {
+      try {
+        const sqlInsertStockUpdate = "INSERT INTO stock_update (part_id, date, quantity) VALUES (?, ?, ?)";
+        const valuesInsertStockUpdate = [partId, date, quantity];
   
-      // Assuming you have a connection to your SQL database in `db`
-      db.query(sqlInsertStockUpdate, valuesInsertStockUpdate, (error, results, fields) => {
-        if (error) {
-          console.error('Error inserting into stock_update table:', error);
-          res.status(500).json({ error: 'Failed to update stock' });
-        } else {
-          res.json({ message: 'Stock update tracked successfully' });
-        }
-      });
-    } catch (error) {
-      console.error('Error tracking stock update:', error);
-      res.status(500).json({ error: 'Failed to update stock' });
+        // Assuming you have a connection to your SQL database in `db`
+        db.query(sqlInsertStockUpdate, valuesInsertStockUpdate, (error, results, fields) => {
+          if (error) {
+            console.error('Error inserting into stock_update table:', error);
+            res.status(500).json({ error: 'Failed to update stock' });
+          } else {
+            res.json({ message: 'Stock update tracked successfully' });
+          }
+        });
+      } catch (error) {
+        console.error('Error tracking stock update:', error);
+        res.status(500).json({ error: 'Failed to update stock' });
+      }
+    } else {
+      res.status(400).json({ error: 'Quantity must be greater than 0' });
     }
   };
   

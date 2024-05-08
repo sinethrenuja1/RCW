@@ -10,6 +10,7 @@ import Home from "./Pages/homepage";
 import Login from "./Pages/Login";
 import Booking from './Pages/Booking';
 import Stock from './Pages/Stock';
+import Openjob from "./Pages/Jobcard_manager/openjob";
 
 import Dash_nav from "./Components/dash_nav";
 
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
     path: "/",element: <DashLayout/>,
     children: [
       {path: "/stock" , element: <Stock/>,},
+      {path: "/openjob" , element: <Openjob/>,}
       ],
   },
 
