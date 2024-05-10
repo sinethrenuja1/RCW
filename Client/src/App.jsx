@@ -10,7 +10,9 @@ import Home from "./Pages/homepage";
 import Login from "./Pages/Login";
 import Booking from './Pages/Booking';
 import Stock from './Pages/Stock';
-import Openjob from "./Pages/Jobcard_manager/openjob";
+import Openjob from "../src/Pages/openjob/open_job";
+import RegisterVehicle from "./Pages/openjob/registerVehicle"; 
+import Shopheader from "./Components/shopheader"
 
 import Dash_nav from "./Components/dash_nav";
 
@@ -26,13 +28,18 @@ const  WebLayout = () => {
 
 const  DashLayout = () => {
   return (
+    <div>
+      
     <div className="flex">
+      
       <div className="w-[256px]">
         <Dash_nav />
       </div>
+      
       <div className="w-calc">
        <Outlet />
       </div>
+    </div>
     </div>
   );
 }
@@ -53,7 +60,8 @@ const router = createBrowserRouter([
     path: "/",element: <DashLayout/>,
     children: [
       {path: "/stock" , element: <Stock/>,},
-      {path: "/openjob" , element: <Openjob/>,}
+      {path: "/openjob" , element: <Openjob/>,},
+      {path: "/register" , element: <RegisterVehicle/>,}
       ],
   },
 

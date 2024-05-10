@@ -3,6 +3,7 @@ import { useState } from 'react';
 import AddItem from './AddItem';
 import Showstock from './ShowStock';
 import UpdateStock from './Update_stock';
+import ShopHeader from "../Components/shopheader"
 // import LowStock from './Low_stock'
 
 const Booking = () => {
@@ -15,16 +16,18 @@ const Booking = () => {
 
   const getPageName = () => {
     switch (activeTopic) {
-      case 'DashBoard':
-        return 'Dashboard';
+      case 'updateStock':
+        return 'Update Stock';
+      case 'AddItem':
+        return 'Add Item';
       default:
-        return 'Boooking';
+        return 'Show Stock';
     }
   };
 
   return (
     <div>
-      {/* <ShopHeader pageName={getPageName()} /> */}
+      <ShopHeader pageName={getPageName()} />
 
       {/**start sub navbar */}
       <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>

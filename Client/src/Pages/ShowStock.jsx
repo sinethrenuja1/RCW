@@ -64,6 +64,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
+
 const ShowStock = () => {
   const [stockData, setStockData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -117,6 +118,7 @@ const ShowStock = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      
       <h2 className="text-2xl">Stock Data</h2>
       <input
         type="text"
