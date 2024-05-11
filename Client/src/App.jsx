@@ -12,7 +12,7 @@ import Booking from './Pages/Booking';
 import Stock from './Pages/Stock';
 import Openjob from "../src/Pages/openjob/open_job";
 import RegisterVehicle from "./Pages/openjob/registerVehicle"; 
-import Shopheader from "./Components/shopheader"
+// import Shopheader from "./Components/shopheader"
 
 import Dash_nav from "./Components/dash_nav";
 
