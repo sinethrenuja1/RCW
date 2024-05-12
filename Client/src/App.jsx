@@ -12,6 +12,7 @@ import Booking from './Pages/Booking';
 import Stock from './Pages/Stock';
 import Openjob from "../src/Pages/openjob/open_job";
 import RegisterVehicle from "./Pages/openjob/registerVehicle"; 
+import CreateJob_card from "../src/Pages/openjob/createJob_card";
 // import Shopheader from "./Components/shopheader"
 
 import Dash_nav from "./Components/dash_nav";
@@ -61,7 +62,8 @@ const router = createBrowserRouter([
     children: [
       {path: "/stock" , element: <Stock/>,},
       {path: "/openjob" , element: <Openjob/>,},
-      {path: "/register" , element: <RegisterVehicle/>,}
+      {path: "/register" , element: <RegisterVehicle/>,},
+      {path: "/createjob" , element: <CreateJob_card/>,},
       ],
   },
 
