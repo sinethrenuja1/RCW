@@ -12,8 +12,9 @@ import Booking from './Pages/Booking';
 import Stock from './Pages/Stock';
 import Openjob from "../src/Pages/openjob/open_job";
 import RegisterVehicle from "./Pages/openjob/registerVehicle"; 
-import CreateJob_card from "../src/Pages/openjob/createJob_card";
-// import Shopheader from "./Components/shopheader"
+import CreateJob_card from "./Pages/openjob/add_services";
+import Jobcard from "../src/Pages/openjob/jobcard";
+
 
 import Dash_nav from "./Components/dash_nav";
 
@@ -64,6 +65,8 @@ const router = createBrowserRouter([
       {path: "/openjob" , element: <Openjob/>,},
       {path: "/register" , element: <RegisterVehicle/>,},
       {path: "/createjob" , element: <CreateJob_card/>,},
+      {path: "/jobcard" , element: <Jobcard/>,},
+      
       ],
   },
 
