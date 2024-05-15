@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.post('/registerCustomer', registerCustomer);
 router.post('/registerVehicle', registerVehicle);
-router.use('/searchCustomer', searchCustomer);
+router.get('/searchCustomer/:contact_number', searchCustomer);
 
 export default router;

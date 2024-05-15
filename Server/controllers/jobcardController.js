@@ -26,8 +26,12 @@ export const registerCustomer = async (req, res) => {
         res.status(500).json({error: 'An unexpected error occurred'});
     }
 }
+
+
+
+
 //------------------------------------------------------------------------
-//register vehicle details
+//register vehicledetails
 
 export const registerVehicle = async (req, res) => {
     const { veh_num,make,model,engine_type,contact_number} = req.body;
@@ -55,6 +59,7 @@ export const registerVehicle = async (req, res) => {
     }
 }
 
+
 //------------------------------------------------------------------
 //Search Customer
 export const searchCustomer = async (req, res) => {
@@ -66,7 +71,7 @@ export const searchCustomer = async (req, res) => {
             db.query(q, [contact_number], (err, result) => {
                 if (err) {
                     reject(err);  // If there's an error, reject the Promise
-                    console.log(err);
+                    console.error(err);
                 } else {
                     resolve(result); 
                     console.log(result);
