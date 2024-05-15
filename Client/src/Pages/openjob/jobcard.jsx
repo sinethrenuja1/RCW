@@ -1,6 +1,6 @@
 // import ShopHeader from '../Components/dash_nav'
 import { useState } from 'react';
-import AddItem from '../AddItem';
+import AddParts from './add_replaceparts';
 import AddServices from './add_services';
 import UpdateStock from '../Update_stock';
 import ShopHeader from "../../Components/shopheader"
@@ -18,8 +18,8 @@ const Booking = () => {
     switch (activeTopic) {
       case 'updateStock':
         return 'Update Stock';
-      case 'AddItem':
-        return 'Add Item';
+      case 'AddParts':
+        return 'Add Parts to job card';
       default:
         return 'Add Services';
     }
@@ -33,8 +33,8 @@ const Booking = () => {
       <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
       <button className={`${activeTopic === 'AddServices' ? 'topic' : 'text-gray-500'}`}
           onClick={() => handleTopicClick('AddServices')}>Add Services</button>
-        <button className={`${activeTopic === 'AddItem' ? 'topic' : 'text-gray-500'}`}
-          onClick={() => handleTopicClick('AddItem')}>Add Item</button>
+        <button className={`${activeTopic === 'AddParts' ? 'topic' : 'text-gray-500'}`}
+          onClick={() => handleTopicClick('AddParts')}>Add Parts</button>
         <button className={`${activeTopic === 'updateStock' ? 'topic' : 'text-gray-500'}`}
           onClick={() => handleTopicClick('updateStock')}> Update Stock</button>
         {/* <button className={`${activeTopic === 'TodayList' ? 'topic' : 'text-gray-500'}`}
@@ -42,7 +42,7 @@ const Booking = () => {
       </div>
       {/**end sub nav bar */}
       <div>
-        {activeTopic === 'AddItem' && <AddItem />}
+        {activeTopic === 'AddParts' && <AddParts />}
         {activeTopic === 'AddServices' && <AddServices />}
         {activeTopic === 'updateStock' && <UpdateStock/>}
         {/* {activeTopic === 'TodayList' && <BookingReserved />} */}
