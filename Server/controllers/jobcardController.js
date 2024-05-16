@@ -181,3 +181,37 @@ export const searchCustomer = async (req, res) => {
         res.status(500).json({ error: 'An unexpected error occurred' });
     }
 }
+
+
+
+
+//find when veh_num in the db(already customer)
+export const checkVehicle = async (req, res) => {
+    const {veh_num} = req.params;
+
+    try{
+        const q=`select * FROM vehicle_details WHERE veh_num=?`;
+        const vehicle = await new Promise((resolve, reject) => {
+            db.query(q, [veh_num], (err, result) => {
+                if (err) {
+                    reject(err);  // If there's an error, reject the Promise
+                    console.error(err);
+                } else {
+                    resolve(result); 
+                    console.log(result);
+                     // If everything went well, resolve the Promise
+                }
+            });
+        });
+
+        if (vehicle.length > 0) {
+            res.status(200).json({exists: true});
+        } else {
+            res.status(200).json({exists: false});
+        }
+    }catch{
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+
+    }
+}
