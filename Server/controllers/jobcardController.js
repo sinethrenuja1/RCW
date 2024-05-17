@@ -215,3 +215,49 @@ export const checkVehicle = async (req, res) => {
 
     }
 }
+
+//load exisisting vehicle details
+export const loadDetails = async (req, res) => {
+    const { veh_num } = req.params;
+
+    try {
+        const vehicleQuery = `SELECT * FROM vehicle_details WHERE veh_num = ?`;
+        const customerQuery = `SELECT * FROM customer_info WHERE contact_number = ?`;
+
+        // Get vehicle details
+        const vehicle = await new Promise((resolve, reject) => {
+            db.query(vehicleQuery, [veh_num], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        if (vehicle.length > 0) {
+            const contact_number = vehicle[0].contact_number;
+
+            // Get customer details
+            const customer = await new Promise((resolve, reject) => {
+                db.query(customerQuery, [contact_number], (err, result) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(result);
+                    }
+                });
+            });
+
+            res.json({
+                vehicle: vehicle[0],
+                customer: customer.length > 0 ? customer[0] : null
+            });
+        } else {
+            res.status(404).json({ message: 'Vehicle not found' });
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+};
