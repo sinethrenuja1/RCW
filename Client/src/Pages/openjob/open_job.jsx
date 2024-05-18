@@ -13,7 +13,7 @@ function OpenJob() {
             const data = await response.json();
 
             if(data.exists){
-               navigate("/jobcard");
+               navigate("/ShowVeh_details", { state: { veh_num } });
             }else{
                 navigate("/register");
             }

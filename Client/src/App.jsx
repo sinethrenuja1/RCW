@@ -14,6 +14,7 @@ import Openjob from "../src/Pages/openjob/open_job";
 import RegisterVehicle from "./Pages/openjob/registerVehicle"; 
 import CreateJob_card from "./Pages/openjob/add_services";
 import Jobcard from "../src/Pages/openjob/jobcard";
+import ShowVeh_details from "../src/Pages/openjob/showreg_vehdetails";
 
 
 import Dash_nav from "./Components/dash_nav";
@@ -66,7 +67,7 @@ const router = createBrowserRouter([
       {path: "/register" , element: <RegisterVehicle/>,},
       {path: "/createjob" , element: <CreateJob_card/>,},
       {path: "/jobcard" , element: <Jobcard/>,},
-      
+      {path: "/showveh_details" , element: <ShowVeh_details/>,},
       ],
   },
 
