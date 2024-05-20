@@ -90,10 +90,10 @@ const ShowStock = () => {
   };
 
   // Filter stock data based on search query (by Part ID or Name)
-  const filteredStockData = stockData.filter((stock) =>
-    stock.part_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    stock.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+    const filteredStockData = stockData.filter((stock) =>
+      stock.part_id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      stock.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   const generatePDF = () => {
     const doc = new jsPDF();

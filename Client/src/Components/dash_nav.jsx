@@ -28,7 +28,7 @@ const dash_nav = () => {
           <Link to="#" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Notices</Link>
         </li> */}
         <li className="mb-2">
-          <Link to="#" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Workers</Link>
+          <Link to="/show_workers" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Workers</Link>
         </li>
         <li className="mb-2">
           <Link to="#" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Settings</Link>
