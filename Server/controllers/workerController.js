@@ -120,54 +120,55 @@ export const getWorkerById = async (req, res) => {
     }
 };
 
-// export const updateWorkerDetails = async(req,res) =>{
-//     const updateWorkerDetails = async (req, res) => {
-//         const { worker_id } = req.params;
-//         const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area } = req.body;
-    
-//         try {
-//             // Fetch existing worker details from the database
-//             const fetchQuery = 'SELECT * FROM workers WHERE worker_id = ?';
-//             const [existingWorker] = await db.query(fetchQuery, [worker_id]);
-    
-//             // If worker not found, return error
-//             if (!existingWorker) {
-//                 return res.status(404).json({ message: 'Worker not found' });
-//             }
-    
-//             // Update worker details
-//             const updateQuery = 'UPDATE workers SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
-//             const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id];
-    
-//             await db.query(updateQuery, values);
-    
-//             res.status(200).json({ message: 'Worker details updated successfully' });
-//         } catch (error) {
-//             console.error('Error updating worker details:', error);
-//             res.status(500).json({ message: 'Error updating worker details' });
-//         }
-//     };
-// }
 
+// 
+
+// Controller to update worker details
+// export const updateWorkerDetails = async (req, res) => {
+//     const { worker_id } = req.params;
+//     const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area } = req.body;
+
+//     try {
+//         const updateQuery = 'UPDATE worker_info SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
+//         const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id];
+
+//         await new Promise((resolve, reject) => {
+//             db.query(updateQuery, values, (err, result) => {
+//                 if (err) {
+//                     reject(err);
+//                 } else {
+//                     resolve(result);
+//                 }
+//             });
+//         });
+
+//         res.status(200).json({ message: 'Worker details updated successfully' });
+//     } catch (error) {
+//         console.error('Error updating worker details:', error);
+//         res.status(500).json({ message: 'Error updating worker details' });
+//     }
+// };
+
+// controllers/workerController.js
+
+// Controller to update worker details
 export const updateWorkerDetails = async (req, res) => {
     const { worker_id } = req.params;
     const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area } = req.body;
 
     try {
-        // Fetch existing worker details from the database
-        const fetchQuery = 'SELECT * FROM workers WHERE worker_id = ?';
-        const [existingWorker] = await db.query(fetchQuery, [worker_id]);
-
-        // If worker not found, return error
-        if (!existingWorker) {
-            return res.status(404).json({ message: 'Worker not found' });
-        }
-
-        // Update worker details
-        const updateQuery = 'UPDATE workers SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
+        const updateQuery = 'UPDATE worker_info SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
         const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id];
 
-        await db.query(updateQuery, values);
+        await new Promise((resolve, reject) => {
+            db.query(updateQuery, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
 
         res.status(200).json({ message: 'Worker details updated successfully' });
     } catch (error) {
@@ -175,3 +176,4 @@ export const updateWorkerDetails = async (req, res) => {
         res.status(500).json({ message: 'Error updating worker details' });
     }
 };
+

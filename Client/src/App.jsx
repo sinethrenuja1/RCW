@@ -17,6 +17,7 @@ import Jobcard from "../src/Pages/openjob/jobcard";
 import ShowVeh_details from "../src/Pages/openjob/showreg_vehdetails";
 import Show_workers from "./Pages/workers/show_workers";
 import Add_workers from "./Pages/workers/addworker";
+import EditWorker from "./Pages/workers/edit_worker";
 
 
 import Dash_nav from "./Components/dash_nav";
@@ -72,6 +73,9 @@ const router = createBrowserRouter([
       {path: "/showveh_details" , element: <ShowVeh_details/>,},
       {path: "/show_workers" , element: <Show_workers/>,},
       {path: "/add_workers" , element: <Add_workers/>,},
+      { path: "/edit_worker/:worker_id", element: <EditWorker /> },
+      
+      
       ],
   },
 

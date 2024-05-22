@@ -84,6 +84,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Modal, Label, TextInput } from "flowbite-react";
 
+
+
+
 function ShowWorkers() {
     const [workerData, setWorkerData] = useState([]);
     const [selectedWorker, setSelectedWorker] = useState(null);
@@ -157,7 +160,10 @@ function ShowWorkers() {
                                     <td className="border px-4 py-2">{worker.address}</td>
                                     <td className="border px-4 py-2">{worker.tel_no}</td>
                                     <td className="border px-4 py-2">
-                                        <button className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2">Edit</button>
+                                        {/* <button className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2">Edit</button> */}
+                                        <Link to={`/edit_worker/${worker.worker_id}`} className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2">
+                                            Edit
+                                        </Link>
                                         <button className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2">Delete</button>
                                         <button
                                             className="bg-yellow-400 text-white px-4 py-2 rounded-md"
