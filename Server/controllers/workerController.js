@@ -98,24 +98,6 @@ export const worker_table= async (req,res) => {
 
 //---------------------------------------------------
 
-// export const getWorkerById = async (req, res) => {
-//     const workerId = req.params.worker_id;
-
-//     try {
-//         const query = 'SELECT * FROM worker_info WHERE worker_id = ?';
-//         const [worker] = await db.execute(query, [workerId]);
-
-//         if (worker.length === 0) {
-//             return res.status(404).json({ message: 'Worker not found' });
-//         }
-
-//         res.status(200).json(worker[0]);
-//     } catch (error) {
-//         console.error('Error fetching worker details:', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//     }
-// };
-
 export const getWorkerById = async (req, res) => {
     try {
         const { worker_id } = req.params;
@@ -135,5 +117,61 @@ export const getWorkerById = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+};
+
+// export const updateWorkerDetails = async(req,res) =>{
+//     const updateWorkerDetails = async (req, res) => {
+//         const { worker_id } = req.params;
+//         const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area } = req.body;
+    
+//         try {
+//             // Fetch existing worker details from the database
+//             const fetchQuery = 'SELECT * FROM workers WHERE worker_id = ?';
+//             const [existingWorker] = await db.query(fetchQuery, [worker_id]);
+    
+//             // If worker not found, return error
+//             if (!existingWorker) {
+//                 return res.status(404).json({ message: 'Worker not found' });
+//             }
+    
+//             // Update worker details
+//             const updateQuery = 'UPDATE workers SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
+//             const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id];
+    
+//             await db.query(updateQuery, values);
+    
+//             res.status(200).json({ message: 'Worker details updated successfully' });
+//         } catch (error) {
+//             console.error('Error updating worker details:', error);
+//             res.status(500).json({ message: 'Error updating worker details' });
+//         }
+//     };
+// }
+
+export const updateWorkerDetails = async (req, res) => {
+    const { worker_id } = req.params;
+    const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area } = req.body;
+
+    try {
+        // Fetch existing worker details from the database
+        const fetchQuery = 'SELECT * FROM workers WHERE worker_id = ?';
+        const [existingWorker] = await db.query(fetchQuery, [worker_id]);
+
+        // If worker not found, return error
+        if (!existingWorker) {
+            return res.status(404).json({ message: 'Worker not found' });
+        }
+
+        // Update worker details
+        const updateQuery = 'UPDATE workers SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
+        const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id];
+
+        await db.query(updateQuery, values);
+
+        res.status(200).json({ message: 'Worker details updated successfully' });
+    } catch (error) {
+        console.error('Error updating worker details:', error);
+        res.status(500).json({ message: 'Error updating worker details' });
     }
 };
