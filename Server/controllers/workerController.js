@@ -120,37 +120,6 @@ export const getWorkerById = async (req, res) => {
     }
 };
 
-
-// 
-
-// Controller to update worker details
-// export const updateWorkerDetails = async (req, res) => {
-//     const { worker_id } = req.params;
-//     const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area } = req.body;
-
-//     try {
-//         const updateQuery = 'UPDATE worker_info SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
-//         const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id];
-
-//         await new Promise((resolve, reject) => {
-//             db.query(updateQuery, values, (err, result) => {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     resolve(result);
-//                 }
-//             });
-//         });
-
-//         res.status(200).json({ message: 'Worker details updated successfully' });
-//     } catch (error) {
-//         console.error('Error updating worker details:', error);
-//         res.status(500).json({ message: 'Error updating worker details' });
-//     }
-// };
-
-// controllers/workerController.js
-
 // Controller to update worker details
 export const updateWorkerDetails = async (req, res) => {
     const { worker_id } = req.params;
@@ -177,3 +146,27 @@ export const updateWorkerDetails = async (req, res) => {
     }
 };
 
+// Controller to delete worker
+export const deleteWorker = async (req, res) => {
+    const { worker_id } = req.params;
+
+    try {
+        const deleteQuery = 'DELETE FROM worker_info WHERE worker_id = ?';
+        const values = [worker_id];
+
+        await new Promise((resolve, reject) => {
+            db.query(deleteQuery, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        res.status(200).json({ message: 'Worker deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting worker:', error);
+        res.status(500).json({ message: 'Error deleting worker' });
+    }
+};

@@ -55,7 +55,7 @@ function EditWorker() {
     return (
         <div>
             <ShopHeader pageName="Edit Worker" />
-        <div className="container mx-auto p-4">
+        <div className="container mx-auto p-4 w-2/4">
             {/* <h1 className="text-2xl font-bold mb-4">Edit Worker</h1> */}
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
