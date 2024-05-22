@@ -31,7 +31,7 @@ const dash_nav = () => {
           <Link to="/show_workers" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Workers</Link>
         </li>
         <li className="mb-2">
-          <Link to="#" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Settings</Link>
+          <Link to="#" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Services</Link>
         </li>
         <li className="mb-2">
           <Link to="/openjob" className="hover:bg-gray-200  text-black px-4 py-2 block rounded text-lg">Open Job</Link>

@@ -1,6 +1,6 @@
-// src/components/DeleteWorkerModal.jsx
 import { Button, Modal } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+
 
 function DeleteWorkerModal({ isOpen, onClose, onDelete }) {
     return (
@@ -14,7 +14,7 @@ function DeleteWorkerModal({ isOpen, onClose, onDelete }) {
                     </h3>
                     <div className="flex justify-center gap-4">
                         <Button color="failure" onClick={onDelete}>
-                            Yes, I'm sure
+                            Yes, I am sure
                         </Button>
                         <Button color="gray" onClick={onClose}>
                             No, cancel
