@@ -155,6 +155,7 @@ const AddWorker = () => {
             const response = await axios.post('http://localhost:8800/api/workerRoutes/addWorker', { ...formData });
             console.log('Worker added:', response.data);
             alert('Worker added successfully');
+            window.location.reload();
         } catch (error) {
             console.error('Error adding worker:', error);
             alert('Error adding worker');
