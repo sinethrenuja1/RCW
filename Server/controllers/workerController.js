@@ -70,10 +70,10 @@ export const addWorker = async (req, res) => {
     }
 };
 
-export default {
-    getNextWorkerIdController,
-    addWorker
-};
+// export default {
+//     getNextWorkerIdController,
+//     addWorker
+// };
 
 //-------------------------------------------
 // Controller to fetch the worker table
