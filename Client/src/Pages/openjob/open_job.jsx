@@ -14,6 +14,7 @@ function OpenJob() {
 
             if(data.exists){
                navigate("/ShowVeh_details", { state: { veh_num } });
+               
             }else{
                 navigate("/register");
             }
