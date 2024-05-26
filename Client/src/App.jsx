@@ -21,6 +21,7 @@ import EditWorker from "./Pages/workers/edit_worker";
 import AddService from "./Pages/servicejobs/addServices";
 import ShowServices from "./Pages/servicejobs/showServices";
 import EditService from "./Pages/servicejobs/editServices";
+import Adduser from "./Pages/user/add_user";
 
 
 import Dash_nav from "./Components/dash_nav";
@@ -80,6 +81,7 @@ const router = createBrowserRouter([
       {path: "/add_service" , element: <AddService/>,},
       {path: "/show_services" , element: <ShowServices/>,},
       {path: "/edit_service/:service_id" , element: <EditService/>,},
+      {path: "/add_user" , element: <Adduser/>,},
       
       
       ],

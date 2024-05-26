@@ -8,7 +8,7 @@ import ShopHeader from "../../Components/shopheader"
 
 const Booking = () => {
 
-  const [activeTopic, setActiveTopic] = useState('ShowStock');
+  const [activeTopic, setActiveTopic] = useState('AddServices');
 
   const handleTopicClick = (topic) => {
     setActiveTopic(topic);

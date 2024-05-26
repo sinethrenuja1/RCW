@@ -1,5 +1,12 @@
-function add_replaceparts() {
+import { useLocation } from 'react-router-dom';
+
+function Add_replaceparts() {
+    const location = useLocation();
+    const veh_num = location.state?.veh_num;
+ 
+
     return (
+        
         <div>
 
 
@@ -81,8 +88,9 @@ function add_replaceparts() {
                                 Vehicle Number:
                             </label>
                             <input
-                                id="vehicleNumber"
+                                id="veh_num"
                                 type="text"
+                                value={veh_num}
                                 className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue  w-64"
                             />
                         </div>
@@ -113,4 +121,4 @@ function add_replaceparts() {
     );
 }
 
-export default add_replaceparts;
+export default Add_replaceparts;
