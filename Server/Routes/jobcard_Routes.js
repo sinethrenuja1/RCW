@@ -1,5 +1,5 @@
 import express from 'express';
-import {registerCustomer,registerVehicle,searchCustomer,checkVehicle,loadDetails} from '../controllers/jobcardController.js'; 
+import {registerCustomer,registerVehicle,searchCustomer,checkVehicle,loadDetails,getNextJobCardIdController,getSupervisors} from '../controllers/jobcardController.js'; 
 
 const router = express.Router();
 
@@ -8,5 +8,7 @@ router.post('/registerVehicle', registerVehicle);
 router.get('/searchCustomer/:contact_number', searchCustomer);
 router.get('/checkVehicle/:veh_num', checkVehicle);
 router.get('/loadDetails/:veh_num', loadDetails);
+router.get('/next-job-id', getNextJobCardIdController);
+router.get('/loadSupervisors', getSupervisors);
 
 export default router;

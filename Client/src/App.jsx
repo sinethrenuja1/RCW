@@ -24,6 +24,7 @@ import EditService from "./Pages/servicejobs/editServices";
 import Adduser from "./Pages/user/add_user";
 
 
+
 import Dash_nav from "./Components/dash_nav";
 
 const  WebLayout = () => {
@@ -82,6 +83,7 @@ const router = createBrowserRouter([
       {path: "/show_services" , element: <ShowServices/>,},
       {path: "/edit_service/:service_id" , element: <EditService/>,},
       {path: "/add_user" , element: <Adduser/>,},
+      
       
       
       ],

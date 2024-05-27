@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function Add_replaceparts() {
+function Add_replaceparts({jobcard_id}) {
     const location = useLocation();
     const veh_num = location.state?.veh_num;
  
@@ -91,6 +92,7 @@ function Add_replaceparts() {
                                 id="veh_num"
                                 type="text"
                                 value={veh_num}
+                                readOnly
                                 className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue  w-64"
                             />
                         </div>
@@ -101,6 +103,8 @@ function Add_replaceparts() {
                             <input
                                 id="vehicleNumber"
                                 type="text"
+                                value={jobcard_id}
+                                readOnly
                                 className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue  w-64"
                             />
                         </div>
@@ -120,5 +124,9 @@ function Add_replaceparts() {
         </div>
     );
 }
+
+Add_replaceparts.propTypes = {
+    jobcard_id: PropTypes.string.isRequired,
+};
 
 export default Add_replaceparts;

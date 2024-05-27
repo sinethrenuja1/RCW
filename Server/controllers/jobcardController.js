@@ -1,95 +1,3 @@
-// import db from '../db.js';
-
-// //register cusstomer
-// export const registerCustomer = async (req, res) => {
-//     const {contact_number,first_name,last_name,address} = req.body;
-
-//     try{
-//         const q=`INSERT INTO customer_info (contact_number,first_name,last_name,address) VALUES (?,?,?,?)`
-//         await new Promise((resolve, reject) => {
-//             db.query(q, [contact_number,first_name,last_name,address], (err, result) => {
-//                 if (err) {
-//                     reject(err);  // If there's an error, reject the Promise
-//                     console.log(err);
-//                 } else {
-//                     resolve(result); 
-//                     console.log(result);
-//                      // If everything went well, resolve the Promise
-//                 }
-//             });
-//         });
-
-//         res.status(201).json({ message: 'Customer Details added successfully' });
-
-//     }catch(err){
-//         console.error(err);
-//         res.status(500).json({error: 'An unexpected error occurred'});
-//     }
-// }
-
-
-
-
-// //------------------------------------------------------------------------
-// //register vehicledetails
-
-// export const registerVehicle = async (req, res) => {
-//     const { veh_num,make,model,engine_type,contact_number} = req.body;
-
-//     try{
-//         const q=`INSERT INTO vehicle_details (veh_num,make,model,engine_type,contact_number) VALUES (?,?,?,?,?)`
-//         await new Promise((resolve, reject) => {
-//             db.query(q, [veh_num,make,model,engine_type,contact_number], (err, result) => {
-//                 if (err) {
-//                     reject(err);  // If there's an error, reject the Promise
-//                     console.log(err);
-//                 } else {
-//                     resolve(result); 
-//                     console.log(result);
-//                      // If everything went well, resolve the Promise
-//                 }
-//             });
-//         });
-//         ;
-
-//         res.status(201).json({ message: 'Vehicle Details added successfully' });
-//     }catch(err){
-//         console.error(err);
-//         res.status(500).json({error: 'An unexpected error occurred'});
-//     }
-// }
-
-
-// //------------------------------------------------------------------
-// //Search Customer
-// export const searchCustomer = async (req, res) => {
-//     const {contact_number} = req.params;
-
-//     try{
-//         const q = `SELECT * FROM customer_info WHERE contact_number = ?`;
-//         const customer =  await new Promise((resolve, reject) => {
-//             db.query(q, [contact_number], (err, result) => {
-//                 if (err) {
-//                     reject(err);  // If there's an error, reject the Promise
-//                     console.error(err);
-//                 } else {
-//                     resolve(result); 
-//                     console.log(result);
-//                      // If everything went well, resolve the Promise
-//                 }
-//             });
-//         });
-//         if (customer.length > 0) {
-//             res.json(customer[0]);
-//         } else {
-//             res.status(404).json({ message: 'Customer not found' });
-//         }
-//     }catch{
-//         console.error(err);
-//         res.status(500).json({ error: 'An unexpected error occurred' });
-//     }
-// }
-
 import db from '../db.js';
 
 // Register customer
@@ -261,3 +169,56 @@ export const loadDetails = async (req, res) => {
         res.status(500).json({ error: 'An unexpected error occurred' });
     }
 };
+
+
+// Get next job card ID
+const getNextJobCardId = (lastJobCardId) => {
+    if (!lastJobCardId) return 'J0001';
+    const number = parseInt(lastJobCardId.slice(1)) + 1;
+    return 'J' + number.toString().padStart(4, '0');
+};
+
+export const getNextJobCardIdController = async (req, res) => {
+    try {
+        const query = 'SELECT jobcard_id FROM job_carddetails ORDER BY jobcard_id DESC LIMIT 1';
+        const result = await new Promise((resolve, reject) => {
+            db.query(query, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        const lastJobCardId = result.length ? result[0].jobcard_id : null;
+        const newJobCardId = getNextJobCardId(lastJobCardId);
+
+        res.json({ jobcard_id: newJobCardId });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+};
+
+//get supervisors from db
+export const getSupervisors= async (req, res) => {
+    try{
+        const q = `SELECT u_name FROM user_info WHERE acc_type='supervisor'`;
+        const result = await new Promise((resolve, reject) => {
+            db.query(q, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+        res.json(result);
+
+    }catch(err){
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+
+    }
+}

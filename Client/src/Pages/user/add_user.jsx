@@ -15,9 +15,13 @@ const AddUser = () => {
     u_birthday: ''
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (event) => {
+    // const { name, value } = e.target;
+    // setFormData({ ...formData, [name]: value });
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -134,8 +138,8 @@ const AddUser = () => {
                 onChange={handleChange}
                 required
               >
-                <option value="Manager">Manager</option>
-                <option value="Supervisor">Supervisor</option>
+                <option value="manager">Manager</option>
+                <option value="supervisor">Supervisor</option>
               </select>
             </div>
             <div className="mb-4">

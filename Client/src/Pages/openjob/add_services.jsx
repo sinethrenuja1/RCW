@@ -1,12 +1,82 @@
 import { useLocation } from "react-router-dom";
+import PropTypes from "prop-types"; 
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function CreateJobCard() {
+
+function AddServices({ jobcard_id}) {
     const location = useLocation();
+    const [supervisor, setSupervisor] = useState([]);
     const veh_num = location.state?.veh_num;
+
+    useEffect(() => {
+        const fetchSupervisors = async () => {
+            try {
+                const response = await axios.get('http://localhost:8800/api/jobRoutes/loadSupervisors');
+                setSupervisor(response.data);
+            } catch (error) {
+                console.error('Error fetching supervisors:', error);
+            }
+        };
+
+        fetchSupervisors();
+    }, []);
 
     return (
         <div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-5 pt-4">
+            <div className="col-span-1">
+                    <div className="px-5 pt-4 mb-5 border bg-gray-100 rounded mt-24">
+                        <div className="p-2 w-auto">
+                            <label htmlFor="vehicleNumber" className="text-black gap-3">
+                                Vehicle Number:
+                            </label>
+                            <input
+                                id="veh_num"
+                                type="text"
+                                value={veh_num}
+                                readOnly
+                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64"
+                            />
+                        </div>
+                        <div className="p-2 w-auto">
+                            <label htmlFor="jobcard_id" className="text-black gap-3">
+                                Job Card ID:
+                            </label>
+                            <input
+                                id="jobcard_id"
+                                type="text"
+                                value={jobcard_id}
+                                readOnly
+                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64"
+                            />
+                        </div>
+                        <div className="p-2 w-auto">
+                            <label htmlFor="mileage" className="text-black gap-3">
+                                Mileage:
+                            </label>
+                            <input
+                                id="mileage"
+                                placeholder="Enter Mileage"
+                                type="text"
+                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64"
+                            />
+                        </div>
+                        <div className="p-2 w-auto">
+                            <label htmlFor="supervisor" className="text-black gap-3">
+                                Supervisor:
+                            </label>
+                            <select
+                                id="supervisor"
+                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64">
+                                <option value="">Select a supervisor</option>
+                                {supervisor.map((supervisor, index) => (
+                                    <option key={index} value={supervisor.u_name}>{supervisor.u_name}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div className="col-span-2">
                     <div className="shadow-md">
                         <div className="mb-8 bg-gray-100 rounded-lg p-3">
@@ -78,59 +148,12 @@ function CreateJobCard() {
                         </div>
                     </div>
                 </div>
-                <div className="col-span-1">
-                    <div className="px-5 pt-4 mb-5 border bg-gray-100 rounded mt-24">
-                        <div className="p-2 w-auto">
-                            <label htmlFor="vehicleNumber" className="text-black gap-3">
-                                Vehicle Number:
-                            </label>
-                            <input
-                                id="veh_num"
-                                type="text"
-                                value={veh_num}
-                                readOnly
-                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64"
-                            />
-                        </div>
-                        <div className="p-2 w-auto">
-                            <label htmlFor="jobcard_id" className="text-black gap-3">
-                                Job Card ID:
-                            </label>
-                            <input
-                                id="jobcard_id"
-                                type="text"
-                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64"
-                            />
-                        </div>
-                        <div className="p-2 w-auto">
-                            <label htmlFor="mileage" className="text-black gap-3">
-                                Mileage:
-                            </label>
-                            <input
-                                id="mileage"
-                                placeholder="Enter Mileage"
-                                type="text"
-                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64"
-                            />
-                        </div>
-                        <div className="p-2 w-auto">
-                            <label htmlFor="supervisor" className="text-black gap-3">
-                                Supervisor:
-                            </label>
-                            <select
-                                id="supervisor"
-                                className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-64">
-                                <option value="">Select a supervisor</option>
-                                <option value="supervisor1">Supervisor 1</option>
-                                <option value="supervisor2">Supervisor 2</option>
-                                <option value="supervisor3">Supervisor 3</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     );
 }
+AddServices.propTypes = {
+    jobcard_id: PropTypes.string.isRequired,
+};
 
-export default CreateJobCard;
+export default AddServices;
