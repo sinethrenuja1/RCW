@@ -26,7 +26,7 @@ function RegisterVehicle() {
 
     const navigate = useNavigate();
     const handleButtonClick = () => {
-        navigate('/jobcard', { state: { veh_num } });
+        navigate('/create_jobcard', { state: { veh_num } });
     }
 
     return (

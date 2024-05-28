@@ -222,3 +222,47 @@ export const getSupervisors= async (req, res) => {
 
     }
 }
+
+//save job card details
+export const saveJobCard = async (req, res) => {
+    const { jobcard_id, veh_num, mileage, supervisor } = req.body;
+    const currentDate = new Date().toISOString().slice(0, 10); // Get current date in YYYY-MM-DD format
+    const status = 'not started';
+
+    try {
+        // Get user_id of the selected supervisor
+        const userQuery = `SELECT user_id FROM user_info WHERE u_name = ? AND acc_type = 'supervisor'`;
+        const userResult = await new Promise((resolve, reject) => {
+            db.query(userQuery, [supervisor], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        if (userResult.length === 0) {
+            return res.status(404).json({ error: 'Supervisor not found' });
+        }
+
+        const user_id = userResult[0].user_id;
+
+        // Insert job card data into the database
+        const insertQuery = `INSERT INTO job_carddetails (jobcard_id, veh_num, mileage, user_id, j_date, status) VALUES (?, ?, ?, ?, ?, ?)`;
+        await new Promise((resolve, reject) => {
+            db.query(insertQuery, [jobcard_id, veh_num, mileage, user_id, currentDate, status], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        res.status(200).json({ message: 'Job card saved successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+};
