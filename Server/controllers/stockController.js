@@ -186,43 +186,7 @@ export const updateStock = async (req, res) => {
     }
   };
 
-//   export const trackStockUpdate = (req, res) => {
-//     const { part_id, date, quantity } = req.body;
-  
-//     const q = `INSERT INTO stock_update (part_id, date, quantity) VALUES (?, ?, ?)`;
-  
-//     db.query(q, [part_id, date, quantity], (err, result) => {
-//       if (err) {
-//         console.error(err);
-//         res.status(500).json({ error: 'An error occurred while tracking the stock update' });
-//       } else {
-//         res.status(201).json({ message: 'Stock update tracked successfully' });
-//       }
-//     });
-//   };
 
-// export const trackStockUpdate = async (req, res) => {
-//     const { partId, quantity } = req.body;
-//     const date = new Date().toISOString().slice(0, 10);
-  
-//     try {
-//       const sqlInsertStockUpdate = "INSERT INTO stock_update (part_id, date, quantity) VALUES (?, ?, ?)";
-//       const valuesInsertStockUpdate = [partId, date, quantity];
-  
-//       // Assuming you have a connection to your SQL database in `db`
-//       db.query(sqlInsertStockUpdate, valuesInsertStockUpdate, (error, results, fields) => {
-//         if (error) {
-//           console.error('Error inserting into stock_update table:', error);
-//           res.status(500).json({ error: 'Failed to update stock' });
-//         } else {
-//           res.json({ message: 'Stock update tracked successfully' });
-//         }
-//       });
-//     } catch (error) {
-//       console.error('Error tracking stock update:', error);
-//       res.status(500).json({ error: 'Failed to update stock' });
-//     }
-//   };
 
 export const trackStockUpdate = async (req, res) => {
     const { partId, quantity } = req.body;
@@ -233,7 +197,7 @@ export const trackStockUpdate = async (req, res) => {
         const sqlInsertStockUpdate = "INSERT INTO stock_update (part_id, date, quantity) VALUES (?, ?, ?)";
         const valuesInsertStockUpdate = [partId, date, quantity];
   
-        // Assuming you have a connection to your SQL database in `db`
+        
         db.query(sqlInsertStockUpdate, valuesInsertStockUpdate, (error, results, fields) => {
           if (error) {
             console.error('Error inserting into stock_update table:', error);

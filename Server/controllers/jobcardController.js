@@ -266,3 +266,88 @@ export const saveJobCard = async (req, res) => {
         res.status(500).json({ error: 'An unexpected error occurred' });
     }
 };
+
+//fetch the services according to user input
+export const fetchServiceSuggestions = async (req, res) => {
+    const { input } = req.query;
+
+    try {
+        // Query the database to find services that start with the input
+        const q = `SELECT service_id, s_name, s_price FROM service_list WHERE s_name LIKE ?`;
+        const searchQuery = `${input}%`; // Add wildcard '%' to search for services that start with the input
+
+        db.query(q, [searchQuery], (err, services) => {
+            if (err) {
+                console.error('Error fetching service suggestions:', err);
+                res.status(500).json({ error: 'An error occurred while fetching service suggestions' });
+            } else {
+                // Send the suggestions as a response
+                res.status(200).json(services);
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching service suggestions:', error);
+        res.status(500).json({ error: 'An error occurred while fetching service suggestions' });
+    }
+};
+
+export const addUsedService = async (req, res) => {
+    const { jobcard_id, service_id, worker_id, s_quantity } = req.body;
+
+    if (worker_id === undefined) {
+        worker_id = null;
+    }
+    
+    try {
+        const query = 'INSERT INTO used_services (jobcard_id, service_id, worker_id, s_quantity) VALUES (?, ?, ?, ?)';
+        const values = [jobcard_id, service_id, worker_id, s_quantity];
+
+        await new Promise((resolve, reject) => {
+            db.query(query, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        res.status(201).json({ message: 'Used service added successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+};
+
+
+export const getRequestjobs = (req, res) => {
+    const jobcard_id = req.params.jobcard_id;
+
+    const q = `SELECT * FROM used_services WHERE jobcard_id = ?`;
+
+    db.query(q, [jobcard_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'An error occurred while fetching the job card details' });
+        } else {
+            res.status(200).json(result);
+        }
+    });
+};
+
+export const getServices = (req, res) => {
+    const sql = `
+        SELECT service_list.s_name, service_list.s_price, used_services.s_quantity
+        FROM service_list
+        JOIN used_services ON service_list.service_id = used_services.service_id
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'An error occurred while fetching the service details' });
+        } else {
+            res.status(200).json(results);
+        }
+    });
+};

@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
-
+import { useState ,useEffect} from "react";
+import axios from 'axios';
 
 function AddServices({ jobcard_id }) {
     const location = useLocation();
     
+
     const [formData] = useState({
         veh_num: location.state?.veh_num || '',
         jobcard_id: jobcard_id || '', // Add jobcard_id as a state
@@ -13,6 +14,66 @@ function AddServices({ jobcard_id }) {
         supervisor: location.state?.supervisor || ''
     });
 
+    const [serviceName, setServiceName] = useState('');
+    const [serviceSuggestions, setServiceSuggestions] = useState([]);
+    const [selectedService, setSelectedService] = useState({ service_id: '', s_price: '' });
+    const [quantity, setQuantity] = useState('');
+    const [services, setServices] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:8800/api/jobRoutes/getServices')
+          .then(response => {
+            setServices(response.data);
+          })
+          .catch(error => {
+            console.error('There was an error fetching the data!', error);
+          });
+      }, []);
+    const handleServiceNameChange = async (event) => {
+        const input = event.target.value;
+        setServiceName(input);
+
+        if (input) {
+            try {
+                const response = await axios.get(`http://localhost:8800/api/jobRoutes/fetchServiceSuggestions?input=${input}`);
+                setServiceSuggestions(response.data);
+
+            } catch (error) {
+                console.error('Error fetching service suggestions:', error);
+            }
+        } else {
+            setServiceSuggestions([]);
+        }
+    };
+
+    const handleServiceClick = (service) => {
+        setServiceName(service.s_name);
+        setSelectedService(service); // Store selected service details
+        setServiceSuggestions([]);
+    };
+
+    const handleAddService = async () => {
+        const data = {
+            jobcard_id: formData.jobcard_id,
+            service_id: selectedService.service_id, // Use the service_id from selected service
+            worker_id: 'W011', // Default worker_id
+            s_quantity: quantity
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8800/api/jobRoutes/addUsedService', data);
+            alert(response.data.message);
+            
+            setServiceName('');
+            setSelectedService({ service_id: '', s_price: '' });
+            setQuantity('');
+
+
+        } catch (error) {
+            console.error('Error adding used service:', error);
+            alert('An error occurred while adding the service.');
+        }
+    };
 
     return (
         <div className="px-5 pt-4">
@@ -63,19 +124,37 @@ function AddServices({ jobcard_id }) {
                     <h2 className="text-lg font-bold text-black">Add a Service</h2>
                     <div className="mt-1">
                         <div className="flex space-x-4">
-                            <div className="flex items-center w-1/2">
+                            <div className="flex items-center w-1/2 relative">
                                 <label htmlFor="serviceName" className="mr-2 text-black">Service name:</label>
                                 <input
                                     id="serviceName"
                                     type="text"
+                                    value={serviceName}
+                                    onChange={handleServiceNameChange}
                                     className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-full"
                                 />
+                                {serviceSuggestions.length > 0 && (
+                                    <div className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                                        {serviceSuggestions.map(service => (
+                                            <div
+                                                key={service.service_id}
+                                                onClick={() => handleServiceClick(service)}
+                                                className="p-2 cursor-pointer hover:bg-gray-200"
+                                            >
+                                                <div className="text-black">{service.s_name}</div>
+                                                <div className="text-gray-500">{service.s_price}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                             <div className="flex items-center w-1/4">
                                 <label htmlFor="price" className="mr-2 text-black">Price:</label>
                                 <input
                                     id="price"
                                     type="text"
+                                    value={selectedService.s_price}
+                                    readOnly
                                     className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-full"
                                 />
                             </div>
@@ -85,47 +164,49 @@ function AddServices({ jobcard_id }) {
                                     id="quantity"
                                     type="text"
                                     placeholder="Enter Quantity"
+                                    value={quantity}
+
+                                    onChange={(e) => setQuantity(e.target.value)}
                                     className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue w-full"
+                                    required
                                 />
                             </div>
-                            
                         </div>
                         <div className="flex justify-end gap-4 mt-2">
-                            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Clear</button>
-                            <button className="bg-lightblue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Service</button>
+                            <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => {
+                                setServiceName('');
+                                setSelectedService({ service_id: '', s_price: '' });
+                                setQuantity('');
+                                setServiceSuggestions([]);
+                            }}>Clear</button>
+                            <button type="button" className="bg-lightblue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={handleAddService}>Add Service</button>
                         </div>
                     </div>
                 </div>
                 <div className="bg-gray-100 rounded-lg shadow-md p-4">
                     <h2 className="text-lg font-bold text-black">Services Table</h2>
-                    <table className="w-full mt-4">
-                        <thead>
-                            <tr>
-                                <th className="px-4 py-2 bg-gray-200 text-gray-700">Service Name</th>
-                                <th className="px-1 py-2 bg-gray-200 text-gray-700">Quantity</th>
-                                <th className="px-1 py-2 bg-gray-200 text-gray-700">Price</th>
-                                <th className="px-1 py-2 bg-gray-200 text-gray-700">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="border px-4 py-2">Service 1</td>
-                                <td className="border px-4 py-2">3</td>
-                                <td className="border px-4 py-2">3</td>
-                                <td className="border px-1 py-1 flex justify-center">
-                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className="border px-4 py-2">Service 2</td>
-                                <td className="border px-4 py-2">1</td>
-                                <td className="border px-4 py-2">3</td>
-                                <td className="border px-2 py-1 flex justify-center">
-                                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-1 rounded">Delete</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div className="container mx-auto mt-10">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Name</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Unit Price</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Quantity</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {services.map((service, index) => (
+            <tr key={index}>
+              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{service.s_name}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{service.s_price}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{service.s_quantity}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{service.s_price * service.s_quantity}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
                 </div>
             </div>
         </div>
@@ -137,3 +218,5 @@ AddServices.propTypes = {
 };
 
 export default AddServices;
+
+

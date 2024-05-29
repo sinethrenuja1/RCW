@@ -80,7 +80,7 @@ export const addWorker = async (req, res) => {
 
 export const worker_table= async (req,res) => {
     try{
-        const q = `SELECT * FROM worker_info`;
+        const q = `SELECT * FROM worker_info  WHERE worker_id != 'W011'`;
         db.query(q,(err,result) => {
             if(err){
                 console.error(err);
