@@ -26,7 +26,9 @@ function OpenJob() {
 
     return (
         <div className="flex flex-col min-h-screen justify-center ">
+            <div>
             <ShopHeader pageName="Open Job Card"/>
+            </div>
         <div className="flex items-center justify-center min-h-screen">
             
             {/* Left Column */}

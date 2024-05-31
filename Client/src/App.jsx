@@ -4,6 +4,7 @@ import {
 } from "react-router-dom"; 
 import { Outlet } from "react-router-dom";
 
+
 import Navbar from "./Components/home_nav";
 import Footer from "./Components/footer";
 import Home from "./Pages/homepage";
@@ -23,6 +24,8 @@ import ShowServices from "./Pages/servicejobs/showServices";
 import EditService from "./Pages/servicejobs/editServices";
 import Adduser from "./Pages/user/add_user";
 import CreateJobcard from "./Pages/openjob/createjobcard";
+import ShowJobCards from "./Pages/updatejobCard/showjobcard";
+
 
 
 
@@ -45,6 +48,7 @@ const  DashLayout = () => {
     <div className="flex">
       
       <div className="w-[256px]">
+        
         <Dash_nav />
       </div>
       
@@ -85,6 +89,8 @@ const router = createBrowserRouter([
       {path: "/edit_service/:service_id" , element: <EditService/>,},
       {path: "/add_user" , element: <Adduser/>,},
       {path: "/create_jobcard" , element: <CreateJobcard/>,},
+      {path: "/show_jobcard" , element: <ShowJobCards/>,},
+      
       
       
       
