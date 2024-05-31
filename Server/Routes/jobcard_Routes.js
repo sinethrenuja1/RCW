@@ -1,5 +1,5 @@
 import express from 'express';
-import {registerCustomer,registerVehicle,searchCustomer,checkVehicle,loadDetails,getNextJobCardIdController,getSupervisors,saveJobCard,fetchServiceSuggestions,addUsedService,getRequestjobs,getServices} from '../controllers/jobcardController.js'; 
+import {registerCustomer,registerVehicle,searchCustomer,checkVehicle,loadDetails,getNextJobCardIdController,getSupervisors,saveJobCard,fetchServiceSuggestions,addUsedService,getRequestjobs,getServices,searchParts,addUsedPart,getPartsForJobCard} from '../controllers/jobcardController.js'; 
 
 const router = express.Router();
 
@@ -15,5 +15,9 @@ router.get('/fetchServiceSuggestions', fetchServiceSuggestions);
 router.post('/addUsedService', addUsedService);
 router.get('/getRequestjobs/:jobcard_id', getRequestjobs);
 router.get('/getServices',getServices);
+router.get('/searchParts', searchParts);
+router.post('/addUsedPart', addUsedPart);
+router.get('/getPartsForJobCard/:jobcard_id', getPartsForJobCard);
+
 
 export default router;
