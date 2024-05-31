@@ -337,18 +337,26 @@ function AddReplaceParts({ jobcard_id }) {
     setPart_id('');
   };
 
-  const handleDeletePart = async (index) => {
-    const partToDelete = partsList[index];
-    
-    try {
-      await axios.delete(`http://localhost:8800/api/jobRoutes/deleteUsedPart/${partToDelete.id}`);
-      
-      const updatedPartsList = partsList.filter((_, i) => i !== index);
-      setPartsList(updatedPartsList);
-    } catch (error) {
-      console.error('Error deleting part:', error);
-      alert('An error occurred while deleting the part.');
-    }
+  const handleDeletePart = (index) => {
+    const part = partsList[index];
+  
+    axios.delete('http://localhost:8800/api/jobRoutes/deleteUsedPart', {
+      data: {
+        upart_id: part.part_id,
+        ujobcard_id: jobcard_id, 
+        u_quantity: part.quantity,
+      },
+    })
+      .then((response) => {
+        console.log(response.data);
+        
+        const newPartsList = [...partsList];
+        newPartsList.splice(index, 1);
+        setPartsList(newPartsList);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   };
 
   return (

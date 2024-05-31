@@ -60,7 +60,7 @@ const DashNav = () => {
   };
 
   return (
-    <div className="bg-navbar text-white w-64 min-h-screen border-r-2 border-gray-200 p-4 fixed">
+    <div className="bg-navbar text-white w-64 min-h-screen border-r-2 border-gray-100 p-4 fixed">
       <div>
         <img src={logo} alt="logo" className="w-30 h-30 rounded-full mx-auto flex mt-1 mb-5 justify-center" />
       </div>

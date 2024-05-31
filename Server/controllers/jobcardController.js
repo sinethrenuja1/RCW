@@ -90,9 +90,6 @@ export const searchCustomer = async (req, res) => {
     }
 }
 
-
-
-
 //find when veh_num in the db(already customer)
 export const checkVehicle = async (req, res) => {
     const {veh_num} = req.params;
@@ -172,7 +169,7 @@ export const loadDetails = async (req, res) => {
 
 
 // Get next job card ID
-const getNextJobCardId = (lastJobCardId) => {
+export const getNextJobCardId = (lastJobCardId) => {
     if (!lastJobCardId) return 'J0001';
     const number = parseInt(lastJobCardId.slice(1)) + 1;
     return 'J' + number.toString().padStart(4, '0');
@@ -319,7 +316,6 @@ export const addUsedService = async (req, res) => {
     }
 };
 
-
 export const getRequestjobs = (req, res) => {
     const jobcard_id = req.params.jobcard_id;
 
@@ -340,7 +336,7 @@ export const getServices = (req, res) => {
     const { jobcard_id } = req.query; 
 
     const sql = `
-        SELECT service_list.s_name, service_list.s_price, used_services.s_quantity
+        SELECT service_list.service_id, service_list.s_name, service_list.s_price, used_services.s_quantity
         FROM service_list
         JOIN used_services ON service_list.service_id = used_services.service_id
         WHERE used_services.jobcard_id = ?
@@ -356,8 +352,22 @@ export const getServices = (req, res) => {
     });
 };
 
+export const deleteUsedService = (req, res) => {
+    const {jobcard_id, service_id} = req.body;
+    console.log(jobcard_id, service_id );
 
-//suggest parts
+    const q=`DELETE FROM used_services WHERE jobcard_id = ? AND service_id = ?`;
+    db.query(q, [jobcard_id, service_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'An error occurred while deleting the service' });
+        } else {
+            res.status(200).json({ message: 'Service deleted successfully' });
+        }
+    });
+};
+
+
 export const searchParts = (req, res) => {
     const searchQuery = req.query.q;
 
@@ -372,36 +382,6 @@ export const searchParts = (req, res) => {
         }
     });
 };
-
-
-
-// export const addUsedPart = async (req, res) => {
-//   let { upart_id, ujobcard_id, uworker_id, u_quantity } = req.body;
-
-//   if (uworker_id === undefined) {
-//     uworker_id = null;
-//   }
-
-//   try {
-//     const query = 'INSERT INTO used_items (upart_id, ujobcard_id, uworker_id, u_quantity) VALUES (?, ?, ?, ?)';
-//     const values = [upart_id, ujobcard_id, uworker_id, u_quantity];
-
-//     await new Promise((resolve, reject) => {
-//       db.query(query, values, (err, result) => {
-//         if (err) {
-//           reject(err);
-//         } else {
-//           resolve(result);
-//         }
-//       });
-//     });
-
-//     res.status(201).json({ message: 'User part added successfully' });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: 'An unexpected error occurred' });
-//   }
-// };
 
 export const addUsedPart = async (req, res) => {
     let { upart_id, ujobcard_id, uworker_id, u_quantity } = req.body;
@@ -444,7 +424,7 @@ export const addUsedPart = async (req, res) => {
     }
   };
 
-  export const getPartsForJobCard = async (req, res) => {
+export const getPartsForJobCard = async (req, res) => {
     const { jobcard_id } = req.params;
   
     try {
@@ -488,3 +468,48 @@ export const addUsedPart = async (req, res) => {
       res.status(500).json({ error: 'An unexpected error occurred' });
     }
   };
+
+  
+export const deleteUsedPart = (req, res) => {
+    const { upart_id, ujobcard_id, u_quantity } = req.body;
+  
+    // Start a transaction
+    db.beginTransaction((err) => {
+      if (err) throw err;
+  
+      // Delete the used part
+      const deleteQuery = 'DELETE FROM used_items WHERE upart_id = ? AND ujobcard_id = ?';
+      db.query(deleteQuery, [upart_id, ujobcard_id], (err, result) => {
+        if (err) {
+          // If an error occurred, rollback the transaction
+          db.rollback(() => {
+            throw err;
+          });
+        }
+  
+        // Increment the stock
+        const incrementQuery = 'UPDATE stock SET quantity = quantity + ? WHERE part_id = ?';
+        db.query(incrementQuery, [u_quantity, upart_id], (err, result) => {
+          if (err) {
+            // If an error occurred, rollback the transaction
+            db.rollback(() => {
+              throw err;
+            });
+          }
+  
+          // If no errors occurred, commit the transaction
+          db.commit((err) => {
+            if (err) {
+              // If an error occurred, rollback the transaction
+              db.rollback(() => {
+                throw err;
+              });
+            }
+  
+            res.send('Used part deleted and stock incremented successfully!');
+          });
+        });
+      });
+    });
+  };
+  
