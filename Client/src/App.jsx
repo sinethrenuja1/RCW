@@ -26,8 +26,8 @@ import Adduser from "./Pages/user/add_user";
 import CreateJobcard from "./Pages/openjob/createjobcard";
 import ShowJobCards from "./Pages/updatejobCard/showjobcard";
 import UpdateJobCard from "./Pages/updatejobCard/updatejobCard";
-
-
+import Setting_main from "./Pages/settingfolder/setting_main";
+import AddService_web from "./Pages/settingfolder/addservices_web";
 
 
 import Dash_nav from "./Components/dash_nav";
@@ -92,7 +92,8 @@ const router = createBrowserRouter([
       {path: "/create_jobcard" , element: <CreateJobcard/>,},
       {path: "/show_jobcard" , element: <ShowJobCards/>,},
       {path: "/updateJobCard" , element: <UpdateJobCard/>,},
-      
+      {path: "/setting" , element: <Setting_main/>,},
+      {path: "/addservicesto_web" , element: <AddService_web/>,},
       
       
       

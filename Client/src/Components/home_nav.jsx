@@ -11,11 +11,9 @@ const home_nav = () => {
             name: 'About', link: '/'
         },
         {
-            name: 'Services', link: '/'
-        },
-        {
             name: 'Packages', link: '/'
-        }
+        },
+        
     ]
     let [isOpen, setisOpen] = useState(false);
 
@@ -49,6 +47,7 @@ const home_nav = () => {
                             </li>))
                     }
                     <button className='btn bg-lightblue text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static'>Booking</button>
+                    <button className='btn bg-lightblue text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static'>Login</button>
                 </ul>
             </div>
         </div>

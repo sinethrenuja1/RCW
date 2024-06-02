@@ -51,7 +51,7 @@
 //             </ul>
 //           )}
 //         </li>
-       
+
 //         <li className="mb-2">
 //           <Link to="/openjob" className="hover:bg-gray-200 text-black px-4 py-2 block rounded text-lg">
 //             Open Job
@@ -152,9 +152,19 @@ const DashNav = () => {
             </ul>
           )}
         </li>
-        <li className="mb-2">
+        <li className="mb-48">
           <Link to="#" className="hover:bg-gray-200 text-black px-4 py-2 block rounded text-lg">
             Reports
+          </Link>
+        </li>
+        <li className="mb-2">
+          <Link to="/setting" className="hover:bg-gray-200 text-black px-4 py-2 block rounded text-lg">
+            Settings
+          </Link>
+        </li>
+        <li className="mb-2">
+        <Link to="#" className="hover:bg-gray-200 text-black px-4 py-2 block rounded text-lg">
+            Logout
           </Link>
         </li>
       </ul>
