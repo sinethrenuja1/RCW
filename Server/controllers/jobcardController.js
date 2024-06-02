@@ -296,8 +296,8 @@ export const addUsedService = async (req, res) => {
     }
     
     try {
-        const query = 'INSERT INTO used_services (jobcard_id, service_id, worker_id, s_quantity) VALUES (?, ?, ?, ?)';
-        const values = [jobcard_id, service_id, worker_id, s_quantity];
+        const query = 'INSERT INTO used_services (jobcard_id, service_id, s_quantity) VALUES ( ?, ?, ?)';
+        const values = [jobcard_id, service_id, s_quantity];
 
         await new Promise((resolve, reject) => {
             db.query(query, values, (err, result) => {

@@ -43,6 +43,7 @@ export const getJobCardDetails = (req, res) => {
         new Promise((resolve, reject) => {
             db.query(usedServicesQuery, [jobcard_id], (err, results) => {
                 if (err) return reject(err);
+                console.log(jobcard_id, results);
                 resolve(results);
             });
         }),

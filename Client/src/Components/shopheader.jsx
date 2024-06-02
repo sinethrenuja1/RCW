@@ -3,16 +3,26 @@ import PropTypes from 'prop-types';
 import { HiHome } from "react-icons/hi";
 
 const ShopHeader = ({ pageName }) => {
-        return (
-                     <div className="bg-gray-200 h-16 flex justify-between  ">
-                            <p className="text-text-primary font-inter font-bold text-3xl p-3 mb-15">{pageName}</p>
-                            <div className='flex items-center gap-2 p-3'>
-                            <HiHome className='w-8 h-8 bg-text-primary rounded-2xl text-black  '/>
-                                <p className='text-text-primary font-inter text-lg font-medium mr-4'>Mr.Sineth</p>
-                                
-                            </div>
-                     </div>
-        );
+
+    const user = JSON.parse(localStorage.getItem("user"))
+    return (
+        <div className="bg-gray-200 h-16 flex justify-between  ">
+            <p className="text-text-primary font-inter font-bold text-3xl p-3 mb-15">{pageName}</p>
+            <div className='flex items-center gap-2 p-3'>
+                <HiHome className='w-8 h-8 bg-text-primary rounded-2xl text-black  ' />
+                
+                
+                {/* <h1 className=" text-1xl font-semibold text-gray-600">
+                    {user ? `${user.u_name}` : " User Profile"}
+                    
+                </h1> */}
+
+<h1 className=" text-1xl font-semibold text-gray-600">
+    {user && Object.keys(user).length > 0 ? `${user.u_name}` : " User Profile"}
+</h1>
+            </div>
+        </div>
+    );
 };
 
 ShopHeader.propTypes = {
@@ -20,3 +30,4 @@ ShopHeader.propTypes = {
 };
 
 export default ShopHeader;
+

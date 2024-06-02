@@ -6,12 +6,14 @@ import workerRoutes from './Routes/worker_Routes.js';
 import servicejobRoutes from './Routes/servicejob_Routes.js';
 import user_Routes from './Routes/user_Routes.js';
 import jobcard_Routes from './Routes/updatejobcard_Routes.js';
+import cookieParser from 'cookie-parser';
 
 
 const app = express();
 app.use(cors());
 
 app.use (express.json());
+app.use(cookieParser());
 
 app.use('/api/jobRoutes', jobRoutes);
 app.use('/api/stockRoute', stockRoutes);

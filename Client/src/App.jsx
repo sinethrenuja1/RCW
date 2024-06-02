@@ -25,6 +25,7 @@ import EditService from "./Pages/servicejobs/editServices";
 import Adduser from "./Pages/user/add_user";
 import CreateJobcard from "./Pages/openjob/createjobcard";
 import ShowJobCards from "./Pages/updatejobCard/showjobcard";
+import UpdateJobCard from "./Pages/updatejobCard/updatejobCard";
 
 
 
@@ -90,6 +91,7 @@ const router = createBrowserRouter([
       {path: "/add_user" , element: <Adduser/>,},
       {path: "/create_jobcard" , element: <CreateJobcard/>,},
       {path: "/show_jobcard" , element: <ShowJobCards/>,},
+      {path: "/updateJobCard" , element: <UpdateJobCard/>,},
       
       
       
