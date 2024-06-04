@@ -265,7 +265,8 @@ function Booking() {
         if (holidays.includes(selected)) {
             Swal.fire({
                 title: 'Unavailable',
-                text: 'The selected date is a holiday. Please choose another date.',
+                text: 'We are closed on the selected date. Please pick a different date.',
+                confirmButtonColor: '#3085d6',
             });
             setSelectedDate("");
         } else {
@@ -306,6 +307,7 @@ function Booking() {
                     services: selectedServices
 
                 });
+                window.location.reload();
             }
 
             Swal.fire({
@@ -328,6 +330,7 @@ function Booking() {
         <div>
             <div><Nav_bar /></div>
             <div className="container mx-auto p-20 w-3/4 mt-8">
+            <div className="text-3xl text-center mx-auto">Booking </div>
                 <form className="grid grid-cols-2 gap-4 pt-15" onSubmit={handleBookingSubmit}>
                     <div className="col-span-2">
                         <label htmlFor="phone" className="block mb-2 font-bold">
@@ -445,8 +448,8 @@ function Booking() {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="col-span-2">
-                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <div className="col-span-2 ">
+                        <button type="submit" className="bg-lightblue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
                             Submit
                         </button>
                     </div>

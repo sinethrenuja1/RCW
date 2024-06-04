@@ -411,7 +411,7 @@ function Row(props) {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' }  }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -438,6 +438,7 @@ function Row(props) {
               <Typography variant="h6" gutterBottom component="div">
                 Services
               </Typography>
+              
               <Table size="small" aria-label="services">
                 <TableHead>
                   <TableRow>
@@ -511,7 +512,7 @@ export default function BookingDetails() {
         <TableContainer component={Paper}>
           <Table aria-label="collapsible table">
             <TableHead>
-              <TableRow>
+              <TableRow >
                 <TableCell />
                 <TableCell>Booking ID</TableCell>
                 <TableCell>Contact Number</TableCell>

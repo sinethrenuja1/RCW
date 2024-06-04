@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import Logo from '../images/logo.jpg';
 import { Bars3BottomRightIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import {Link} from 'react-router-dom';
+
+
 
 const home_nav = () => {
     let Links = [
@@ -46,8 +49,11 @@ const home_nav = () => {
                                 <a href={link.link} className='text-gray-800 hover:text-blue-400 duration-500'>{link.name}</a>
                             </li>))
                     }
-                    <button className='btn bg-lightblue text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static'>Booking</button>
-                    <button className='btn bg-lightblue text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static'>Login</button>
+                    <button className='btn bg-lightblue text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static'><Link to="/booking">Booking</Link></button>
+                    <button className='btn bg-lightblue text-white md:ml-8 font-semibold px-3 py-1 rounded duration-500 md:static'>
+                    <Link to="/login">Login</Link>
+                    </button>
+                    
                 </ul>
             </div>
         </div>
