@@ -80,7 +80,7 @@ export const addWorker = async (req, res) => {
 
 export const worker_table= async (req,res) => {
     try{
-        const q = `SELECT * FROM worker_info  WHERE worker_id != 'W011'`;
+        const q = `SELECT * FROM worker_info  WHERE w_status = 'Work'`;
         db.query(q,(err,result) => {
             if(err){
                 console.error(err);
@@ -123,11 +123,11 @@ export const getWorkerById = async (req, res) => {
 // Controller to update worker details
 export const updateWorkerDetails = async (req, res) => {
     const { worker_id } = req.params;
-    const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area } = req.body;
+    const { name, nic_no, birthday, address, tel_no, email, main_area, sub_area,w_status } = req.body;
 
     try {
         const updateQuery = 'UPDATE worker_info SET name = ?, nic_no = ?, birthday = ?, address = ?, tel_no = ?, email = ?, main_area = ?, sub_area = ? WHERE worker_id = ?';
-        const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id];
+        const values = [name, nic_no, birthday, address, tel_no, email, main_area, sub_area, worker_id,w_status];
 
         await new Promise((resolve, reject) => {
             db.query(updateQuery, values, (err, result) => {
@@ -170,3 +170,28 @@ export const deleteWorker = async (req, res) => {
         res.status(500).json({ message: 'Error deleting worker' });
     }
 };
+
+export const resignWorker = async (req, res) => {
+    const { worker_id } = req.params;
+    const w_status = 'Resign';
+
+    try {
+        const updateQuery = 'UPDATE worker_info SET w_status = ? WHERE worker_id = ?';
+        const values = [w_status, worker_id];
+
+        await new Promise((resolve, reject) => {
+            db.query(updateQuery, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        res.status(200).json({ message: 'Worker resigned successfully' });
+    } catch (error) {
+        console.error('Error resigning worker:', error);
+        res.status(500).json({ message: 'Error resigning worker' });
+    }
+}

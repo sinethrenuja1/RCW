@@ -171,85 +171,15 @@ export const addBookingServices = async (req, res) => {
     }
 };
 
-// Fetch booking details controller
-// export const getBookingDetails = async (req, res) => {
-//     const q = 'SELECT * FROM booking';
-//     try {
-//         const results = await new Promise((resolve, reject) => {
-//             db.query(q, (err, results) => {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     resolve(results);
-//                 }
-//             });
-//         });
-//         res.status(200).json(results);
-//     } catch (error) {
-//         console.error('An error occurred while trying to fetch the booking details:', error);
-//         res.status(500).json({ error: 'An error occurred while trying to fetch the booking details' });
-//     }
-// };
-
-// export const getBookingDetails = async (req, res) => {
-//     const bookingDetailsQuery = `
-//         SELECT b.b_id, b.bcon_num, b.bveh_num, b.b_date, b.b_time, b.vehicle_type, b.bstatus, 
-//                s.slist_id, s.servicelist_name
-//         FROM booking b
-//         LEFT JOIN bookingapplied_services bas ON b.b_id = bas.b_id
-//         LEFT JOIN select_serviceslist s ON bas.slist_id = s.slist_id
-//     `;
-    
-//     try {
-//         const results = await new Promise((resolve, reject) => {
-//             db.query(bookingDetailsQuery, (err, results) => {
-//                 if (err) {
-//                     reject(err);
-//                 } else {
-//                     resolve(results);
-//                 }
-//             });
-//         });
-
-//         // Organize results by booking ID
-//         const bookingsMap = results.reduce((acc, row) => {
-//             if (!acc[row.b_id]) {
-//                 acc[row.b_id] = {
-//                     b_id: row.b_id,
-//                     bcon_num: row.bcon_num,
-//                     bveh_num: row.bveh_num,
-//                     b_date: row.b_date,
-//                     b_time: row.b_time,
-//                     vehicle_type: row.vehicle_type,
-//                     bstatus: row.bstatus,
-//                     services: []
-//                 };
-//             }
-//             if (row.slist_id) {
-//                 acc[row.b_id].services.push({
-//                     slist_id: row.slist_id,
-//                     servicelist_name: row.servicelist_name
-//                 });
-//             }
-//             return acc;
-//         }, {});
-
-//         // Convert the map to an array
-//         const bookingDetailsWithHistory = Object.values(bookingsMap);
-
-//         res.status(200).json(bookingDetailsWithHistory);
-//     } catch (error) {
-//         console.error('An error occurred while trying to fetch the booking details:', error);
-//         res.status(500).json({ error: 'An error occurred while trying to fetch the booking details' });
-//     }
-// };
 export const getBookingDetails = async (req, res) => {
     const bookingDetailsQuery = `
-        SELECT b.b_id, b.bcon_num, b.bveh_num, b.b_date, b.b_time, b.vehicle_type, b.bstatus, 
+        SELECT b.b_id, b.bcon_num, b.bveh_num,DATE_FORMAT(b.b_date, '%Y-%m-%d') AS b_date, b.b_time, b.vehicle_type, b.bstatus,b.anything_else,
                s.slist_id, s.servicelist_name
         FROM booking b
+        
         LEFT JOIN bookingapplied_services bas ON b.b_id = bas.b_id
         LEFT JOIN select_serviceslist s ON bas.slist_id = s.slist_id
+        WHERE b.bstatus = 'Sceduled'
     `;
     
     try {
@@ -270,9 +200,11 @@ export const getBookingDetails = async (req, res) => {
                     b_id: row.b_id,
                     bcon_num: row.bcon_num,
                     bveh_num: row.bveh_num,
+                    vehicle_type: row.vehicle_type,
                     b_date: row.b_date,
                     b_time: row.b_time,
-                    vehicle_type: row.vehicle_type,
+                    anything_else: row.anything_else,
+                    
                     bstatus: row.bstatus,
                     services: []
                 };
@@ -296,3 +228,27 @@ export const getBookingDetails = async (req, res) => {
     }
 };
 
+export const updateBookingStatus = async (req, res) => {
+    const { b_id, bstatus } = req.body;
+
+    if (!b_id || !bstatus) {
+        return res.status(400).json({ error: 'Missing booking ID or status' });
+    }
+
+    const query = 'UPDATE booking SET bstatus = ? WHERE b_id = ?';
+    try {
+        const result = await new Promise((resolve, reject) => {
+            db.query(query, [bstatus, b_id], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+        res.status(200).json({ message: 'Booking status updated successfully' });
+    } catch (error) {
+        console.error('Error updating booking status:', error);
+        res.status(500).json({ error: 'An error occurred while updating the booking status' });
+    }
+};

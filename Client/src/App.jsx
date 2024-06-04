@@ -30,9 +30,11 @@ import Setting_main from "./Pages/settingfolder/setting_main";
 import AddService_web from "./Pages/settingfolder/addservices_web";
 import AddHolidays from "./Pages/settingfolder/addHolidays";
 import ShowBooking from "./Pages/booking/showbooking";
+import Sshowjobcard from "./Pages/supervisor/sshowjobcard";
 
 
 import Dash_nav from "./Components/dash_nav";
+import Supervisordash_nav from "./Components/supervisordash_nav";
 
 const  WebLayout = () => {
   return (
@@ -53,6 +55,25 @@ const  DashLayout = () => {
       <div className="w-[256px]">
         
         <Dash_nav />
+      </div>
+      
+      <div className="w-calc">
+       <Outlet />
+      </div>
+    </div>
+    </div>
+  );
+}
+
+const  Supervisorayout = () => {
+  return (
+    <div>
+      
+    <div className="flex">
+      
+      <div className="w-[256px]">
+        
+        <Supervisordash_nav />
       </div>
       
       <div className="w-calc">
@@ -98,9 +119,16 @@ const router = createBrowserRouter([
       {path: "/addservicesto_web" , element: <AddService_web/>,},
       {path: "/addholidays" , element: <AddHolidays/>,},
       {path: "/showbooking" , element: <ShowBooking/>,},
+    
       
       
-      
+      ],
+  },
+
+  {
+    path: "/",element: <Supervisorayout/>,
+    children: [
+      {path: "/sshowjobcard", element: <Sshowjobcard/>,},
       ],
   },
 

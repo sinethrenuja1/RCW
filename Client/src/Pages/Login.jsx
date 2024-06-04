@@ -102,6 +102,10 @@ const Login = () => {
                 console.log("Navigating to /stock");
                 // Navigate to the stock page
                 navigate('/stock');
+             } else if(user.acc_type === 'supervisor') {
+                console.log("Navigating to /sshowjobcard");
+                navigate('/sshowjobcard');
+                // Navigate to the stock page
             } else {
                 console.log("User is not a manager");
                 setError('You do not have access to the stock page');

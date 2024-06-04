@@ -7,6 +7,7 @@ import servicejobRoutes from './Routes/servicejob_Routes.js';
 import user_Routes from './Routes/user_Routes.js';
 import jobcard_Routes from './Routes/updatejobcard_Routes.js';
 import bookings from './Routes/booking_Routes.js';
+import supervisor from './Routes/supervisor_Routes.js';
 
 import cookieParser from 'cookie-parser';
 
@@ -24,6 +25,7 @@ app.use('/api/serviceRoutes', servicejobRoutes);
 app.use('/api/userRoutes', user_Routes);
 app.use('/api/jobcard', jobcard_Routes);
 app.use('/api/booking', bookings);
+app.use('/api/supervisor', supervisor);
 
 
 

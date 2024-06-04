@@ -57,14 +57,10 @@ function Row({ row }) {
                     </button>
                     <button
                         type="button"
-                        className="bg-red-500 text-white px-4 py-2 rounded-md mr-2"
+                        className="bg-lightblue text-white px-4 py-2 rounded-md mr-2"
+                        onClick={() => navigate('/updateJobCard',{ state: { veh_num: row.veh_num, jobcard_id: row.jobcard_id, supervisor: row.u_name } })}
                     >
-                        Delete
-                    </button><button
-                        type="button"
-                        className="bg-red-500 text-white px-4 py-2 rounded-md mr-2"
-                    >
-                        Delete
+                        Update
                     </button>
                 </td>
             </tr>
