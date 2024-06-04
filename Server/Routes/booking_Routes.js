@@ -1,5 +1,5 @@
 import express from 'express';
-import {addService,getServices,deleteService,getHolidays,addHoliday,deleteHoliday} from '../controllers/bookingController.js';
+import {addService,getServices,deleteService,getHolidays,addHoliday,deleteHoliday,addBooking,addBookingServices,getBookingDetails} from '../controllers/bookingController.js';
 
 const router = express.Router();
 
@@ -9,6 +9,8 @@ router.delete('/deleteService/:id', deleteService);
 router.get('/getHolidays', getHolidays);
 router.post('/addHoliday', addHoliday);
 router.post('/deleteHoliday/:date', deleteHoliday);
-
+router.post('/addBooking', addBooking);
+router.post('/addBooking_services', addBookingServices);
+router.get('/getBookingDetails', getBookingDetails);
 
 export default router;
