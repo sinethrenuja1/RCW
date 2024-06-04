@@ -42,3 +42,25 @@ export const getNotStartedJobCards = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+export const startJob = async (req, res) => {
+    const { jobcard_id } = req.params;
+    const updateQuery = 'UPDATE job_carddetails SET status = "started" WHERE jobcard_id = ?';
+
+    try {
+        await new Promise((resolve, reject) => {
+            db.query(updateQuery, [jobcard_id], (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        res.status(200).json({ message: 'Job started successfully' });
+    } catch (error) {
+        console.error('Error starting job:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

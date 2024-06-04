@@ -145,10 +145,16 @@ import { useState, useEffect } from 'react';
 import ShopHeader from '../../Components/shopheader';
 import axios from 'axios';
 
+
 const JobCard = ({ jobcard_id, veh_num, mileage }) => {
-    const startJob = () => {
-        // Add functionality to start job
-        console.log(`Starting job ${jobcard_id}`);
+    const startJob = async () => {
+        try {
+            await axios.put(`http://localhost:8800/api/supervisor/start_job/${jobcard_id}`);
+            console.log(`Job ${jobcard_id} started successfully`);
+            // Optionally, you can update the state or trigger a re-fetch of job cards here
+        } catch (error) {
+            console.error('Error starting job:', error);
+        }
     };
 
     return (

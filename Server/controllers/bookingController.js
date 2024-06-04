@@ -252,3 +252,4 @@ export const updateBookingStatus = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while updating the booking status' });
     }
 };
+
