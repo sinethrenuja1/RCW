@@ -31,7 +31,7 @@ import AddService_web from "./Pages/settingfolder/addservices_web";
 import AddHolidays from "./Pages/settingfolder/addHolidays";
 import ShowBooking from "./Pages/booking/showbooking";
 import Sshowjobcard from "./Pages/supervisor/sshowjobcard";
-
+import AssignWorker from "./Pages/supervisor/assignworker";
 
 import Dash_nav from "./Components/dash_nav";
 import Supervisordash_nav from "./Components/supervisordash_nav";
@@ -129,6 +129,7 @@ const router = createBrowserRouter([
     path: "/",element: <Supervisorayout/>,
     children: [
       {path: "/sshowjobcard", element: <Sshowjobcard/>,},
+      {path: "/assignworkerstart", element: <AssignWorker/>,},
       ],
   },
 

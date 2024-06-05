@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Cog8ToothIcon,
-  ArrowUturnLeftIcon,
+  // ArrowUturnLeftIcon,
   HandThumbUpIcon,
   BookmarkIcon,
   BriefcaseIcon,
@@ -92,6 +92,13 @@ const DashNav = () => {
             </Link>
           </div>
         )}
+          
+          <Link to='/stock'>
+          <div className={`flex items-center pl-4 gap-3 py-3 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white transition-all duration-200 ${activeBar === 'Stock' ? 'text-white bg-blue-400':''}`} onClick={() => setActiveBar('showbooking')}>
+            <BookmarkIcon className='h-6 w-6'/>
+            <p className='text-lg'>Stock</p>
+          </div>
+        </Link>
 
         <Link to='/show_services'>
           <div className={`flex items-center pl-4 gap-3 py-3 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white transition-all duration-200 ${activeBar === 'show_services' ? 'text-white bg-blue-400':''}`} onClick={() => setActiveBar('show_services')}>
@@ -137,12 +144,12 @@ const DashNav = () => {
           </div>
         </Link>
 
-        <Link to='/'>
+        {/* <Link to='/'>
           <div className='fixed flex items-center pl-4 w-64 gap-3 py-3 hover:bg-blue-400 hover:text-white rounded-lg cursor-pointer bottom-6 transition-all duration-200'>
             <ArrowUturnLeftIcon className='h-6 w-6'/>
             <p className='text-lg'>Log out</p>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

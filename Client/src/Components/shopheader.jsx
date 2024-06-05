@@ -6,10 +6,10 @@ const ShopHeader = ({ pageName }) => {
 
     const user = JSON.parse(localStorage.getItem("user"))
     return (
-        <div className="bg-gray-200 h-16 flex justify-between  ">
-            <p className="text-text-primary font-inter font-bold text-3xl p-3 mb-15">{pageName}</p>
+        <div className="bg-blue-50 h-16 flex justify-between  ">
+            <p className="text-text-primary font-inter font-bold text-2xl p-3 mb-15">{pageName}</p>
             <div className='flex items-center gap-2 p-3'>
-                <HiHome className='w-8 h-8 bg-text-primary rounded-2xl text-black  ' />
+                <HiHome className='w-6 h-6 bg-text-primary rounded-2xl text-black  ' />
                 
                 
                 {/* <h1 className=" text-1xl font-semibold text-gray-600">
