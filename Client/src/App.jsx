@@ -32,6 +32,7 @@ import AddHolidays from "./Pages/settingfolder/addHolidays";
 import ShowBooking from "./Pages/booking/showbooking";
 import Sshowjobcard from "./Pages/supervisor/sshowjobcard";
 import AssignWorker from "./Pages/supervisor/assignworker";
+import OngongJobs from "./Pages/supervisor/ongoing";
 
 import Dash_nav from "./Components/dash_nav";
 import Supervisordash_nav from "./Components/supervisordash_nav";
@@ -130,10 +131,11 @@ const router = createBrowserRouter([
     children: [
       {path: "/sshowjobcard", element: <Sshowjobcard/>,},
       {path: "/assignworkerstart", element: <AssignWorker/>,},
+      {path: "/ongoingjobs", element: <OngongJobs/>,},
       ],
   },
 
-
+  
 
 ]);
 

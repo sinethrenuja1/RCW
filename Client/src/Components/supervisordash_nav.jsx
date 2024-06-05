@@ -33,7 +33,7 @@ const DashNav = () => {
           </div>
         </Link>
 
-        <Link to='#'>
+        <Link to='/ongoingjobs'>
           <div className={`flex items-center pl-4 gap-3 py-3 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white transition-all duration-200 ${activeBar === 'showbooking' ? 'text-white bg-blue-400':''}`} onClick={() => setActiveBar('showbooking')}>
             <BookmarkIcon className='h-6 w-6'/>
             <p className='text-lg'>Ongoing Jobs</p>
