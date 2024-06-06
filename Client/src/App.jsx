@@ -33,6 +33,8 @@ import ShowBooking from "./Pages/booking/showbooking";
 import Sshowjobcard from "./Pages/supervisor/sshowjobcard";
 import AssignWorker from "./Pages/supervisor/assignworker";
 import OngongJobs from "./Pages/supervisor/ongoing";
+import Finishjobcard from "./Pages/updatejobCard/finishedjobcard";
+import Bill from "./Pages/bill"
 
 import Dash_nav from "./Components/dash_nav";
 import Supervisordash_nav from "./Components/supervisordash_nav";
@@ -120,7 +122,8 @@ const router = createBrowserRouter([
       {path: "/addservicesto_web" , element: <AddService_web/>,},
       {path: "/addholidays" , element: <AddHolidays/>,},
       {path: "/showbooking" , element: <ShowBooking/>,},
-    
+      {path: "/finishedjobcard" , element: <Finishjobcard/>,},
+      {path:"/bill",element:<Bill/>}
       
       
       ],

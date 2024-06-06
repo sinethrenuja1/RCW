@@ -125,7 +125,7 @@ function AddReplaceParts({ jobcard_id }) {
             className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue"
           />
         </div>
-        <div className="flex flex-col">
+        {/* <div className="flex flex-col">
           <label htmlFor="mileage" className="text-black">Mileage:</label>
           <input
             id="mileage"
@@ -134,7 +134,7 @@ function AddReplaceParts({ jobcard_id }) {
             readOnly
             className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue"
           />
-        </div>
+        </div> */}
         <div className="flex flex-col">
           <label htmlFor="supervisor" className="text-black">Supervisor:</label>
           <input

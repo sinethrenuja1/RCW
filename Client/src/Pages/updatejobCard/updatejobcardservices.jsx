@@ -1,3 +1,5 @@
+
+
 import PropTypes from 'prop-types';
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -9,7 +11,6 @@ function AddServices({ jobcard_id }) {
   const [formData] = useState({
     veh_num: location.state?.veh_num || '',
     jobcard_id: jobcard_id || '',
-    
     supervisor: location.state?.supervisor || ''
   });
 
@@ -18,16 +19,29 @@ function AddServices({ jobcard_id }) {
   const [selectedService, setSelectedService] = useState({ service_id: '', s_price: '' });
   const [quantity, setQuantity] = useState('');
   const [services, setServices] = useState([]);
+  const [jobStatus, setJobStatus] = useState('');
 
   useEffect(() => {
+    console.log(formData.jobcard_id);
     if (formData.jobcard_id) {
+      // Fetch services
       axios.get(`http://localhost:8800/api/jobRoutes/getServices?jobcard_id=${formData.jobcard_id}`)
         .then(response => {
           console.log('Services:', response.data);
           setServices(response.data);
         })
         .catch(error => {
-          console.error('There was an error fetching the data!', error);
+          console.error('There was an error fetching the services data!', error);
+        });
+
+      // Fetch job status
+      axios.get(`http://localhost:8800/api/jobcard/updateJobCardStatusonlystart?jobcard_id=${formData.jobcard_id}`)
+        .then(response => {
+          console.log('Job Status:', response.data.status);
+          setJobStatus(response.data.status);
+        })
+        .catch(error => {
+          console.error('There was an error fetching the job status!', error);
         });
     }
   }, [formData.jobcard_id]);
@@ -107,6 +121,22 @@ function AddServices({ jobcard_id }) {
     }
   };
 
+  const handleFinishJob = async () => {
+    try {
+      const response = await axios.post('http://localhost:8800/api/jobcard/finishJob', {
+        jobcard_id: formData.jobcard_id
+      });
+
+      if (response.status === 200) {
+        setJobStatus('finished');
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error finishing job:', error);
+      alert('An error occurred while finishing the job.');
+    }
+  };
+
   return (
     <div className="px-5 pt-4">
       <form className="flex items-center gap-4">
@@ -131,16 +161,6 @@ function AddServices({ jobcard_id }) {
           />
         </div>
         <div className="flex flex-col">
-          <label htmlFor="mileage" className="text-black">Mileage:</label>
-          <input
-            id="mileage"
-            type="text"
-            value={formData.mileage}
-            readOnly
-            className="px-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-lightblue"
-          />
-        </div>
-        <div className="flex flex-col">
           <label htmlFor="supervisor" className="text-black">Supervisor:</label>
           <input
             id="supervisor"
@@ -151,6 +171,17 @@ function AddServices({ jobcard_id }) {
           />
         </div>
       </form>
+      {jobStatus === 'started' && (
+        <div className="mt-4">
+          <button
+            type="button"
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            onClick={handleFinishJob}
+          >
+            Finish Job
+          </button>
+        </div>
+      )}
       <div className="mt-8">
         <div className="shadow-md bg-gray-100 rounded-lg p-3 mb-8">
           <h2 className="text-lg font-bold text-black">Add a Service</h2>
@@ -220,7 +251,7 @@ function AddServices({ jobcard_id }) {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                <th className="px-6 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service ID</th>
+                  <th className="px-6 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service ID</th>
                   <th className="px-6 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Name</th>
                   <th className="px-6 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Unit Price</th>
                   <th className="px-6 py-1 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service Quantity</th>
@@ -261,3 +292,5 @@ AddServices.propTypes = {
 };
 
 export default AddServices;
+
+

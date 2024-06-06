@@ -84,8 +84,8 @@ const DashNav = () => {
               </div>
             </Link>
 
-            <Link to='/finaljobcard'>
-              <div className={`flex items-center pl-8 gap-3 py-3 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white transition-all duration-200 ${activeBar === 'finaljobcard' ? 'text-white bg-blue-400':''}`} onClick={() => setActiveBar('finaljobcard')}>
+            <Link to='/finishedjobcard'>
+              <div className={`flex items-center pl-8 gap-3 py-3 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white transition-all duration-200 ${activeBar === 'finishedjobcard' ? 'text-white bg-blue-400':''}`} onClick={() => setActiveBar('finishedjobcard')}>
                 <IdentificationIcon className='h-5 w-5'/>
                 <p className='text-lg'>Final Job Card</p>
               </div>
