@@ -196,20 +196,64 @@ export const updateStatus = async (req, res) => {
 //   };
 
 
-export const saveBillDetails = (req, res) => {
-    const { jobcard_id, price } = req.body;
-    const date = new Date();
-    const b_date = date.toISOString().split('T')[0]; // YYYY-MM-DD
-    const b_time = date.toTimeString().split(' ')[0]; // HH:MM:SS
+// export const saveBillDetails = (req, res) => {
+//     const { jobcard_id, price } = req.body;
+//     const date = new Date();
+//     const b_date = date.toISOString().split('T')[0]; // YYYY-MM-DD
+//     const b_time = date.toTimeString().split(' ')[0]; // HH:MM:SS
 
-    const query = 'INSERT INTO bill_details (b_date, b_time, jobcard_id, price) VALUES (?, ?, ?, ?)';
+//     const query = 'INSERT INTO bill_details (b_date, b_time, jobcard_id, price) VALUES (?, ?, ?, ?)';
 
-    db.query(query, [b_date, b_time, jobcard_id, price], (err, result) => {
-        if (err) {
-            console.error('Error saving bill details:', err);
-            res.status(500).json({ error: 'Failed to save bill details' });
-        } else {
-            res.status(200).json({ message: 'Bill details saved successfully', bill_id: result.insertId });
-        }
-    });
+//     db.query(query, [b_date, b_time, jobcard_id, price], (err, result) => {
+//         if (err) {
+//             console.error('Error saving bill details:', err);
+//             res.status(500).json({ error: 'Failed to save bill details' });
+//         } else {
+//             res.status(200).json({ message: 'Bill details saved successfully', bill_id: result.insertId });
+//         }
+//     });
+// };
+
+// export const saveBillDetails = async (req, res) => {
+//     const {  b_date, b_time,jobcard_id, price } = req.body;
+
+//     try {
+//         const query = 'INSERT INTO bill_details (b_date, b_time, jobcard_id, price) VALUES (?, ?, ?, ?)';
+//         const values = [b_date, b_time, jobcard_id, price];
+
+//         await db.query(query, values);
+
+//         res.status(200).json({ message: 'Bill details saved successfully.' });
+//     } catch (error) {
+//         console.error('Error saving bill details:', error.message);
+//         res.status(500).json({ message: 'Internal server error' });
+//     }
+// };
+
+export const saveBillDetails = async (req, res) => {
+    const { b_date, b_time, jobcard_id, price } = req.body;
+
+    if (!b_date || !b_time || !jobcard_id || !price) {
+        return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    try {
+        const query = 'INSERT INTO bill_details (b_date, b_time, jobcard_id, price) VALUES (?, ?, ?, ?)';
+        const values = [b_date, b_time, jobcard_id, price];
+
+        await new Promise((resolve, reject) => {
+            db.query(query, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        res.status(200).json({ message: 'Bill details saved successfully.' });
+    } catch (error) {
+        console.error('Error saving bill details:', error.message);
+        res.status(500).json({ error: 'Failed to save bill details' });
+    }
 };

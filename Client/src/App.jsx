@@ -35,9 +35,11 @@ import AssignWorker from "./Pages/supervisor/assignworker";
 import OngongJobs from "./Pages/supervisor/ongoing";
 import Finishjobcard from "./Pages/updatejobCard/finishedjobcard";
 import Bill from "./Pages/bill"
-
+import Packages from "./Pages/packages";
 import Dash_nav from "./Components/dash_nav";
 import Supervisordash_nav from "./Components/supervisordash_nav";
+import AddPackages from "./Pages/settingfolder/addPackages";
+import DeletePackages from "./Pages/settingfolder/deletePackages";
 
 const  WebLayout = () => {
   return (
@@ -92,11 +94,13 @@ const router = createBrowserRouter([
     path: "/",element: <WebLayout/>,
     children: [
       {path: "/", element: <Home/>,},
+      {path: "/packages", element: <Packages/>},
       ],
   },
   {path: "/booking", element: <Booking/>},
   {path: "/login", element: <Login/>},
   
+
   
 
   {
@@ -123,8 +127,9 @@ const router = createBrowserRouter([
       {path: "/addholidays" , element: <AddHolidays/>,},
       {path: "/showbooking" , element: <ShowBooking/>,},
       {path: "/finishedjobcard" , element: <Finishjobcard/>,},
-      {path:"/bill",element:<Bill/>}
-      
+      {path:"/bill",element:<Bill/>},
+      {path:"/addpackages",element:<AddPackages/>},
+      {path:"/deletepackages",element:<DeletePackages/>},
       
       ],
   },

@@ -88,7 +88,7 @@ function AddServicesToWeb() {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <ShopHeader pageName="Settings" />
+            <ShopHeader pageName="Add a Package" />
             <div className="container mx-auto p-4">
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">Booking Page Section</h1>
                 

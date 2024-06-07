@@ -14,7 +14,7 @@ const home_nav = () => {
             name: 'About', link: '/'
         },
         {
-            name: 'Packages', link: '/'
+            name: 'Packages', link: '/packages'
         },
         
     ]
