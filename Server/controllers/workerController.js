@@ -195,3 +195,88 @@ export const resignWorker = async (req, res) => {
         res.status(500).json({ message: 'Error resigning worker' });
     }
 }
+
+export const resignworker_table= async (req,res) => {
+    try{
+        const q = `SELECT * FROM worker_info  WHERE w_status = 'Resign'`;
+        db.query(q,(err,result) => {
+            if(err){
+                console.error(err);
+                res.status(500).json({error: 'An error occurred while fetching the worker table'});
+            }else{
+                res.status(200).json(result);
+            }
+        })
+    }catch{
+        console.error(err);
+        res.status(500).json({error: 'An unexpected error occurred'});
+    }
+
+}
+
+
+export const user_table= async (req,res) => {
+    try{
+        const q = `SELECT * FROM user_info  WHERE u_status = 'Work'`;
+        db.query(q,(err,result) => {
+            if(err){
+                console.error(err);
+                res.status(500).json({error: 'An error occurred while fetching the worker table'});
+            }else{
+                res.status(200).json(result);
+            }
+        })
+    }catch{
+        console.error(err);
+        res.status(500).json({error: 'An unexpected error occurred'});
+    }
+
+}
+
+export const getUserById = async (req, res) => {
+    try {
+        const { user_id } = req.params;
+        console.log(user_id);
+        const q = `SELECT * FROM user_info WHERE user_id = ?`;
+        db.query(q, [user_id], (err, result) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: 'An error occurred while fetching the user' });
+            } else {
+                if (result.length > 0) {
+                    res.status(200).json(result[0]);
+                } else {
+                    res.status(404).json({ error: 'No user found with the provided ID' });
+                }
+            }
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An unexpected error occurred' });
+    }
+};
+
+export const updateUserDetails = async (req, res) => {
+    const { user_id } = req.params;
+    const { u_name, u_nic, u_connum, u_email, u_address, user_name, acc_type, u_birthday } = req.body;
+
+    try {
+        const updateQuery = 'UPDATE user_info SET u_name = ?, u_nic = ?, u_connum = ?, u_email = ?, u_address = ?, user_name = ?, acc_type = ?, u_birthday = ? WHERE user_id = ?';
+        const values = [u_name, u_nic, u_connum, u_email, u_address, user_name, acc_type, u_birthday, user_id];
+
+        await new Promise((resolve, reject) => {
+            db.query(updateQuery, values, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+
+        res.status(200).json({ message: 'User details updated successfully' });
+    } catch (error) {
+        console.error('Error updating user details:', error);
+        res.status(500).json({ message: 'Error updating user details' });
+    }
+};

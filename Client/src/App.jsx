@@ -40,7 +40,10 @@ import Dash_nav from "./Components/dash_nav";
 import Supervisordash_nav from "./Components/supervisordash_nav";
 import AddPackages from "./Pages/settingfolder/addPackages";
 import DeletePackages from "./Pages/settingfolder/deletePackages";
-import Dashboard from "./Pages/dashboard/dashboard"
+import Dashboard from "./Pages/dashboard/dashboard";
+import Resignworkers from "./Pages/workers/showresignworker";
+import ShowUsers from "./Pages/workers/showUsers";
+import Edituser from "./Pages/workers/editUser";
 
 const  WebLayout = () => {
   return (
@@ -132,6 +135,10 @@ const router = createBrowserRouter([
       {path:"/addpackages",element:<AddPackages/>},
       {path:"/deletepackages",element:<DeletePackages/>},
       {path:"/dashboard",element:<Dashboard/>},
+      {path:"/Resignworkers",element:<Resignworkers/>},
+      {path:"/ShowUsers",element:<ShowUsers/>},
+      {path:"/editUser/:user_id",element:<Edituser/>},
+      
       
       ],
   },

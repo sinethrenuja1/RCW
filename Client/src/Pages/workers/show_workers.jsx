@@ -42,10 +42,6 @@
 
 //     const handleResignClick = async (workerId) => {
 //         const swalWithBootstrapButtons = Swal.mixin({
-//             customClass: {
-//                 confirmButton: "btn btn-success",
-//                 cancelButton: "btn btn-danger"
-//             },
 //             buttonsStyling: false
 //         });
 
@@ -56,6 +52,8 @@
 //             showCancelButton: true,
 //             confirmButtonText: "Yes, resign!",
 //             cancelButtonText: "No, cancel!",
+//             confirmButtonClass: "btn btn-success",
+//             cancelButtonClass: "btn btn-danger",
 //             reverseButtons: true
 //         }).then(async (result) => {
 //             if (result.isConfirmed) {
@@ -324,6 +322,9 @@ function ShowWorkers() {
                         <div>
                             <Link to="/Add_workers" className="bg-green-500 text-white px-4 py-2 rounded-md mb-4">
                                 + Add Worker
+                            </Link>
+                            <Link to="/Resignworkers" className="bg-blue-500 text-white px-4 py-2 rounded-md mb-4 ml-2">
+                                Show Resign Workers
                             </Link>
                         </div>
                     </div>

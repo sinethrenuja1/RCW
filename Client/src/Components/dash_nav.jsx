@@ -121,7 +121,7 @@ const DashNav = () => {
               </div>
             </Link>
 
-            <Link to='/add_user'>
+            <Link to='/ShowUsers'>
               <div className={`flex items-center pl-8 gap-3 py-3 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white transition-all duration-200 ${activeBar === 'add_user' ? 'text-white bg-blue-400':''}`} onClick={() => setActiveBar('add_user')}>
                 <InboxIcon className='h-5 w-5'/>
                 <p className='text-lg'>Users</p>
