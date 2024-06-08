@@ -257,3 +257,18 @@ export const saveBillDetails = async (req, res) => {
         res.status(500).json({ error: 'Failed to save bill details' });
     }
 };
+
+export const updateJobCardStatus = (req, res) => {
+    const { jobcard_id, status } = req.body;
+
+    const query = 'UPDATE job_carddetails SET status = ? WHERE jobcard_id = ?';
+
+    db.query(query, [status, jobcard_id], (err, result) => {
+        if (err) {
+            console.error('Error updating job card status:', err);
+            return res.status(500).json({ message: 'Failed to update job card status' });
+        }
+
+        res.status(200).json({ message: 'Job card status updated successfully' });
+    });
+};

@@ -40,6 +40,7 @@ import Dash_nav from "./Components/dash_nav";
 import Supervisordash_nav from "./Components/supervisordash_nav";
 import AddPackages from "./Pages/settingfolder/addPackages";
 import DeletePackages from "./Pages/settingfolder/deletePackages";
+import Dashboard from "./Pages/dashboard/dashboard"
 
 const  WebLayout = () => {
   return (
@@ -130,6 +131,7 @@ const router = createBrowserRouter([
       {path:"/bill",element:<Bill/>},
       {path:"/addpackages",element:<AddPackages/>},
       {path:"/deletepackages",element:<DeletePackages/>},
+      {path:"/dashboard",element:<Dashboard/>},
       
       ],
   },
