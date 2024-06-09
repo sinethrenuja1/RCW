@@ -174,7 +174,7 @@ export const getNextJobCardId = (lastJobCardId) => {
     const number = parseInt(lastJobCardId.slice(1)) + 1;
     return 'J' + number.toString().padStart(4, '0');
 };
-
+ 
 export const getNextJobCardIdController = async (req, res) => {
     try {
         const query = 'SELECT jobcard_id FROM job_carddetails ORDER BY jobcard_id DESC LIMIT 1';
