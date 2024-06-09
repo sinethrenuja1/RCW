@@ -1,5 +1,5 @@
 import express from 'express';
-import {getJobCards,getJobCardDetails,getFinishedJobCards,updateStatus,saveBillDetails,updateJobCardStatus} from '../controllers/updatejobcardController.js';
+import {getJobCards,getJobCardDetails,getFinishedJobCards,updateStatus,saveBillDetails,updateJobCardStatus,getClosedJobCards,getFinishJobCardDetails,updateCustomerContact} from '../controllers/updatejobcardController.js';
 
 const router = express.Router();
 router.get('/getJobCards',getJobCards);
@@ -8,7 +8,8 @@ router.get('/getFinishjobcard',getFinishedJobCards);
 router.put('/updateStatus', updateStatus);
 router.post('/saveBillDetails',saveBillDetails);
 router.put('/updateJobCardStatus', updateJobCardStatus);
-// router.get('/getJobCardStatus', getJobCardStatus);
-// router.post('/updateJobCardStatusonlystart', updateJobCardStatusonlystart);
+router.get('/getClosedJobCards',getClosedJobCards);
+router.get('/getFinishJobCardDetails/:jobcard_id',getFinishJobCardDetails);
+router.put('/updateCustomerContact', updateCustomerContact);
 
 export default router;

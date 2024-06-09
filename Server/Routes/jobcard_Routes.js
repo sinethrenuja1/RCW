@@ -1,5 +1,5 @@
 import express from 'express';
-import {registerCustomer,registerVehicle,searchCustomer,checkVehicle,loadDetails,getNextJobCardIdController,getSupervisors,saveJobCard,fetchServiceSuggestions,addUsedService,getRequestjobs,getServices,searchParts,addUsedPart,getPartsForJobCard,deleteUsedPart,deleteUsedService} from '../controllers/jobcardController.js'; 
+import {registerCustomer,registerVehicle,searchCustomer,checkVehicle,loadDetails,getNextJobCardIdController,getSupervisors,saveJobCard,fetchServiceSuggestions,addUsedService,getRequestjobs,getServices,searchParts,addUsedPart,getPartsForJobCard,deleteUsedPart,deleteUsedService,addnewcustomer,updatevehconnum} from '../controllers/jobcardController.js'; 
 
 const router = express.Router();
 
@@ -20,6 +20,7 @@ router.post('/addUsedPart', addUsedPart);
 router.get('/getPartsForJobCard/:jobcard_id', getPartsForJobCard);
 router.delete('/deleteUsedPart', deleteUsedPart);
 router.post('/deleteUsedService', deleteUsedService);
-
+router.post('/createCustomer', addnewcustomer);
+router.put('/updateVehicleContact/:veh_num', updatevehconnum);
 
 export default router;

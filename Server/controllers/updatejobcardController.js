@@ -22,14 +22,21 @@ export const getJobCards = (req, res) => {
 export const getJobCardDetails = (req, res) => {
     const { jobcard_id } = req.params;
 
-    // SQL query to fetch records from used_services with the given jobcard_id
+    // // SQL query to fetch records from used_services with the given jobcard_id
+    // const usedServicesQuery = `
+    //             SELECT us.service_id, wi.name, us.s_quantity, sl.s_name, sl.s_price
+    //     FROM used_services us
+    //     JOIN service_list sl ON us.service_id = sl.service_id
+    //     JOIN worker_info wi ON us.worker_id = wi.worker_id
+    //     WHERE us.jobcard_id = ?
+    // `;
     const usedServicesQuery = `
-        SELECT us.service_id, us.worker_id, us.s_quantity, sl.s_name, sl.s_price
-        FROM used_services us
-        JOIN service_list sl ON us.service_id = sl.service_id
-        WHERE us.jobcard_id = ?
-    `;
-
+    SELECT us.service_id, wi.name AS worker_name, us.s_quantity, sl.s_name, sl.s_price
+    FROM used_services us
+    JOIN service_list sl ON us.service_id = sl.service_id
+    JOIN worker_info wi ON us.worker_id = wi.worker_id
+    WHERE us.jobcard_id = ?
+`;
     // SQL query to fetch records from used_items with the given jobcard_id
     const usedItemsQuery = `
         SELECT ui.upart_id, ui.u_quantity, ui.uworker_id, s.price, s.name
@@ -58,7 +65,7 @@ export const getJobCardDetails = (req, res) => {
         const serviceDetails = servicesResults.map(row => ({
             service_name: row.s_name,
             s_quantity: row.s_quantity,
-            worker_id: row.worker_id,
+            worker_name: row.worker_name,
             s_price: row.s_price
         }));
 
@@ -272,3 +279,174 @@ export const updateJobCardStatus = (req, res) => {
         res.status(200).json({ message: 'Job card status updated successfully' });
     });
 };
+
+export const getClosedJobCards = (req, res) => {
+   
+    const jobCardsQuery = `
+        SELECT j.jobcard_id, j.veh_num, u.u_name, j.status
+        FROM job_carddetails j
+        JOIN user_info u ON j.user_id = u.user_id
+        WHERE j.status IN ('Closed')
+    `;
+
+    db.query(jobCardsQuery, (err, jobCards) => {
+        if (err) {
+            return res.status(500).json({ error: 'An error occurred while fetching job cards.' });
+        }
+
+        res.json(jobCards);
+    });
+};
+
+// export const getFinishJobCardDetails = (req, res) => {
+//     const { jobcard_id } = req.params;
+
+//     // SQL query to fetch records from used_services with the given jobcard_id
+//     const usedServicesQuery = `
+//         SELECT us.service_id, us.worker_id, us.s_quantity, sl.s_name, sl.s_price
+//         FROM used_services us
+//         JOIN service_list sl ON us.service_id = sl.service_id
+//         WHERE us.jobcard_id = ?
+//     `;
+
+//     // SQL query to fetch records from used_items with the given jobcard_id
+//     const usedItemsQuery = `
+//         SELECT ui.upart_id, ui.u_quantity, ui.uworker_id, s.price, s.name
+//         FROM used_items ui
+//         JOIN stock s ON ui.upart_id = s.part_id
+//         WHERE ui.ujobcard_id = ?
+//     `;
+
+//     // Perform both queries in parallel using Promise.all
+//     Promise.all([
+//         new Promise((resolve, reject) => {
+//             db.query(usedServicesQuery, [jobcard_id], (err, results) => {
+//                 if (err) return reject(err);
+//                 console.log(jobcard_id, results);
+//                 resolve(results);
+//             });
+//         }),
+//         new Promise((resolve, reject) => {
+//             db.query(usedItemsQuery, [jobcard_id], (err, results) => {
+//                 if (err) return reject(err);
+//                 resolve(results);
+//             });
+//         })
+//     ])
+//     .then(([servicesResults, itemsResults]) => {
+//         const serviceDetails = servicesResults.map(row => ({
+//             service_name: row.s_name,
+//             s_quantity: row.s_quantity,
+//             worker_id: row.worker_id,
+//             s_price: row.s_price
+//         }));
+
+//         const itemDetails = itemsResults.map(row => ({
+//             part_name: row.name,
+//             u_quantity: row.u_quantity,
+//             uworker_id: row.uworker_id,
+//             price: row.price
+//         }));
+
+//         res.json({
+//             services: serviceDetails.length > 0 ? serviceDetails : 'No services found',
+//             parts: itemDetails.length > 0 ? itemDetails : 'No parts used'
+//         });
+//     })
+//     .catch(err => {
+//         res.status(500).json({ error: 'An error occurred while fetching job card details.' });
+//     });
+// };
+
+export const getFinishJobCardDetails = (req, res) => {
+    const { jobcard_id } = req.params;
+
+    const usedServicesQuery = `
+        SELECT us.service_id, wi.name AS worker_name, us.s_quantity, sl.s_name, sl.s_price
+        FROM used_services us
+        JOIN service_list sl ON us.service_id = sl.service_id
+        JOIN worker_info wi ON us.worker_id = wi.worker_id
+        WHERE us.jobcard_id = ?
+    `;
+
+    const usedItemsQuery = `
+        SELECT ui.upart_id, ui.u_quantity, ui.uworker_id, s.price, s.name
+        FROM used_items ui
+        JOIN stock s ON ui.upart_id = s.part_id
+        WHERE ui.ujobcard_id = ?
+    `;
+
+    Promise.all([
+        new Promise((resolve, reject) => {
+            db.query(usedServicesQuery, [jobcard_id], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        }),
+        new Promise((resolve, reject) => {
+            db.query(usedItemsQuery, [jobcard_id], (err, results) => {
+                if (err) return reject(err);
+                resolve(results);
+            });
+        })
+    ])
+    .then(([servicesResults, itemsResults]) => {
+        const serviceDetails = servicesResults.map(row => ({
+            service_name: row.s_name,
+            s_quantity: row.s_quantity,
+            worker_name: row.worker_name,
+            s_price: row.s_price
+        }));
+
+        const itemDetails = itemsResults.map(row => ({
+            part_name: row.name,
+            u_quantity: row.u_quantity,
+            uworker_id: row.uworker_id,
+            price: row.price
+        }));
+
+        res.json({
+            services: serviceDetails.length > 0 ? serviceDetails : 'No services found',
+            parts: itemDetails.length > 0 ? itemDetails : 'No parts used'
+        });
+    })
+    .catch(err => {
+        res.status(500).json({ error: 'An error occurred while fetching job card details.' });
+    });
+};
+
+
+
+
+// Assuming db is an already established connection or a pool from which you can directly execute queries
+export const updateCustomerContact = async (req, res) => {
+  const { phone_number, fname, lname, address } = req.body;
+  console.log(phone_number, fname, lname, address);
+
+  // Uncomment if validation is needed
+  // if (!phone_number || !fname || !lname || !address) {
+  //   return res.status(400).json({ message: 'All fields are required' });
+  // }
+
+  try {
+    const response = await db.execute(
+      `UPDATE customer_info 
+       SET contact_number = ?
+       WHERE first_name = ? 
+       AND last_name = ? 
+       AND address = ?`,
+      [phone_number, fname, lname, address]
+    );
+
+    console.log(response);
+    // if (results.affectedRows === 0) {
+    //   return res.status(404).json({ message: 'Customer not found' });
+    // }
+
+    res.status(200).json({ message: 'Contact number updated successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+

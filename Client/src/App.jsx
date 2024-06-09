@@ -45,6 +45,7 @@ import Resignworkers from "./Pages/workers/showresignworker";
 import ShowUsers from "./Pages/workers/showUsers";
 import Edituser from "./Pages/workers/editUser";
 import ShowprevBookings from "./Pages/booking/showpreviousbooking";
+import Pastjobcard from "./Pages/servicejobs/pastjobcard";
 
 const  WebLayout = () => {
   return (
@@ -139,7 +140,8 @@ const router = createBrowserRouter([
       {path:"/Resignworkers",element:<Resignworkers/>},
       {path:"/ShowUsers",element:<ShowUsers/>},
       {path:"/editUser/:user_id",element:<Edituser/>},
-      {path:"/showprevBookings",element:<ShowprevBookings/>}
+      {path:"/showprevBookings",element:<ShowprevBookings/>},
+      {path:"/pastjobcard",element:<Pastjobcard/>},
       
       ],
   },

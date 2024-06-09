@@ -21,7 +21,7 @@ function Row({ row }) {
 
     const fetchDetails = async (jobcard_id) => {
         try {
-            const response = await axios.get(`http://localhost:8800/api/jobcard/getJobCardDetails/${jobcard_id}`);
+            const response = await axios.get(`http://localhost:8800/api/jobcard/getFinishJobCardDetails/${jobcard_id}`);
             setDetails(response.data);
         } catch (error) {
             console.error('Error fetching job card details:', error.message);
@@ -47,22 +47,7 @@ function Row({ row }) {
                 <td className="p-4 text-right text-base">{row.veh_num}</td>
                 <td className="p-4 text-right text-base">{row.u_name}</td>
                 <td className="p-4 text-right text-base">{row.status}</td>
-                <td className="p-4 text-right text-base">
-                    <button
-                        type="button"
-                        className="bg-lightblue text-white px-4 py-2 rounded-md mr-2"
-                        onClick={() => navigate('/updateJobCard',{ state: { veh_num: row.veh_num, jobcard_id: row.jobcard_id, supervisor: row.u_name } })}
-                    >
-                        Update
-                    </button>
-                    {/* <button
-                        type="button"
-                        className="bg-lightblue text-white px-4 py-2 rounded-md mr-2"
-                        onClick={() => navigate('/updateJobCard',{ state: { veh_num: row.veh_num, jobcard_id: row.jobcard_id, supervisor: row.u_name } })}
-                    >
-                        Update
-                    </button> */}
-                </td>
+            
             </tr>
             {open && details && (
                 <tr>
@@ -99,7 +84,7 @@ function Row({ row }) {
                                     <tr>
                                         <th className="text-left p-2 w-1/4">Part Name</th>
                                         <th className="text-left p-2 w-1/4">Quantity</th>
-                                        <th className="text-left p-2 w-1/4">Worker Name</th>
+                                        <th className="text-left p-2 w-1/4">Worker ID</th>
                                         <th className="text-left p-2 w-1/4">Price</th>
                                     </tr>
                                 </thead>
@@ -108,7 +93,7 @@ function Row({ row }) {
                                         <tr key={index}>
                                             <td className="p-2">{part.part_name}</td>
                                             <td className="p-2">{part.u_quantity}</td>
-                                            <td className="p-2">{part.uworker_name}</td>
+                                            <td className="p-2">{part.uworker_id}</td>
                                             <td className="p-2">{part.price}</td>
                                         </tr>
                                     )) : (
@@ -136,7 +121,7 @@ export default function CollapsibleTable() {
 
     const fetchJobCards = async () => {
         try {
-            const response = await axios.get('http://localhost:8800/api/jobcard/getJobCards');
+            const response = await axios.get('http://localhost:8800/api/jobcard/getClosedJobCards');
             if (response.status !== 200) {
                 throw new Error('Failed to fetch job cards');
             }
@@ -159,7 +144,7 @@ export default function CollapsibleTable() {
                             <th className="p-4 text-right font-semibold">Vehicle Number</th>
                             <th className="p-4 text-right font-semibold">Supervisor</th>
                             <th className="p-4 text-right font-semibold">Status</th>
-                            <th className="p-4 text-right font-semibold">Actions</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
