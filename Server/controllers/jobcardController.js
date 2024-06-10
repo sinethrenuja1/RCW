@@ -368,10 +368,67 @@ export const deleteUsedService = (req, res) => {
 };
 
 
+// export const searchParts = (req, res) => {
+//     const searchQuery = req.query.q;
+
+//     const sql = `SELECT part_id, name, price,quantity FROM stock WHERE part_id LIKE ? OR name LIKE ?`;
+
+//     db.query(sql, [`%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
+//         if (err) {
+//             console.error(err);
+//             res.status(500).json({ error: 'An error occurred while searching for parts' });
+//         } else {
+//             res.status(200).json(results);
+//         }
+//     });
+// };
+
+// export const addUsedPart = async (req, res) => {
+//     let { upart_id, ujobcard_id, uworker_id, u_quantity } = req.body;
+  
+//     if (uworker_id === undefined) {
+//       uworker_id = null;
+//     }
+  
+//     try {
+//       const insertQuery = 'INSERT INTO used_items (upart_id, ujobcard_id, uworker_id, u_quantity) VALUES (?, ?, ?, ?)';
+//       const insertValues = [upart_id, ujobcard_id, uworker_id, u_quantity];
+  
+//       await new Promise((resolve, reject) => {
+//         db.query(insertQuery, insertValues, (err, result) => {
+//           if (err) {
+//             reject(err);
+//           } else {
+//             resolve(result);
+//           }
+//         });
+//       });
+  
+//       const updateQuery = 'UPDATE stock SET quantity = quantity - ? WHERE part_id = ?';
+//       const updateValues = [u_quantity, upart_id];
+  
+//       await new Promise((resolve, reject) => {
+//         db.query(updateQuery, updateValues, (err, result) => {
+//           if (err) {
+//             reject(err);
+//           } else {
+//             resolve(result);
+//           }
+//         });
+//       });
+  
+//       res.status(201).json({ message: 'Used part added successfully and stock updated' });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ error: 'An unexpected error occurred' });
+//     }
+//   };
+
+// searchParts controller
 export const searchParts = (req, res) => {
     const searchQuery = req.query.q;
 
-    const sql = `SELECT part_id, name, price FROM stock WHERE part_id LIKE ? OR name LIKE ?`;
+    const sql = `SELECT part_id, name, price, quantity FROM stock WHERE part_id LIKE ? OR name LIKE ?`;
 
     db.query(sql, [`%${searchQuery}%`, `%${searchQuery}%`], (err, results) => {
         if (err) {
@@ -383,6 +440,7 @@ export const searchParts = (req, res) => {
     });
 };
 
+// addUsedPart controller
 export const addUsedPart = async (req, res) => {
     let { upart_id, ujobcard_id, uworker_id, u_quantity } = req.body;
   
@@ -391,6 +449,21 @@ export const addUsedPart = async (req, res) => {
     }
   
     try {
+      const checkStockQuery = 'SELECT quantity FROM stock WHERE part_id = ?';
+      const checkStockResult = await new Promise((resolve, reject) => {
+        db.query(checkStockQuery, [upart_id], (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result[0]);
+          }
+        });
+      });
+
+      if (!checkStockResult || checkStockResult.quantity < u_quantity) {
+        return res.status(400).json({ error: 'Requested quantity exceeds available stock' });
+      }
+
       const insertQuery = 'INSERT INTO used_items (upart_id, ujobcard_id, uworker_id, u_quantity) VALUES (?, ?, ?, ?)';
       const insertValues = [upart_id, ujobcard_id, uworker_id, u_quantity];
   
@@ -422,7 +495,7 @@ export const addUsedPart = async (req, res) => {
       console.error(err);
       res.status(500).json({ error: 'An unexpected error occurred' });
     }
-  };
+};
 
 export const getPartsForJobCard = async (req, res) => {
     const { jobcard_id } = req.params;

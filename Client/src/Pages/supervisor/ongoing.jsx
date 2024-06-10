@@ -21,7 +21,7 @@ const JobCard = ({ jobcard_id, veh_num, mileage, status }) => {
             <button 
                 onClick={handleStartJob}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Start Job
+                Continue Job
             </button>
         </div>
     );
@@ -60,7 +60,7 @@ const SupervisorDashboardOngoing = () => {
 
     return (
         <div>
-            <ShopHeader pageName='Assign jobs' />
+            <ShopHeader pageName='Ongoing Jobs' />
             <div className="container mx-auto p-6">
                 <h2 className="text-3xl font-bold mb-6">Assigned Job Cards (Started)</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
