@@ -46,6 +46,7 @@ import ShowUsers from "./Pages/workers/showUsers";
 import Edituser from "./Pages/workers/editUser";
 import ShowprevBookings from "./Pages/booking/showpreviousbooking";
 import Pastjobcard from "./Pages/servicejobs/pastjobcard";
+import Aboutus from "./Components/about";  
 
 const  WebLayout = () => {
   return (
@@ -101,6 +102,7 @@ const router = createBrowserRouter([
     children: [
       {path: "/", element: <Home/>,},
       {path: "/packages", element: <Packages/>},
+      {path: "/aboutus", element: <Aboutus/>}
       ],
   },
   {path: "/booking", element: <Booking/>},

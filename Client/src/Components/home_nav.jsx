@@ -11,7 +11,7 @@ const home_nav = () => {
             name: 'Home', link: '/'
         },
         {
-            name: 'About', link: '/'
+            name: 'About', link: '/aboutus'
         },
         {
             name: 'Packages', link: '/packages'
@@ -21,7 +21,7 @@ const home_nav = () => {
     let [isOpen, setisOpen] = useState(false);
 
     return (
-        <div className="shadow-md w-full fixed top-0 left-0">
+        <div className="shadow-md w-full fixed top-0 left-0 z-10">
             <div className='md:px-10 py-4 px-7 md:flex justify-between items-center
              bg-white '>
                 <div className=" flex cursor-pointer items-cente gap-2">
