@@ -98,6 +98,7 @@ function Row({ row }) {
                                 <thead>
                                     <tr>
                                         <th className="text-left p-2 w-1/4">Part Name</th>
+                                        <th className="text-left p-2 w-1/4">Part ID</th>
                                         <th className="text-left p-2 w-1/4">Quantity</th>
                                         <th className="text-left p-2 w-1/4">Worker Name</th>
                                         <th className="text-left p-2 w-1/4">Price</th>
@@ -107,6 +108,7 @@ function Row({ row }) {
                                     {details.parts !== 'No parts used' ? details.parts.map((part, index) => (
                                         <tr key={index}>
                                             <td className="p-2">{part.part_name}</td>
+                                            <td className="p-2">{part.upart_id}</td>
                                             <td className="p-2">{part.u_quantity}</td>
                                             <td className="p-2">{part.uworker_name}</td>
                                             <td className="p-2">{part.price}</td>

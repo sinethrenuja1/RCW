@@ -257,7 +257,7 @@ const DashNav = () => {
         {user && <p className="text-lg font-bold text-gray-700">{user.first_name} {user.last_name}</p>}
       </div>
 
-      <div className="font-inter text-gray-800 mt-10">
+      <div className="font-inter text-gray-800 mt-5">
         <Link to='/dashboard'>
           <div className={`flex items-center pl-4 gap-3 py-2 rounded-lg cursor-pointer transition-all duration-200 ${activeBar === 'dashboard' ? 'text-white mb-2 bg-blue-400' : 'hover:bg-blue-400 mb-2 hover:text-white'}`} onClick={() => setActiveBar('dashboard')}>
             <BookmarkIcon className='h-6 w-6' />
@@ -339,15 +339,15 @@ const DashNav = () => {
           </div>
         )}
 
-        <Link to='/reports'>
-          <div className={`flex items-center pl-4 gap-3 py-2 rounded-lg cursor-pointer transition-all duration-200 ${activeBar === 'reports' ? 'text-white mb-2 bg-blue-400' : 'hover:bg-blue-400 hover:text-white'}`} onClick={() => setActiveBar('reports')}>
+        <Link to='/pastjobcard'>
+          <div className={`flex items-center pl-4 gap-3 py-2 mt-2 rounded-lg cursor-pointer transition-all duration-200 ${activeBar === 'reports' ? 'text-white mb-2 bg-blue-400' : 'hover:bg-blue-400 hover:text-white'}`} onClick={() => setActiveBar('reports')}>
             <ChartBarIcon className='h-6 w-6' />
-            <p className='text-sm font-bold'>Reports</p>
+            <p className='text-sm font-bold'>Past Service records</p>
           </div>
         </Link>
 
         <Link to='/setting'>
-          <div className={`flex items-center pl-4 gap-3 py-2 rounded-lg cursor-pointer transition-all duration-200 ${activeBar === 'setting' ? 'text-white mb-2 bg-blue-400' : 'hover:bg-blue-400 hover:text-white'}`} onClick={() => setActiveBar('setting')}>
+          <div className={`flex items-center pl-4 gap-3 py-2 mt-2 rounded-lg cursor-pointer transition-all duration-200 ${activeBar === 'setting' ? 'text-white mb-2 bg-blue-400' : 'hover:bg-blue-400 hover:text-white'}`} onClick={() => setActiveBar('setting')}>
             <Cog8ToothIcon className='h-6 w-6' />
             <p className='text-sm font-bold'>Setting</p>
           </div>
