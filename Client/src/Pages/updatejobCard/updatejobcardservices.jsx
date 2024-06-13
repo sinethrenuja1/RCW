@@ -35,14 +35,14 @@ function AddServices({ jobcard_id }) {
         });
 
       // Fetch job status
-      axios.get(`http://localhost:8800/api/jobcard/updateJobCardStatusonlystart?jobcard_id=${formData.jobcard_id}`)
-        .then(response => {
-          console.log('Job Status:', response.data.status);
-          setJobStatus(response.data.status);
-        })
-        .catch(error => {
-          console.error('There was an error fetching the job status!', error);
-        });
+      // axios.get(`http://localhost:8800/api/jobcard/updateJobCardStatusonlystart?jobcard_id=${formData.jobcard_id}`)
+      //   .then(response => {
+      //     console.log('Job Status:', response.data.status);
+      //     setJobStatus(response.data.status);
+      //   })
+      //   .catch(error => {
+      //     console.error('There was an error fetching the job status!', error);
+      //   });
     }
   }, [formData.jobcard_id]);
 
@@ -75,7 +75,8 @@ function AddServices({ jobcard_id }) {
       jobcard_id: formData.jobcard_id,
       service_id: selectedService.service_id,
       worker_id: 'W011',
-      s_quantity: quantity
+      s_quantity: quantity,
+      s_price: selectedService.s_price
     };
 
     try {

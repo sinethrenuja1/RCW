@@ -25,6 +25,7 @@ const Jobcard_add = () => {
 
     return (
         <div>
+            
             <ShopHeader pageName={getPageName()} />
             {/**start sub navbar */}
             <div className='flex bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>

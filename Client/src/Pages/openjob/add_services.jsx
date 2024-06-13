@@ -1,6 +1,7 @@
 
 
 import PropTypes from 'prop-types';
+import { createTheme } from '@mui/material/styles';
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios';
@@ -62,6 +63,7 @@ function AddServices({ jobcard_id }) {
     const data = {
       jobcard_id: formData.jobcard_id,
       service_id: selectedService.service_id,
+      s_price: selectedService.s_price,
       worker_id: null,
       s_quantity: quantity
     };

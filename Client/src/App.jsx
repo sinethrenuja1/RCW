@@ -47,7 +47,7 @@ import Edituser from "./Pages/workers/editUser";
 import ShowprevBookings from "./Pages/booking/showpreviousbooking";
 import Pastjobcard from "./Pages/servicejobs/pastjobcard";
 import Aboutus from "./Components/about";  
-
+import Lowstock from './Pages/reportsofsystem/lowstock'
 const  WebLayout = () => {
   return (
     <>
@@ -144,7 +144,7 @@ const router = createBrowserRouter([
       {path:"/editUser/:user_id",element:<Edituser/>},
       {path:"/showprevBookings",element:<ShowprevBookings/>},
       {path:"/pastjobcard",element:<Pastjobcard/>},
-      
+      {path:"/lowstock",element:<Lowstock/>}
       ],
   },
 

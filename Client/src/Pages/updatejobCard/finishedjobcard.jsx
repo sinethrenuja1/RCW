@@ -673,7 +673,7 @@ function Row({ row }) {
                                         <tr key={index}>
                                             <td className="p-2">{service.service_name}</td>
                                             <td className="p-2">{service.s_quantity}</td>
-                                            <td className="p-2">{service.worker_id}</td>
+                                            <td className="p-2">{service.worker_name}</td>
                                             <td className="p-2">{service.s_price}</td>
                                         </tr>
                                     )) : (
@@ -687,18 +687,20 @@ function Row({ row }) {
                             <table className="w-full text-base border-lightblue">
                                 <thead>
                                     <tr>
-                                        <th className="text-left p-2 w-1/4">Part Name</th>
+                                    <th className="text-left p-2 w-1/4">Part Name</th>
+                                        <th className="text-left p-2 w-1/4">Part ID</th>
                                         <th className="text-left p-2 w-1/4">Quantity</th>
-                                        <th className="text-left p-2 w-1/4">Worker ID</th>
-                                        <th className="text-left p-2 w-1/4">Price</th>
+                                        <th className="text-left p-2 w-1/4">Worker Name</th>
+                                        <th className="text-left p-2 w-1/4">Unit Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {details.parts !== 'No parts used' ? details.parts.map((part, index) => (
                                         <tr key={index}>
                                             <td className="p-2">{part.part_name}</td>
+                                            <td className="p-2">{part.part_id}</td>
                                             <td className="p-2">{part.u_quantity}</td>
-                                            <td className="p-2">{part.uworker_id}</td>
+                                            <td className="p-2">{part.worker_name}</td>
                                             <td className="p-2">{part.price}</td>
                                         </tr>
                                     )) : (
@@ -739,7 +741,7 @@ export default function CollapsibleTable() {
 
     return (
         <div>
-            <ShopHeader pageName="Show Job Card" />
+            <ShopHeader pageName="Final Job Card" />
             <div className="overflow-x-auto mx-5 mt-8">
                 <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                     <thead className="bg-gray-200">

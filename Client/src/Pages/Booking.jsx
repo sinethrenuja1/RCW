@@ -2,719 +2,1380 @@
 // import Nav_bar from "../Components/home_nav";
 // import axios from "axios";
 // import Swal from "sweetalert2";
+// import Home from "../images/home_back3.png";
 
-// function Booking() {
-//     const [services, setServices] = useState([]);
-//     const [selectedDate, setSelectedDate] = useState("");
-//     const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
-//     const [holidays, setHolidays] = useState([]);
+// const Booking = () => {
+//   const [bookingDetails, setBookingDetails] = useState({
+//     bcon_num: "",
+//     bveh_num: "",
+//     b_date: "",
+//     b_time: "",
+//     vehicle_type: "",
+//     anything_else: "",
+//     bstatus: ""
+//   });
+//   const [services, setServices] = useState([]);
+//   const [selectedServices, setSelectedServices] = useState([]);
+//   const [selectedDate, setSelectedDate] = useState("");
+//   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
+//   const [holidays, setHolidays] = useState([]);
 
-//     // Fetch services from the backend
-//     const fetchServices = async () => {
-//         try {
-//             const response = await axios.get('http://localhost:8800/api/booking/getServices');
-//             setServices(response.data);
-//         } catch (error) {
-//             console.error('An error occurred while trying to fetch the services:', error);
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'An error occurred while trying to fetch the services',
-//             });
-//         }
-//     };
+//   useEffect(() => {
+//     fetchServices();
+//     fetchHolidays();
+//   }, []);
 
-//     // Fetch holidays from the backend
-//     const fetchHolidays = async () => {
-//         try {
-//             const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
-//             setHolidays(response.data);
-//         } catch (error) {
-//             console.error('An error occurred while trying to fetch the holidays:', error);
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'An error occurred while trying to fetch the holidays',
-//             });
-//         }
-//     };
+//   const fetchServices = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:8800/api/booking/getServices');
+//       setServices(response.data);
+//     } catch (error) {
+//       console.error('An error occurred while trying to fetch the services:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to fetch the services',
+//       });
+//     }
+//   };
 
-//     // Fetch data when the component mounts
-//     useEffect(() => {
-//         fetchServices();
-//         fetchHolidays();
-//     }, []);
+//   const fetchHolidays = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
+//       setHolidays(response.data);
+//     } catch (error) {
+//       console.error('An error occurred while trying to fetch the holidays:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to fetch the holidays',
+//       });
+//     }
+//   };
 
-//     // Generate time slots from 8:00 AM to 3:00 PM in 45-minute intervals
-//     const generateTimeSlots = () => {
-//         const slots = [];
-//         let start = new Date();
-//         start.setHours(8, 0, 0, 0); // Start time 8:00 AM
+//   const generateTimeSlots = () => {
+//     const slots = [];
+//     let start = new Date();
+//     start.setHours(8, 0, 0, 0);
 
-//         while (start.getHours() < 15) { // End time 3:00 PM
-//             slots.push(`${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`);
-//             start = new Date(start.getTime() + 45 * 60 * 1000); // Add 45 minutes
-//         }
+//     while (start.getHours() < 15) {
+//       slots.push(`${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`);
+//       start = new Date(start.getTime() + 45 * 60 * 1000);
+//     }
 
-//         return slots;
-//     };
+//     return slots;
+//   };
 
-//     // Handle date change and check if the selected date is a holiday
-//     const handleDateChange = (e) => {
-//         const selected = e.target.value;
-//         if (holidays.includes(selected)) {
-//             Swal.fire({
-//                 // icon: 'error',
-//                 title: 'Unavailable',
-//                 text: 'The selected date is a holiday. Please choose another date.',
-//             });
-//             setSelectedDate("");
-//         } else {
-//             setSelectedDate(selected);
-//         }
-//     };
+//   const handleDateChange = (e) => {
+//     const selected = e.target.value;
+//     if (holidays.includes(selected)) {
+//       Swal.fire({
+//         title: 'Unavailable',
+//         text: 'We are closed on the selected date. Please pick a different date.',
+//         confirmButtonColor: '#3085d6',
+//       });
+//       setSelectedDate("");
+//     } else {
+//       setSelectedDate(selected);
+//     }
+//   };
 
-//     return (
-//         <div>
-//             <div><Nav_bar /> </div>
-
-//             <div className="container mx-auto p-20 w-3/4 mt-8">
-//                 <form className="grid grid-cols-2 gap-4 pt-15">
-//                     <div className="col-span-2">
-//                         <label htmlFor="phone" className="block mb-2 font-bold">
-//                             Contact Number
-//                         </label>
-//                         <input
-//                             type="tel"
-//                             id="phone"
-//                             className="w-full p-2 border rounded"
-//                         />
-//                     </div>
-
-//                     {/* Vehicle Information */}
-//                     <div className="col-span-1">
-//                         <label htmlFor="vehicleType" className="block mb-2 font-bold">
-//                             Vehicle Type
-//                         </label>
-//                         <select id="vehicleType" className="w-full p-2 border rounded">
-//                             <option value="">Select</option>
-//                             <option value="car">Car</option>
-//                             <option value="van">Van</option>
-//                             <option value="truck">Truck</option>
-//                             <option value="suv">SUV</option>
-//                             <option value="other">Other</option>
-//                             {/* Other options */}
-//                         </select>
-//                     </div>
-//                     <div className="col-span-1">
-//                         <label htmlFor="vehicleNumber" className="block mb-2 font-bold">
-//                             Vehicle Number
-//                         </label>
-//                         <input
-//                             type="text"
-//                             id="vehicleNumber"
-//                             className="w-full p-2 border rounded"
-//                         />
-//                     </div>
-
-//                     {/* Select Services */}
-//                     <div className="col-span-2">
-//                         <label className="block mb-2 font-bold">Select Services</label>
-//                         <div className="flex flex-wrap">
-//                             {services.map(service => (
-//                                 <div key={service.slist_id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-//                                     <input type="checkbox" id={`service-${service.slist_id}`} className="mr-2" />
-//                                     <label htmlFor={`service-${service.slist_id}`}>{service.servicelist_name}</label>
-//                                 </div>
-//                             ))}
-//                         </div>
-//                     </div>
-
-//                     {/* Date Picker */}
-//                     <div className="col-span-1">
-//                         <label htmlFor="date" className="block mb-2 font-bold">
-//                             Date
-//                         </label>
-//                         <input
-//                             type="date"
-//                             id="date"
-//                             className="w-full p-2 border rounded"
-//                             value={selectedDate}
-//                             onChange={handleDateChange}
-//                         />
-//                     </div>
-
-//                     {/* Time Slots */}
-//                     <div className="col-span-1">
-//                         <label htmlFor="timeSlot" className="block mb-2 font-bold">
-//                             Time Slot
-//                         </label>
-//                         <select
-//                             id="timeSlot"
-//                             className="w-full p-2 border rounded"
-//                             value={selectedTimeSlot}
-//                             onChange={(e) => setSelectedTimeSlot(e.target.value)}
-//                         >
-//                             <option value="">Select</option>
-//                             {generateTimeSlots().map((slot, index) => (
-//                                 <option key={index} value={slot}>{slot}</option>
-//                             ))}
-//                         </select>
-//                     </div>
-
-//                     {/* Anything Else */}
-//                     <div className="col-span-2">
-//                         <label htmlFor="anythingElse" className="block mb-2 font-bold">
-//                             Anything Else?
-//                         </label>
-//                         <input
-//                             type="text"
-//                             id="anythingElse"
-//                             className="w-full h-20 p-2 border rounded"
-//                         />
-//                     </div>
-
-//                     {/* Submit Button */}
-//                     <div className="col-span-2">
-//                         <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-//                             Submit
-//                         </button>
-//                     </div>
-//                 </form>
-//             </div>
-//         </div>
+//   const handleServiceChange = (slist_id) => {
+//     setSelectedServices(prevServices =>
+//       prevServices.includes(slist_id)
+//         ? prevServices.filter(id => id !== slist_id)
+//         : [...prevServices, slist_id]
 //     );
-// }
+//   };
+
+//   const handleBookingSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const bookingData = {
+//         ...bookingDetails,
+//         b_date: selectedDate,
+//         b_time: selectedTimeSlot
+//       };
+
+//       const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
+//       const { b_id } = response.data;
+
+//       if (selectedServices.length > 0) {
+//         await axios.post('http://localhost:8800/api/booking/addBooking_services', {
+//           b_id,
+//           services: selectedServices
+//         });
+
+//       }
+
+//       Swal.fire({
+//         icon: 'success',
+//         title: 'Booking Confirmed',
+//         html: `<p>Your booking has been successfully completed!</p>
+//                <p><strong>Date:</strong> ${selectedDate}</p>
+//                <p><strong>Time Slot:</strong> ${selectedTimeSlot}</p>
+//                <p>If you need to cancel your booking, please contact us.</p>`,
+//         confirmButtonColor: '#3085d6',
+//         confirmButtonText: 'OK'
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//           window.location.reload();
+//         }
+//       })
+
+
+//       ;
+//     } catch (error) {
+//       console.error('An error occurred while trying to add the booking:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to add the booking',
+//       });
+//     }
+
+//   };
+
+//   return (
+//     <div
+//       className="min-h-screen bg-cover bg-center flex justify-center items-center"
+//       style={{ backgroundImage: `url(${Home})` }}
+//     >
+//       <div className="bg-black bg-opacity-50 mt-4 py-10  w-4/5 pl-5 pr-5 mb-5">
+//         <Nav_bar />
+//         <div className="max-w-10xl mx-auto p-6">
+//           <form className="space-y-6" onSubmit={handleBookingSubmit}>
+//             <h2 className="text-3xl mt-5 font-bold text-center text-gray-100">
+//               Booking Form
+//             </h2>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Contact Information
+//             </h3>
+//             <div className="grid grid-cols-1  w-1/2 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Contact Number<span className="text-red-500"> *</span>
+//                 </label>
+//                 <input
+//                   type="tel"
+//                   name="bcon_num"
+//                   value={bookingDetails.bcon_num}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, bcon_num: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 />
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Vehicle Information
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Vehicle Type<span className="text-red-500"> *</span>
+//                 </label>
+//                 <select
+//                   name="vehicle_type"
+//                   value={bookingDetails.vehicle_type}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 >
+//                   <option value="">Select</option>
+//                   <option value="car">Car</option>
+//                   <option value="van">Van</option>
+//                   <option value="jeep">Jeep</option>
+//                   <option value="cab">Cab</option>
+//                   <option value="suv">SUV</option>
+//                   <option value="other">Other</option>
+//                 </select>
+//               </div>
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Vehicle Number<span className="text-red-500"> *</span>
+//                 </label>
+//                 <input
+//                   type="text"
+//                   name="bveh_num"
+//                   value={bookingDetails.bveh_num}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, bveh_num: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 />
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Select Services
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//               {services.map(service => (
+//                 <div key={service.slist_id} className="flex items-center">
+//                   <input
+//                     type="checkbox"
+//                     id={`service-${service.slist_id}`}
+//                     className="mr-2"
+//                     onChange={() => handleServiceChange(service.slist_id)}
+//                   />
+//                   <label htmlFor={`service-${service.slist_id}`} className="text-gray-200">{service.servicelist_name}</label>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Booking Date and Time
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Date<span className="text-red-500"> *</span>
+//                 </label>
+//                 <input
+//                   type="date"
+//                   name="b_date"
+//                   value={selectedDate}
+//                   onChange={handleDateChange}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 />
+//               </div>
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Time Slot<span className="text-red-500"> *</span>
+//                 </label>
+//                 <select
+//                   name="b_time"
+//                   value={selectedTimeSlot}
+//                   onChange={(e) => setSelectedTimeSlot(e.target.value)}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 >
+//                   <option value="">Select</option>
+//                   {generateTimeSlots().map((slot, index) => (
+//                     <option key={index} value={slot}>{slot}</option>
+//                   ))}
+//                                 </select>
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Additional Information
+//             </h3>
+//             <div className="grid grid-cols-1 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Anything Else?
+//                 </label>
+//                 <textarea
+//                   name="anything_else"
+//                   value={bookingDetails.anything_else}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   rows="4"
+//                 ></textarea>
+//               </div>
+//             </div>
+
+//             <div className="flex justify-center">
+//               <button
+//                 type="submit"
+//                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+//               >
+//                 Submit Booking
+//               </button>
+//             </div>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // export default Booking;
-
-import { useState, useEffect } from "react";
-import Nav_bar from "../Components/home_nav";
-import axios from "axios";
-import Swal from "sweetalert2";
-
-function Booking() {
-    const [bookingDetails, setBookingDetails] = useState({
-        bcon_num: "",
-        bveh_num: "",
-        b_date: "",
-        b_time: "",
-        vehicle_type: "",
-        anything_else: "",
-        bstatus: ""
-    });
-    const [services, setServices] = useState([]);
-    const [selectedServices, setSelectedServices] = useState([]);
-    const [selectedDate, setSelectedDate] = useState("");
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
-    const [holidays, setHolidays] = useState([]);
-
-    // Fetch services from the backend
-    const fetchServices = async () => {
-        try {
-            const response = await axios.get('http://localhost:8800/api/booking/getServices');
-            setServices(response.data);
-        } catch (error) {
-            console.error('An error occurred while trying to fetch the services:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'An error occurred while trying to fetch the services',
-            });
-        }
-    };
-
-    // Fetch holidays from the backend
-    const fetchHolidays = async () => {
-        try {
-            const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
-            setHolidays(response.data);
-        } catch (error) {
-            console.error('An error occurred while trying to fetch the holidays:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'An error occurred while trying to fetch the holidays',
-            });
-        }
-    };
-
-    // Fetch data when the component mounts
-    useEffect(() => {
-        fetchServices();
-        fetchHolidays();
-    }, []);
-
-    // Generate time slots from 8:00 AM to 3:00 PM in 45-minute intervals
-    const generateTimeSlots = () => {
-        const slots = [];
-        let start = new Date();
-        start.setHours(8, 0, 0, 0); // Start time 8:00 AM
-
-        while (start.getHours() < 15) { // End time 3:00 PM
-            slots.push(`${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`);
-            start = new Date(start.getTime() + 45 * 60 * 1000); // Add 45 minutes
-        }
-
-        return slots;
-    };
-
-    // Handle date change and check if the selected date is a holiday
-    const handleDateChange = (e) => {
-        const selected = e.target.value;
-        if (holidays.includes(selected)) {
-            Swal.fire({
-                title: 'Unavailable',
-                text: 'We are closed on the selected date. Please pick a different date.',
-                confirmButtonColor: '#3085d6',
-            });
-            setSelectedDate("");
-        } else {
-            setSelectedDate(selected);
-        }
-    };
-
-    // Handle service checkbox change
-    const handleServiceChange = (slist_id) => {
-        setSelectedServices(prevServices =>
-            prevServices.includes(slist_id)
-                ? prevServices.filter(id => id !== slist_id)
-                : [...prevServices, slist_id]
-        );
-    };
-
-    // Handle form submission
-    const handleBookingSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            // Set b_date and b_time from selected date and time slot
-            const bookingData = {
-                ...bookingDetails,
-                b_date: selectedDate,
-                b_time: selectedTimeSlot
-            };
-
-            // Send booking details to the backend
-            const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
-            const { b_id } = response.data;
-            console.log("b_id being sent to backend: ", b_id);
-            console.log("services being sent to backend: ", selectedServices);
-
-            if (selectedServices.length > 0) {
-                // Send selected services to the backend
-                await axios.post('http://localhost:8800/api/booking/addBooking_services', {
-                    b_id,
-                    services: selectedServices
-
-                });
-                window.location.reload();
-            }
-
-            Swal.fire({
-                icon: 'success',
-                title: 'Success',
-                text: 'Booking and services added successfully',
-            });
-            // Reset form or redirect as needed
-        } catch (error) {
-            console.error('An error occurred while trying to add the booking:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'An error occurred while trying to add the booking',
-            });
-        }
-    };
-
-    return (
-        <div>
-            <div><Nav_bar /></div>
-            <div className="container mx-auto p-20 w-3/4 mt-8">
-            <div className="text-3xl text-center mx-auto">Booking </div>
-                <form className="grid grid-cols-2 gap-4 pt-15" onSubmit={handleBookingSubmit}>
-                    <div className="col-span-2">
-                        <label htmlFor="phone" className="block mb-2 font-bold">
-                            Contact Number
-                        </label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            className="w-full p-2 border rounded"
-                            value={bookingDetails.bcon_num}
-                            onChange={(e) => setBookingDetails({ ...bookingDetails, bcon_num: e.target.value })}
-                            required
-                        />
-                    </div>
-
-                    {/* Vehicle Information */}
-                    <div className="col-span-1">
-                        <label htmlFor="vehicleType" className="block mb-2 font-bold">
-                            Vehicle Type
-                        </label>
-                        <select
-                            id="vehicleType"
-                            className="w-full p-2 border rounded"
-                            value={bookingDetails.vehicle_type}
-                            onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
-                            required
-                        >
-                            <option value="">Select</option>
-                            <option value="car">Car</option>
-                            <option value="van">Van</option>
-                            <option value="truck">Truck</option>
-                            <option value="suv">SUV</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div className="col-span-1">
-                        <label htmlFor="vehicleNumber" className="block mb-2 font-bold">
-                            Vehicle Number
-                        </label>
-                        <input
-                            type="text"
-                            id="vehicleNumber"
-                            className="w-full p-2 border rounded"
-                            value={bookingDetails.bveh_num}
-                            onChange={(e) => setBookingDetails({ ...bookingDetails, bveh_num: e.target.value })}
-                            required
-                        />
-                    </div>
-
-                    {/* Select Services */}
-                    <div className="col-span-2">
-                        <label className="block mb-2 font-bold">Select Services</label>
-                        <div className="flex flex-wrap">
-                            {services.map(service => (
-                                <div key={service.slist_id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-                                    <input
-                                        type="checkbox"
-                                        id={`service-${service.slist_id}`}
-                                        className="mr-2"
-                                        onChange={() => handleServiceChange(service.slist_id)}
-                                    />
-
-                                    <label htmlFor={`service-${service.slist_id}`}>{service.servicelist_name}</label>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Date Picker */}
-                    <div className="col-span-1">
-                        <label htmlFor="date" className="block mb-2 font-bold">
-                            Date
-                        </label>
-                        <input
-                            type="date"
-                            id="date"
-                            className="w-full p-2 border rounded"
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Time Slots */}
-                    <div className="col-span-1">
-                        <label htmlFor="timeSlot" className="block mb-2 font-bold">
-                            Time Slot
-                        </label>
-                        <select
-                            id="timeSlot"
-                            className="w-full p-2 border rounded"
-                            value={selectedTimeSlot}
-                            onChange={(e) => setSelectedTimeSlot(e.target.value)}
-                            required
-                        >
-                            <option value="">Select</option>
-                            {generateTimeSlots().map((slot, index) => (
-                                <option key={index} value={slot}>{slot}</option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Anything Else */}
-                    <div className="col-span-2">
-                        <label htmlFor="anythingElse" className="block mb-2 font-bold">
-                            Anything Else?
-                        </label>
-                        <input
-                            type="text"
-                            id="anythingElse"
-                            className="w-full h-20 p-2 border rounded"
-                            value={bookingDetails.anything_else}
-                            onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
-                        />
-                    </div>
-
-                    {/* Submit Button */}
-                    <div className="col-span-2 ">
-                        <button type="submit" className="bg-lightblue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">
-                            Submit
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-}
-
-export default Booking;
 
 // import { useState, useEffect } from "react";
 // import Nav_bar from "../Components/home_nav";
 // import axios from "axios";
 // import Swal from "sweetalert2";
+// import Home from "../images/home_back3.png";
+
+// const Booking = () => {
+//   const [bookingDetails, setBookingDetails] = useState({
+//     bcon_num: "",
+//     bveh_num: "",
+//     b_date: "",
+//     b_time: "",
+//     vehicle_type: "",
+//     anything_else: "",
+//     bstatus: ""
+//   });
+//   const [services, setServices] = useState([]);
+//   const [selectedServices, setSelectedServices] = useState([]);
+//   const [selectedDate, setSelectedDate] = useState("");
+//   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
+//   const [holidays, setHolidays] = useState([]);
+
+//   const today = new Date();
+//   const maxDate = new Date();
+//   maxDate.setDate(today.getDate() + 14); // Add 14 days to today
+
+//   // Convert dates to YYYY-MM-DD format
+//   const minDateStr = today.toISOString().split('T')[0];
+//   const maxDateStr = maxDate.toISOString().split('T')[0];
+
+//   useEffect(() => {
+//     fetchServices();
+//     fetchHolidays();
+//   }, []);
+
+//   const fetchServices = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:8800/api/booking/getServices');
+//       setServices(response.data);
+//     } catch (error) {
+//       console.error('An error occurred while trying to fetch the services:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to fetch the services',
+//       });
+//     }
+//   };
 
 
-// function Booking() {
-//     const [bookingDetails, setBookingDetails] = useState({
-//         bcon_num: "",
-//         bveh_num: "",
-//         b_date: "",
-//         b_time: "",
-//         vehicle_type: "",
-//         anything_else: "",
-//         bstatus: ""
-//     });
-//     const [services, setServices] = useState([]);
-//     const [selectedServices, setSelectedServices] = useState([]);
-//     const [selectedDate, setSelectedDate] = useState("");
-//     const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
-//     const [holidays, setHolidays] = useState([]);
 
-//     const fetchServices = async () => {
-//         try {
-//             const response = await axios.get('http://localhost:8800/api/booking/getServices');
-//             setServices(response.data);
-//         } catch (error) {
-//             console.error('An error occurred while trying to fetch the services:', error);
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'An error occurred while trying to fetch the services',
-//             });
-//         }
-//     };
+//   const fetchHolidays = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
+//       setHolidays(response.data);
+//     } catch (error) {
+//       console.error('An error occurred while trying to fetch the holidays:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to fetch the holidays',
+//       });
+//     }
+//   };
 
-//     const fetchHolidays = async () => {
-//         try {
-//             const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
-//             setHolidays(response.data);
-//         } catch (error) {
-//             console.error('An error occurred while trying to fetch the holidays:', error);
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'An error occurred while trying to fetch the holidays',
-//             });
-//         }
-//     };
+//   const generateTimeSlots = () => {
+//     const slots = [];
+//     let start = new Date();
+//     start.setHours(8, 0, 0, 0);
 
-//     useEffect(() => {
-//         fetchServices();
-//         fetchHolidays();
-//     }, []);
+//     while (start.getHours() < 15) {
+//       slots.push(`${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`);
+//       start = new Date(start.getTime() + 45 * 60 * 1000);
+//     }
 
-//     const generateTimeSlots = () => {
-//         const slots = [];
-//         let start = new Date();
-//         start.setHours(8, 0, 0, 0);
+//     return slots;
+//   };
 
-//         while (start.getHours() < 15) {
-//             slots.push(`${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`);
-//             start = new Date(start.getTime() + 45 * 60 * 1000);
-//         }
+//   const handleDateChange = (e) => {
+//     const selected = e.target.value;
+//     if (holidays.includes(selected)) {
+//       Swal.fire({
+//         title: 'Unavailable',
+//         text: 'We are closed on the selected date. Please pick a different date.',
+//         confirmButtonColor: '#3085d6',
+//       });
+//       setSelectedDate("");
+//     } else {
+//       setSelectedDate(selected);
+//     }
+//   };
 
-//         return slots;
-//     };
-
-//     const handleDateChange = (e) => {
-//         const selected = e.target.value;
-//         if (holidays.includes(selected)) {
-//             Swal.fire({
-//                 title: 'Unavailable',
-//                 text: 'We are closed on the selected date. Please pick a different date.',
-//                 confirmButtonColor: '#3085d6',
-//             });
-//             setSelectedDate("");
-//         } else {
-//             setSelectedDate(selected);
-//         }
-//     };
-
-//     const handleServiceChange = (slist_id) => {
-//         setSelectedServices(prevServices =>
-//             prevServices.includes(slist_id)
-//                 ? prevServices.filter(id => id !== slist_id)
-//                 : [...prevServices, slist_id]
-//         );
-//     };
-
-//     const handleBookingSubmit = async (e) => {
-//         e.preventDefault();
-//         try {
-//             const bookingData = {
-//                 ...bookingDetails,
-//                 b_date: selectedDate,
-//                 b_time: selectedTimeSlot
-//             };
-
-//             const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
-//             const { b_id } = response.data;
-//             console.log("b_id being sent to backend: ", b_id);
-//             console.log("services being sent to backend: ", selectedServices);
-
-//             if (selectedServices.length > 0) {
-//                 await axios.post('http://localhost:8800/api/booking/addBooking_services', {
-//                     b_id,
-//                     services: selectedServices
-//                 });
-//                 window.location.reload();
-//             }
-
-//             Swal.fire({
-//                 icon: 'success',
-//                 title: 'Success',
-//                 text: 'Booking and services added successfully',
-//             });
-//         } catch (error) {
-//             console.error('An error occurred while trying to add the booking:', error);
-//             Swal.fire({
-//                 icon: 'error',
-//                 title: 'Oops...',
-//                 text: 'An error occurred while trying to add the booking',
-//             });
-//         }
-//     };
-
-//     return (
-//         <div className="bg-gray-900 h-screen flex flex-col items-center justify-center">
-//             <Nav_bar />
-//             <div className="bg-gray-800 bg-opacity-90 p-8 rounded-lg w-full max-w-4xl shadow-md">
-//                 <div className="text-3xl text-center text-white mb-8">Booking</div>
-//                 <form className="grid grid-cols-1 md:grid-cols-2 gap-4" onSubmit={handleBookingSubmit}>
-//                     <div className="col-span-2">
-//                         <label htmlFor="phone" className="block text-white mb-2 font-bold">
-//                             Contact Number
-//                         </label>
-//                         <input
-//                             type="tel"
-//                             id="phone"
-//                             className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded"
-//                             value={bookingDetails.bcon_num}
-//                             onChange={(e) => setBookingDetails({ ...bookingDetails, bcon_num: e.target.value })}
-//                             required
-//                         />
-//                     </div>
-
-//                     <div>
-//                         <label htmlFor="vehicleType" className="block text-white mb-2 font-bold">
-//                             Vehicle Type
-//                         </label>
-//                         <select
-//                             id="vehicleType"
-//                             className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded"
-//                             value={bookingDetails.vehicle_type}
-//                             onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
-//                             required
-//                         >
-//                             <option value="">Select</option>
-//                             <option value="car">Car</option>
-//                             <option value="van">Van</option>
-//                             <option value="truck">Truck</option>
-//                             <option value="suv">SUV</option>
-//                             <option value="other">Other</option>
-//                         </select>
-//                     </div>
-//                     <div>
-//                         <label htmlFor="vehicleNumber" className="block text-white mb-2 font-bold">
-//                             Vehicle Number
-//                         </label>
-//                         <input
-//                             type="text"
-//                             id="vehicleNumber"
-//                             className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded"
-//                             value={bookingDetails.bveh_num}
-//                             onChange={(e) => setBookingDetails({ ...bookingDetails, bveh_num: e.target.value })}
-//                             required
-//                         />
-//                     </div>
-
-//                     <div className="col-span-2">
-//                         <label className="block text-white mb-2 font-bold">Select Services</label>
-//                         <div className="flex flex-wrap">
-//                             {services.map(service => (
-//                                 <div key={service.slist_id} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2">
-//                                     <input
-//                                         type="checkbox"
-//                                         id={`service-${service.slist_id}`}
-//                                         className="mr-2"
-//                                         onChange={() => handleServiceChange(service.slist_id)}
-//                                     />
-//                                     <label htmlFor={`service-${service.slist_id}`} className="text-white">{service.servicelist_name}</label>
-//                                 </div>
-//                             ))}
-//                         </div>
-//                     </div>
-
-//                     <div>
-//                         <label htmlFor="date" className="block text-white mb-2 font-bold">
-//                             Date
-//                         </label>
-//                         <input
-//                             type="date"
-//                             id="date"
-//                             className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded"
-//                             value={selectedDate}
-//                             onChange={handleDateChange}
-//                             required
-//                         />
-//                     </div>
-
-//                     <div>
-//                         <label htmlFor="timeSlot" className="block text-white mb-2 font-bold">
-//                             Time Slot
-//                         </label>
-//                         <select
-//                             id="timeSlot"
-//                             className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded"
-//                             value={selectedTimeSlot}
-//                             onChange={(e) => setSelectedTimeSlot(e.target.value)}
-//                             required
-//                         >
-//                             <option value="">Select</option>
-//                             {generateTimeSlots().map((slot, index) => (
-//                                 <option key={index} value={slot}>{slot}</option>
-//                             ))}
-//                         </select>
-//                     </div>
-
-//                     <div className="col-span-2">
-//                         <label htmlFor="anythingElse" className="block text-white mb-2 font-bold">
-//                             Anything Else?
-//                         </label>
-//                         <input
-//                             type="text"
-//                             id="anythingElse"
-//                             className="w-full p-3 bg-gray-700 text-white border border-gray-600 rounded"
-//                             value={bookingDetails.anything_else}
-//                             onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
-//                         />
-//                     </div>
-
-//                     <div className="col-span-2 text-center">
-//                         <button
-//                             type="submit"
-//                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded"
-//                         >
-//                             Submit
-//                         </button>
-//                     </div>
-//                 </form>
-//             </div>
-//         </div>
+//   const handleServiceChange = (slist_id) => {
+//     setSelectedServices(prevServices =>
+//       prevServices.includes(slist_id)
+//         ? prevServices.filter(id => id !== slist_id)
+//         : [...prevServices, slist_id]
 //     );
-// }
+//   };
+
+//   const handleBookingSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const bookingData = {
+//         ...bookingDetails,
+//         b_date: selectedDate,
+//         b_time: selectedTimeSlot
+//       };
+
+//       const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
+//       const { b_id } = response.data;
+
+//       if (selectedServices.length > 0) {
+//         await axios.post('http://localhost:8800/api/booking/addBooking_services', {
+//           b_id,
+//           services: selectedServices
+//         });
+
+//       }
+
+//       Swal.fire({
+//         icon: 'success',
+//         title: 'Booking Confirmed',
+//         html: `<p>Your booking has been successfully completed!</p>
+//                <p><strong>Date:</strong> ${selectedDate}</p>
+//                <p><strong>Time Slot:</strong> ${selectedTimeSlot}</p>
+//                <p>If you need to cancel your booking, please contact us.</p>`,
+//         confirmButtonColor: '#3085d6',
+//         confirmButtonText: 'OK'
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//           window.location.reload();
+//         }
+//       })
+
+
+//         ;
+//     } catch (error) {
+//       console.error('An error occurred while trying to add the booking:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to add the booking',
+//       });
+//     }
+
+//   };
+
+//   return (
+//     <div
+//       className="min-h-screen bg-cover bg-center flex justify-center items-center"
+//       style={{ backgroundImage: `url(${Home})` }}
+//     >
+//       <div className="bg-black bg-opacity-50 mt-4 py-10  w-4/5 pl-5 pr-5 mb-5">
+//         <Nav_bar />
+//         <div className="max-w-10xl mx-auto p-6">
+//           <form className="space-y-6" onSubmit={handleBookingSubmit}>
+//             <h2 className="text-3xl mt-5 font-bold text-center text-gray-100">
+//               Booking Form
+//             </h2>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Contact Information
+//             </h3>
+//             <div className="grid grid-cols-1 w-1/2 gap-6">
+//               <div className="grid grid-cols-1 w-1/2 gap-6">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-200">
+//                     Contact Number<span className="text-red-500"> *</span>
+//                   </label>
+//                   <input
+//                     type="tel"
+//                     name="bcon_num"
+//                     pattern="^0[1-9]\d{8}$"
+//                     title="Contact number must contain exactly 10 digits."
+//                     value={bookingDetails.bcon_num}
+//                     onChange={(e) => setBookingDetails({ ...bookingDetails, bcon_num: e.target.value })}
+//                     onInput={(e) => {
+//                       const newValue = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+//                       setBookingDetails({ ...bookingDetails, bcon_num: newValue });
+//                     }}
+//                     onKeyDown={(e) => {
+//                       // Allow: backspace, delete, tab, escape, enter, arrow keys
+//                       if (
+//                         [8, 46, 9, 27, 13, 37, 38, 39, 40].includes(e.keyCode) ||
+//                         // Allow: Ctrl/cmd+A, Ctrl/cmd+C, Ctrl/cmd+V, Ctrl/cmd+X
+//                         (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
+//                         (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) ||
+//                         (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) ||
+//                         (e.keyCode === 88 && (e.ctrlKey || e.metaKey))
+//                       ) {
+//                         return; // let it happen, don't do anything
+//                       }
+//                       // Ensure that it is a number and stop the keypress
+//                       if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+//                         e.preventDefault();
+//                       }
+//                     }}
+//                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                     required
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Vehicle Information
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Vehicle Type<span className="text-red-500"> *</span>
+//                 </label>
+//                 <select
+//                   name="vehicle_type"
+//                   value={bookingDetails.vehicle_type}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 >
+//                   <option value="" disabled>Select</option>
+//                   <option value="car">Car</option>
+//                   <option value="van">Van</option>
+//                   <option value="jeep">Jeep</option>
+//                   <option value="cab">Cab</option>
+//                   <option value="suv">SUV</option>
+//                   <option value="other">Other</option>
+//                 </select>
+//               </div>
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Vehicle Number<span className="text-red-500"> *</span>
+//                 </label>
+//                 <input
+//                   type="text"
+//                   name="bveh_num"
+//                   value={bookingDetails.bveh_num}
+//                   pattern="^([A-Za-z]{2,3}|[0-9]{2,3})-[0-9]{4}$"
+//                   title="Enter valid Vehicle Number."
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, bveh_num: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 />
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Select Services
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//               {services.map(service => (
+//                 <div key={service.slist_id} className="flex items-center">
+//                   <input
+//                     type="checkbox"
+//                     id={`service-${service.slist_id}`}
+//                     className="mr-2"
+//                     onChange={() => handleServiceChange(service.slist_id)}
+//                   />
+//                   <label htmlFor={`service-${service.slist_id}`} className="text-gray-200">{service.servicelist_name}</label>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Booking Date and Time
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Date<span className="text-red-500"> *</span>
+//                 </label>
+//                 <input
+//                   type="date"
+//                   name="b_date"
+//                   value={selectedDate}
+//                   onChange={handleDateChange}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                   min={minDateStr} // Set minimum date
+//                   max={maxDateStr} // Set maximum date
+//                 />
+//               </div>
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Time Slot<span className="text-red-500"> *</span>
+//                 </label>
+//                 <select
+//                   name="b_time"
+//                   value={selectedTimeSlot}
+//                   onChange={(e) => setSelectedTimeSlot(e.target.value)}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 >
+//                   <option value="" disabled>Select</option>
+//                   {generateTimeSlots().map((slot, index) => (
+//                     <option key={index} value={slot}>{slot}</option>
+//                   ))}
+//                 </select>
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Additional Information
+//             </h3>
+//             <div className="grid grid-cols-1 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Anything Else?
+//                 </label>
+//                 <textarea
+//                   name="anything_else"
+//                   value={bookingDetails.anything_else}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   rows="4"
+//                 ></textarea>
+//               </div>
+//             </div>
+
+//             <div className="flex justify-center">
+//               <button
+//                 type="submit"
+//                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+//               >
+//                 Submit Booking
+//               </button>
+//             </div>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 // export default Booking;
+
+
+
+// import { useState, useEffect } from "react";
+// import Nav_bar from "../Components/home_nav";
+// import axios from "axios";
+// import Swal from "sweetalert2";
+// import Home from "../images/home_back3.png";
+
+// const Booking = () => {
+//   const [bookingDetails, setBookingDetails] = useState({
+//     bcon_num: "",
+//     bveh_num: "",
+//     b_date: "",
+//     b_time: "",
+//     vehicle_type: "",
+//     anything_else: "",
+//     bstatus: ""
+//   });
+//   const [services, setServices] = useState([]);
+//   const [selectedServices, setSelectedServices] = useState([]);
+//   const [selectedDate, setSelectedDate] = useState("");
+//   const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
+//   const [holidays, setHolidays] = useState([]);
+
+//   const today = new Date();
+//   const maxDate = new Date();
+//   maxDate.setDate(today.getDate() + 14); // Add 14 days to today
+
+//   // Convert dates to YYYY-MM-DD format
+//   const minDateStr = today.toISOString().split('T')[0];
+//   const maxDateStr = maxDate.toISOString().split('T')[0];
+
+//   useEffect(() => {
+//     fetchServices();
+//     fetchHolidays();
+//   }, []);
+
+//   const fetchServices = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:8800/api/booking/getServices');
+//       setServices(response.data);
+//     } catch (error) {
+//       console.error('An error occurred while trying to fetch the services:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to fetch the services',
+//       });
+//     }
+//   };
+
+//   const fetchHolidays = async () => {
+//     try {
+//       const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
+//       setHolidays(response.data);
+//     } catch (error) {
+//       console.error('An error occurred while trying to fetch the holidays:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to fetch the holidays',
+//       });
+//     }
+//   };
+
+//   const generateTimeSlots = () => {
+//     const slots = [];
+//     let start = new Date();
+//     start.setHours(8, 0, 0, 0);
+
+//     while (start.getHours() < 15) {
+//       slots.push(`${start.getHours().toString().padStart(2, '0')}:${start.getMinutes().toString().padStart(2, '0')}`);
+//       start = new Date(start.getTime() + 45 * 60 * 1000);
+//     }
+
+//     return slots;
+//   };
+
+//   const handleDateChange = (e) => {
+//     const selected = e.target.value;
+//     if (holidays.includes(selected)) {
+//       Swal.fire({
+//         title: 'Unavailable',
+//         text: 'We are closed on the selected date. Please pick a different date.',
+//         confirmButtonColor: '#3085d6',
+//       });
+//       setSelectedDate("");
+//     } else {
+//       setSelectedDate(selected);
+//     }
+//   };
+
+//   const handleServiceChange = (slist_id) => {
+//     setSelectedServices(prevServices =>
+//       prevServices.includes(slist_id)
+//         ? prevServices.filter(id => id !== slist_id)
+//         : [...prevServices, slist_id]
+//     );
+//   };
+
+//   const handleBookingSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const bookingData = {
+//         ...bookingDetails,
+//         b_date: selectedDate,
+//         b_time: selectedTimeSlot
+//       };
+
+//       const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
+//       const { b_id } = response.data;
+
+//       if (selectedServices.length > 0) {
+//         await axios.post('http://localhost:8800/api/booking/addBooking_services', {
+//           b_id,
+//           services: selectedServices
+//         });
+//       }
+
+//       Swal.fire({
+//         icon: 'success',
+//         title: 'Booking Confirmed',
+//         html: `<p>Your booking has been successfully completed!</p>
+//                <p><strong>Date:</strong> ${selectedDate}</p>
+//                <p><strong>Time Slot:</strong> ${selectedTimeSlot}</p>
+//                <p>If you need to cancel your booking, please contact us.</p>`,
+//         confirmButtonColor: '#3085d6',
+//         confirmButtonText: 'OK'
+//       }).then((result) => {
+//         if (result.isConfirmed) {
+//           window.location.reload();
+//         }
+//       });
+//     } catch (error) {
+//       console.error('An error occurred while trying to add the booking:', error);
+//       Swal.fire({
+//         icon: 'error',
+//         title: 'Oops...',
+//         text: 'An error occurred while trying to add the booking',
+//       });
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-cover bg-center flex justify-center items-center" style={{ backgroundImage: `url(${Home})` }}>
+//       <div className="bg-black bg-opacity-50 mt-4 py-10  w-4/5 pl-5 pr-5 mb-5">
+//         <Nav_bar />
+//         <div className="max-w-10xl mx-auto p-6">
+//           <form className="space-y-6" onSubmit={handleBookingSubmit}>
+//             <h2 className="text-3xl mt-5 font-bold text-center text-gray-100">
+//               Booking Form
+//             </h2>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Contact Information
+//             </h3>
+//             <div className="grid grid-cols-1 w-1/2 gap-6">
+//               <div className="grid grid-cols-1 w-1/2 gap-6">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-200">
+//                     Contact Number<span className="text-red-500"> *</span>
+//                   </label>
+//                   <input
+//                     type="tel"
+//                     name="bcon_num"
+//                     pattern="^0[1-9]\d{8}$"
+//                     title="Contact number must contain exactly 10 digits."
+//                     value={bookingDetails.bcon_num}
+//                     onChange={(e) => setBookingDetails({ ...bookingDetails, bcon_num: e.target.value })}
+//                     onInput={(e) => {
+//                       const newValue = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+//                       setBookingDetails({ ...bookingDetails, bcon_num: newValue });
+//                     }}
+//                     onKeyDown={(e) => {
+//                       // Allow: backspace, delete, tab, escape, enter, arrow keys
+//                       if (
+//                         [8, 46, 9, 27, 13, 37, 38, 39, 40].includes(e.keyCode) ||
+//                         // Allow: Ctrl/cmd+A, Ctrl/cmd+C, Ctrl/cmd+V, Ctrl/cmd+X
+//                         (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
+//                         (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) ||
+//                         (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) ||
+//                         (e.keyCode === 88 && (e.ctrlKey || e.metaKey))
+//                       ) {
+//                         return; // let it happen, don't do anything
+//                       }
+//                       // Ensure that it is a number and stop the keypress
+//                       if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+//                         e.preventDefault();
+//                       }
+//                     }}
+//                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                     required
+//                   />
+//                 </div>
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Vehicle Information
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Vehicle Type<span className="text-red-500"> *</span>
+//                 </label>
+//                 <select
+//                   name="vehicle_type"
+//                   value={bookingDetails.vehicle_type}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 >
+//                   <option value="" disabled>Select</option>
+//                   <option value="car">Car</option>
+//                   <option value="van">Van</option>
+//                   <option value="jeep">Jeep</option>
+//                   <option value="cab">Cab</option>
+//                   <option value="suv">SUV</option>
+//                   <option value="other">Other</option>
+//                 </select>
+//               </div>
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Vehicle Number<span className="text-red-500"> *</span>
+//                 </label>
+//                 <input
+//                   type="text"
+//                   name="bveh_num"
+//                   value={bookingDetails.bveh_num}
+//                   pattern="^([A-Za-z]{2,3}|[0-9]{2,3})-[0-9]{4}$"
+//                   title="Enter valid Vehicle Number."
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, bveh_num: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow
+// -sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 />
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Select Services
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//               {services.map(service => (
+//                 <div key={service.slist_id} className="flex items-center">
+//                   <input
+//                     type="checkbox"
+//                     id={`service-${service.slist_id}`}
+//                     className="mr-2"
+//                     onChange={() => handleServiceChange(service.slist_id)}
+//                   />
+//                   <label htmlFor={`service-${service.slist_id}`} className="text-gray-200">{service.servicelist_name}</label>
+//                 </div>
+//               ))}
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Booking Date and Time
+//             </h3>
+//             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Date<span className="text-red-500"> *</span>
+//                 </label>
+//                 <input
+//                   type="date"
+//                   name="b_date"
+//                   value={selectedDate}
+//                   onChange={handleDateChange}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                   min={minDateStr} // Set minimum date
+//                   max={maxDateStr} // Set maximum date
+//                 />
+//               </div>
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Time Slot<span className="text-red-500"> *</span>
+//                 </label>
+//                 <select
+//                   name="b_time"
+//                   value={selectedTimeSlot}
+//                   onChange={(e) => setSelectedTimeSlot(e.target.value)}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   required
+//                 >
+//                   <option value="" disabled>Select</option>
+//                   {generateTimeSlots().map((slot, index) => (
+//                     <option key={index} value={slot}>{slot}</option>
+//                   ))}
+//                 </select>
+//               </div>
+//             </div>
+
+//             <h3 className="text-lg font-semibold text-gray-200">
+//               Additional Information
+//             </h3>
+//             <div className="grid grid-cols-1 gap-6">
+//               <div>
+//                 <label className="block text-sm font-medium text-gray-200">
+//                   Anything Else?
+//                 </label>
+//                 <textarea
+//                   name="anything_else"
+//                   value={bookingDetails.anything_else}
+//                   onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
+//                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+//                   rows="4"
+//                 ></textarea>
+//               </div>
+//             </div>
+
+//             <div className="flex justify-center">
+//               <button
+//                 type="submit"
+//                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+//               >
+//                 Submit Booking
+//               </button>
+//             </div>
+//           </form>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Booking;
+
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import Nav_bar from "../Components/home_nav";
+import Home from "../images/home_back3.png";
+
+const Booking = () => {
+  const [bookingDetails, setBookingDetails] = useState({
+    bcon_num: "",
+    bveh_num: "",
+    b_date: "",
+    b_time: "",
+    vehicle_type: "",
+    anything_else: "",
+    bstatus: ""
+  });
+  const [services, setServices] = useState([]);
+
+
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState("");
+  const [holidays, setHolidays] = useState([]);
+  const [timeSlots, setTimeSlots] = useState([]);
+
+  const today = new Date();
+  const maxDate = new Date();
+  maxDate.setDate(today.getDate() + 14); // Add 14 days to today
+
+  // Convert dates to YYYY-MM-DD format
+  const minDateStr = today.toISOString().split('T')[0];
+  const maxDateStr = maxDate.toISOString().split('T')[0];
+
+  useEffect(() => {
+    fetchServices();
+    fetchHolidays();
+  }, []);
+
+  // const fetchServices = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:8800/api/booking/getServices');
+  //     setServices(response.data);
+  //   } catch (error) {
+  //     console.error('An error occurred while trying to fetch the services:', error);
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Oops...',
+  //       text: 'An error occurred while trying to fetch the services',
+  //     });
+  //   }
+  // };
+  const fetchServices = async () => {
+        try {
+          const response = await axios.get('http://localhost:8800/api/booking/getServices');
+          setServices(response.data);
+        } catch (error) {
+          console.error('An error occurred while trying to fetch the services:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'An error occurred while trying to fetch the services',
+          });
+        }
+      };
+    
+  const fetchHolidays = async () => {
+    try {
+      const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
+      setHolidays(response.data);
+    } catch (error) {
+      console.error('An error occurred while trying to fetch the holidays:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred while trying to fetch the holidays',
+      });
+    }
+  };
+
+  const fetchTimeSlots = async (date) => {
+    try {
+      const response = await axios.get(`http://localhost:8800/api/booking/getTimeSlots?date=${date}`);
+      setTimeSlots(response.data);
+    } catch (error) {
+      console.error('An error occurred while trying to fetch the time slots:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred while trying to fetch the time slots',
+      });
+    }
+  };
+
+  const handleDateChange = async (e) => {
+    const selected = e.target.value;
+    if (holidays.includes(selected)) {
+      Swal.fire({
+        title: 'Unavailable',
+        text: 'We are closed on the selected date. Please pick a different date.',
+        confirmButtonColor: '#3085d6',
+      });
+      setSelectedDate("");
+    } else {
+      setSelectedDate(selected);
+      await fetchTimeSlots(selected); // Fetch available time slots for the selected date
+    }
+  };
+  const handleServiceChange = (slist_id) => {
+        setSelectedServices(prevServices =>
+          prevServices.includes(slist_id)
+            ? prevServices.filter(id => id !== slist_id)
+            : [...prevServices, slist_id]
+        );
+      };
+  // const handleServiceChange = (slist_id) => {
+  //   setSelectedServices(prevServices =>
+  //     prevServices.includes(slist_id)
+  //       ? prevServices.filter(id => id !== slist_id)
+  //       : [...prevServices, slist_id]
+  //   );
+  // };
+
+  // const handleBookingSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const bookingData = {
+  //       ...bookingDetails,
+  //       b_date: selectedDate,
+  //       b_time: selectedTimeSlot
+  //     };
+
+  //     const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
+  //     const { b_id } = response.data;
+
+  //     if (selectedServices.length > 0) {
+  //       await axios.post('http://localhost:8800/api/booking/addBooking_services', {
+  //         b_id,
+  //         services: selectedServices
+  //       });
+  //     }
+
+  //     Swal.fire({
+  //       icon: 'success',
+  //       title: 'Booking Confirmed',
+  //       html: `<p>Your booking has been successfully completed!</p>
+  //              <p><strong>Date:</strong> ${selectedDate}</p>
+  //              <p><strong>Time Slot:</strong> ${selectedTimeSlot}</p>
+  //              <p>If you need to cancel your booking, please contact us.</p>`,
+  //       confirmButtonColor: '#3085d6',
+  //       confirmButtonText: 'OK'
+  //     }).then((result) => {
+  //       if (result.isConfirmed) {
+  //         window.location.reload();
+  //       }
+  //     });
+  //   } catch (error) {
+  //     console.error('An error occurred while trying to add the booking:', error);
+  //     Swal.fire({
+  //       icon: 'error',
+  //       title: 'Oops...',
+  //       text: 'An error occurred while trying to add the booking',
+  //     });
+  //   }
+  // };
+  const handleBookingSubmit = async (e) => {
+        e.preventDefault();
+        try {
+          const bookingData = {
+            ...bookingDetails,
+            b_date: selectedDate,
+            b_time: selectedTimeSlot
+          };
+    
+          const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
+          const { b_id } = response.data;
+    
+          if (selectedServices.length > 0) {
+            await axios.post('http://localhost:8800/api/booking/addBooking_services', {
+              b_id,
+              services: selectedServices
+            });
+    
+          }
+    
+          Swal.fire({
+            icon: 'success',
+            title: 'Booking Confirmed',
+            html: `<p>Your booking has been successfully completed!</p>
+                   <p><strong>Date:</strong> ${selectedDate}</p>
+                   <p><strong>Time Slot:</strong> ${selectedTimeSlot}</p>
+                   <p>If you need to cancel your booking, please contact us.</p>`,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload();
+            }
+          })
+    
+    
+          ;
+        } catch (error) {
+          console.error('An error occurred while trying to add the booking:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'An error occurred while trying to add the booking',
+          });
+        }
+    
+      };
+  return (
+    <div className="min-h-screen bg-cover bg-center flex justify-center items-center" style={{ backgroundImage: `url(${Home})` }}>
+      <div className="bg-black bg-opacity-50 mt-4 py-10  w-4/5 pl-5 pr-5 mb-5">
+        <Nav_bar />
+        <div className="max-w-10xl mx-auto p-6">
+          <form className="space-y-6" onSubmit={handleBookingSubmit}>
+            <h2 className="text-3xl mt-5 font-bold text-center text-gray-100">
+              Booking Form
+            </h2>
+
+            <h3 className="text-lg font-semibold text-gray-200">
+              Contact Information
+            </h3>
+            <div className="grid grid-cols-1 w-1/2 gap-6">
+              <div className="grid grid-cols-1 w-1/2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Contact Number<span className="text-red-500"> *</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="bcon_num"
+                    pattern="^0[1-9]\d{8}$"
+                    title="Contact number must contain exactly 10 digits."
+                    value={bookingDetails.bcon_num}
+                    onChange={(e) => setBookingDetails({ ...bookingDetails, bcon_num: e.target.value })}
+                    onInput={(e) => {
+                      const newValue = e.target.value.replace(/\D/g, ''); // Remove non-digit characters
+                      setBookingDetails({ ...bookingDetails, bcon_num: newValue });
+                    }}
+                    onKeyDown={(e) => {
+                      // Allow: backspace, delete, tab, escape, enter, arrow keys
+                      if (
+                       
+                          [8, 46, 9, 27, 13, 37, 38, 39, 40].includes(e.keyCode) ||
+                          // Allow: Ctrl/cmd+A, Ctrl/cmd+C, Ctrl/cmd+V, Ctrl/cmd+X
+                          (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
+                          (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) ||
+                          (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) ||
+                          (e.keyCode === 88 && (e.ctrlKey || e.metaKey))
+                        ) {
+                          return; // let it happen, don't do anything
+                        }
+                        // Ensure that it is a number and stop the keypress
+                        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+  
+              <h3 className="text-lg font-semibold text-gray-200">
+                Vehicle Information
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Vehicle Type<span className="text-red-500"> *</span>
+                  </label>
+                  <select
+                    name="vehicle_type"
+                    value={bookingDetails.vehicle_type}
+                    onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  >
+                    <option value="">Select a vehicle type</option>
+                    <option value="jeep">Jeep</option>
+                    <option value="car">Car</option>
+                    <option value="van">Van</option>
+                    <option value="suv">SUV</option>
+                    <option value="cab">Cab</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Vehicle Number<span className="text-red-500"> *</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="bveh_num"
+                    value={bookingDetails.bveh_num}
+                    onChange={(e) => setBookingDetails({ ...bookingDetails, bveh_num: e.target.value })}
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  />
+                </div>
+              </div>
+  
+              <h3 className="text-lg font-semibold text-gray-200">
+                Booking Date & Time
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Date<span className="text-red-500"> *</span>
+                  </label>
+                  <input
+                    type="date"
+                    name="b_date"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    min={minDateStr}
+                    max={maxDateStr}
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-200">
+                    Time Slot<span className="text-red-500"> *</span>
+                  </label>
+                  
+                
+<select
+    name="b_time"
+    value={selectedTimeSlot}
+    onChange={(e) => setSelectedTimeSlot(e.target.value)}
+    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+    required
+>
+    <option value="" disabled>Select a time slot</option>
+    {timeSlots.map((slot, index) => (
+        <option key={index} value={slot.slot} disabled={!slot.available}>
+            {slot.slot} {slot.available ? '(Available)' : '(Booked)'}
+        </option>
+    ))}
+</select>
+
+                </div>
+              </div>
+  
+              <h3 className="text-lg font-semibold text-gray-200">
+                Additional Information
+              </h3>
+              <div>
+                <label className="block text-sm font-medium text-gray-200">
+                  Anything Else
+                </label>
+                <textarea
+                  name="anything_else"
+                  value={bookingDetails.anything_else}
+                  onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              </div>
+  
+              {/* <h3 className="text-lg font-semibold text-gray-200">
+                Select Services
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {services.map((service) => (
+                  <div key={service.slist_id} className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id={service.slist_id}
+                      name="services"
+                      value={service.slist_id}
+                      onChange={() => handleServiceChange(service.slist_id)}
+                      checked={selectedServices.includes(service.slist_id)}
+                      className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    />
+                    <label htmlFor={service.slist_id} className="ml-2 text-gray-200">
+                      {service.service_name} - LKR {service.service_price}
+                    </label>
+                  </div>
+                ))}
+              </div>
+   */}
+
+<h3 className="text-lg font-semibold text-gray-200">
+              Select Services
+           </h3>
+           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+             {services.map(service => (
+                <div key={service.slist_id} className="flex items-center">
+                  <input
+                    type="checkbox"
+                    id={`service-${service.slist_id}`}
+                    className="mr-2"
+                    onChange={() => handleServiceChange(service.slist_id)}
+                  />
+                  <label htmlFor={`service-${service.slist_id}`} className="text-gray-200">{service.servicelist_name}</label>
+                </div>
+              ))}
+            </div>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Submit Booking
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
+  export default Booking;
+  

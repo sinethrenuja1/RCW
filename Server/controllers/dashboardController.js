@@ -91,3 +91,67 @@ export const getTodayEarnings = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+//---------------------------------------------------------------------------------------------------------------------------------
+export const getOngoingjob_count = async (req, res) => {
+    const query = `
+      SELECT status, COUNT(*) as count
+      FROM job_carddetails
+      WHERE status IN ('started', 'not started')
+      GROUP BY status;
+    `;
+  
+    try {
+      const [result] = await db.promise().query(query);
+  
+      if (result.length > 0) {
+        const statusCounts = result.reduce((acc, current) => {
+          acc[current.status] = current.count;
+          return acc;
+        }, {});
+  
+        res.json({
+          success: true,
+          data: statusCounts
+        });
+      } else {
+        res.json({
+          success: true,
+          data: {}
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching status counts:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  };
+  
+  export const getSupervisorJobCounts = async (req, res) => {
+    try {
+      const query = `
+        SELECT 
+          u.user_id,
+          u.u_name,
+          SUM(CASE WHEN j.status = 'started' THEN 1 ELSE 0 END) AS started,
+          SUM(CASE WHEN j.status = 'not started' THEN 1 ELSE 0 END) AS not_started
+        FROM user_info u
+        LEFT JOIN job_carddetails j ON u.user_id = j.user_id
+        WHERE j.status IN ('started', 'not started')
+        GROUP BY u.user_id, u.u_name;
+      `;
+  
+      const [rows] = await db.promise().query(query);
+  
+      if (rows.length > 0) {
+        res.json({ success: true, data: rows });
+      } else {
+        res.status(404).json({ success: false, message: 'No data found' });
+      }
+    } catch (error) {
+      console.error('Error fetching supervisor job counts:', error);
+      res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+  };

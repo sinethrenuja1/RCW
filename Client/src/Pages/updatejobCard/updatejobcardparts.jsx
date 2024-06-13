@@ -55,6 +55,7 @@ function AddReplaceParts({ jobcard_id }) {
       ujobcard_id: jobcard_id,
       uworker_id: null,
       u_quantity: quantity,
+      u_price: price,
     };
 
     try {

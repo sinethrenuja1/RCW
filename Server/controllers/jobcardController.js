@@ -289,15 +289,15 @@ export const fetchServiceSuggestions = async (req, res) => {
 };
 
 export const addUsedService = async (req, res) => {
-    const { jobcard_id, service_id, worker_id, s_quantity } = req.body;
+    const { jobcard_id, service_id, worker_id, s_quantity,s_price } = req.body;
 
     if (worker_id === undefined) {
         worker_id = null;
     }
     
     try {
-        const query = 'INSERT INTO used_services (jobcard_id, service_id, s_quantity) VALUES ( ?, ?, ?)';
-        const values = [jobcard_id, service_id, s_quantity];
+        const query = 'INSERT INTO used_services (jobcard_id, service_id, s_quantity,s_price) VALUES ( ?, ?, ?,?)';
+        const values = [jobcard_id, service_id, s_quantity,s_price];
 
         await new Promise((resolve, reject) => {
             db.query(query, values, (err, result) => {
@@ -442,7 +442,7 @@ export const searchParts = (req, res) => {
 
 // addUsedPart controller
 export const addUsedPart = async (req, res) => {
-    let { upart_id, ujobcard_id, uworker_id, u_quantity } = req.body;
+    let { upart_id, ujobcard_id, uworker_id, u_quantity,u_price } = req.body;
   
     if (uworker_id === undefined) {
       uworker_id = null;
@@ -464,8 +464,8 @@ export const addUsedPart = async (req, res) => {
         return res.status(400).json({ error: 'Requested quantity exceeds available stock' });
       }
 
-      const insertQuery = 'INSERT INTO used_items (upart_id, ujobcard_id, uworker_id, u_quantity) VALUES (?, ?, ?, ?)';
-      const insertValues = [upart_id, ujobcard_id, uworker_id, u_quantity];
+      const insertQuery = 'INSERT INTO used_items (upart_id, ujobcard_id, uworker_id, u_quantity,u_price) VALUES (?, ?, ?, ?,?)';
+      const insertValues = [upart_id, ujobcard_id, uworker_id, u_quantity,u_price];
   
       await new Promise((resolve, reject) => {
         db.query(insertQuery, insertValues, (err, result) => {
