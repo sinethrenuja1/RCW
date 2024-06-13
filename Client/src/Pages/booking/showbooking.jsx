@@ -481,8 +481,9 @@ export default function BookingDetails() {
 
     return (
         <div>
+            
             <ShopHeader  pageName="Booking" />
-            <div className="container bg-blue-50 mx-auto px-4 py-4">
+            <div className="container bg-gray-100  mx-auto px-4 py-4">
                 <h1 className="text-2xl font-bold mb-4">Booking Details</h1>
                 <label  htmlFor="datePicker">Select a date:</label>
                 <input className="bg-blue-50 mb-5" type="date" id="datePicker" name="datePicker" value={selectedDate} onChange={handleDateChange} />

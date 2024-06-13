@@ -355,11 +355,11 @@ function ShowUsers() {
                                     <td className="border px-4 py-2">{user.u_connum}</td>
                                     <td className="border px-4 py-2">{user.u_email}</td>
                                     <td className="border px-4 py-2">
-                                        <Link to={`/editUser/${user.user_id}`} className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2">
+                                        <Link to={`/editUser/${user.user_id}`} className="bg-lightblue text-white px-4 py-2 rounded-md mr-2">
                                             Edit
                                         </Link>
                                         <button
-                                            className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2"
+                                            className="bg-lightblue text-white px-4 py-2 rounded-md mr-2"
                                             onClick={() => handleViewClick(user.user_id)}
                                         >
                                             View

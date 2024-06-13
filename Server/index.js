@@ -10,6 +10,7 @@ import bookings from './Routes/booking_Routes.js';
 import supervisor from './Routes/supervisor_Routes.js';
 import package_Routes from './Routes/package_Routers.js';
 import dashboard from './Routes/dashboard_Routes.js';
+import Report from './Routes/report_Routes.js';
 import { __dirname } from "./dirname.js";
 import path from "path";
 import cookieParser from 'cookie-parser';
@@ -32,7 +33,7 @@ app.use('/api/booking', bookings);
 app.use('/api/supervisor', supervisor);
 app.use('/api/package', package_Routes);
 app.use('/api/dashboard', dashboard);
-
+app.use('/api/report', Report);
 
 app.use('/public/packages', express.static(path.join(__dirname, 'public/packages')));
 

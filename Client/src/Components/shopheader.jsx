@@ -8,18 +8,21 @@ const ShopHeader = ({ pageName }) => {
     return (
         <div className="bg-white 0 h-16 flex justify-between shadow-md ">
             <p className="text-text-primary font-inter font-bold text-2xl p-3 mb-15">{pageName}</p>
-            <div className='flex items-center gap-2 p-3'>
+            {/* <div className='flex items-center gap-2 p-3'>
                 <HiHome className='w-6 h-6 bg-text-primary rounded-2xl text-black  ' />
-                
-                
-                {/* <h1 className=" text-1xl font-semibold text-gray-600">
-                    {user ? `${user.u_name}` : " User Profile"}
-                    
-                </h1> */}
 
-<h1 className=" text-1xl font-semibold text-gray-600">
-    {user && Object.keys(user).length > 0 ? `${user.u_name}` : " User Profile"}
-</h1>
+
+
+
+                <h1 className=" text-1xl font-semibold text-gray-600">
+                    {user && Object.keys(user).length > 0 ? `${user.u_name}` : " User Profile"}
+                </h1>
+            </div> */}
+            <div className="shop-header">
+                <HiHome className='w-6 h-6 bg-text-primary rounded-2xl text-black' />
+                <h1 className="text-1xl font-semibold text-gray-600">
+                    {user && Object.keys(user).length > 0 ? `${user.u_name}` : " User Profile"}
+                </h1>
             </div>
         </div>
     );

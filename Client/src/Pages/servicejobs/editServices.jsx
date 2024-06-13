@@ -124,7 +124,8 @@ function EditService() {
     }, [service_id]);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target
+        
         setService((prevService) => ({
             ...prevService,
             [name]: value,
@@ -145,7 +146,7 @@ function EditService() {
     return (
         <div>
             <ShopHeader pageName="Edit Service" />
-            <div className="container bg-blue-50 mx-auto p-8 max-w-md bg-white shadow-md rounded-lg">
+            <div className="container  mx-auto p-8 max-w-md bg-white shadow-md rounded-lg mt-24">
                 <h2 className="text-2xl font-bold mb-6 text-center">Edit Service</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
@@ -172,11 +173,19 @@ function EditService() {
                     <div>
                         <label className="block mb-2 text-gray-700 font-medium">Price</label>
                         <input
-                            type="text"
+                            maxLength={5}
+                            type="number"
                             name="s_price"
                             value={service.s_price}
-                            onChange={handleChange}
+                            onChange={(e) => {
+                                // Call handleChange only if the value is a number and >= 0
+                                if (!isNaN(e.target.value) && parseInt(e.target.value) >= 0) {
+                                  handleChange(e);
+                                }
+                                // Optionally handle the case when the value is negative or not a number
+                              }}
                             className="w-full p-3 border border-gray-300 rounded"
+                            
                             required
                         />
                     </div>

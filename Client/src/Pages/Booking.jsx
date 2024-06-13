@@ -1012,19 +1012,19 @@ const Booking = () => {
   //   }
   // };
   const fetchServices = async () => {
-        try {
-          const response = await axios.get('http://localhost:8800/api/booking/getServices');
-          setServices(response.data);
-        } catch (error) {
-          console.error('An error occurred while trying to fetch the services:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'An error occurred while trying to fetch the services',
-          });
-        }
-      };
-    
+    try {
+      const response = await axios.get('http://localhost:8800/api/booking/getServices');
+      setServices(response.data);
+    } catch (error) {
+      console.error('An error occurred while trying to fetch the services:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred while trying to fetch the services',
+      });
+    }
+  };
+
   const fetchHolidays = async () => {
     try {
       const response = await axios.get('http://localhost:8800/api/booking/getHolidays');
@@ -1068,12 +1068,12 @@ const Booking = () => {
     }
   };
   const handleServiceChange = (slist_id) => {
-        setSelectedServices(prevServices =>
-          prevServices.includes(slist_id)
-            ? prevServices.filter(id => id !== slist_id)
-            : [...prevServices, slist_id]
-        );
-      };
+    setSelectedServices(prevServices =>
+      prevServices.includes(slist_id)
+        ? prevServices.filter(id => id !== slist_id)
+        : [...prevServices, slist_id]
+    );
+  };
   // const handleServiceChange = (slist_id) => {
   //   setSelectedServices(prevServices =>
   //     prevServices.includes(slist_id)
@@ -1125,52 +1125,77 @@ const Booking = () => {
   //   }
   // };
   const handleBookingSubmit = async (e) => {
-        e.preventDefault();
-        try {
-          const bookingData = {
-            ...bookingDetails,
-            b_date: selectedDate,
-            b_time: selectedTimeSlot
-          };
-    
-          const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
-          const { b_id } = response.data;
-    
-          if (selectedServices.length > 0) {
-            await axios.post('http://localhost:8800/api/booking/addBooking_services', {
-              b_id,
-              services: selectedServices
-            });
-    
-          }
-    
-          Swal.fire({
-            icon: 'success',
-            title: 'Booking Confirmed',
-            html: `<p>Your booking has been successfully completed!</p>
+    e.preventDefault();
+    try {
+      const bookingData = {
+        ...bookingDetails,
+        b_date: selectedDate,
+        b_time: selectedTimeSlot
+      };
+
+      const response = await axios.post('http://localhost:8800/api/booking/addBooking', bookingData);
+      const { b_id } = response.data;
+
+      if (selectedServices.length > 0) {
+        await axios.post('http://localhost:8800/api/booking/addBooking_services', {
+          b_id,
+          services: selectedServices
+        });
+
+      }
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Booking Confirmed',
+        html: `<p>Your booking has been successfully completed!</p>
                    <p><strong>Date:</strong> ${selectedDate}</p>
                    <p><strong>Time Slot:</strong> ${selectedTimeSlot}</p>
                    <p>If you need to cancel your booking, please contact us.</p>`,
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'OK'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.reload();
-            }
-          })
-    
-    
-          ;
-        } catch (error) {
-          console.error('An error occurred while trying to add the booking:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'An error occurred while trying to add the booking',
-          });
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
         }
-    
-      };
+      })
+
+
+        ;
+    } catch (error) {
+      console.error('An error occurred while trying to add the booking:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'An error occurred while trying to add the booking',
+      });
+    }
+
+  };
+
+  const [currentHour, setCurrentHour] = useState(0);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  useEffect(() => {
+    // Update current hour and date every minute
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentDate(now);
+      setCurrentHour(now.getHours());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, []);
+
+  const shouldDisableSlot = (slotTime) => {
+    const slotHour = parseInt(slotTime.split(':')[0]);
+    const slotDate = new Date(currentDate);
+    const currentSlotDateTime = new Date(slotDate.getFullYear(), slotDate.getMonth(), slotDate.getDate(), slotHour);
+
+    const nextHour = currentHour === 23 ? 0 : currentHour + 1;
+    const currentDateTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate(), currentHour);
+
+    return currentSlotDateTime <= currentDateTime || slotHour <= nextHour;
+  };
+
   return (
     <div className="min-h-screen bg-cover bg-center flex justify-center items-center" style={{ backgroundImage: `url(${Home})` }}>
       <div className="bg-black bg-opacity-50 mt-4 py-10  w-4/5 pl-5 pr-5 mb-5">
@@ -1191,6 +1216,7 @@ const Booking = () => {
                     Contact Number<span className="text-red-500"> *</span>
                   </label>
                   <input
+                    maxLength={10}
                     type="tel"
                     name="bcon_num"
                     pattern="^0[1-9]\d{8}$"
@@ -1204,126 +1230,136 @@ const Booking = () => {
                     onKeyDown={(e) => {
                       // Allow: backspace, delete, tab, escape, enter, arrow keys
                       if (
-                       
-                          [8, 46, 9, 27, 13, 37, 38, 39, 40].includes(e.keyCode) ||
-                          // Allow: Ctrl/cmd+A, Ctrl/cmd+C, Ctrl/cmd+V, Ctrl/cmd+X
-                          (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
-                          (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) ||
-                          (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) ||
-                          (e.keyCode === 88 && (e.ctrlKey || e.metaKey))
-                        ) {
-                          return; // let it happen, don't do anything
-                        }
-                        // Ensure that it is a number and stop the keypress
-                        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                          e.preventDefault();
-                        }
-                      }}
-                      className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                      required
-                    />
-                  </div>
-                </div>
-              </div>
-  
-              <h3 className="text-lg font-semibold text-gray-200">
-                Vehicle Information
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-200">
-                    Vehicle Type<span className="text-red-500"> *</span>
-                  </label>
-                  <select
-                    name="vehicle_type"
-                    value={bookingDetails.vehicle_type}
-                    onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    required
-                  >
-                    <option value="">Select a vehicle type</option>
-                    <option value="jeep">Jeep</option>
-                    <option value="car">Car</option>
-                    <option value="van">Van</option>
-                    <option value="suv">SUV</option>
-                    <option value="cab">Cab</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-200">
-                    Vehicle Number<span className="text-red-500"> *</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="bveh_num"
-                    value={bookingDetails.bveh_num}
-                    onChange={(e) => setBookingDetails({ ...bookingDetails, bveh_num: e.target.value })}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    required
-                  />
-                </div>
-              </div>
-  
-              <h3 className="text-lg font-semibold text-gray-200">
-                Booking Date & Time
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-200">
-                    Date<span className="text-red-500"> *</span>
-                  </label>
-                  <input
-                    type="date"
-                    name="b_date"
-                    value={selectedDate}
-                    onChange={handleDateChange}
-                    min={minDateStr}
-                    max={maxDateStr}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-200">
-                    Time Slot<span className="text-red-500"> *</span>
-                  </label>
-                  
-                
-<select
-    name="b_time"
-    value={selectedTimeSlot}
-    onChange={(e) => setSelectedTimeSlot(e.target.value)}
-    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-    required
->
-    <option value="" disabled>Select a time slot</option>
-    {timeSlots.map((slot, index) => (
-        <option key={index} value={slot.slot} disabled={!slot.available}>
-            {slot.slot} {slot.available ? '(Available)' : '(Booked)'}
-        </option>
-    ))}
-</select>
 
+                        [8, 46, 9, 27, 13, 37, 38, 39, 40].includes(e.keyCode) ||
+                        // Allow: Ctrl/cmd+A, Ctrl/cmd+C, Ctrl/cmd+V, Ctrl/cmd+X
+                        (e.key === 65 && (e.ctrlKey || e.metaKey)) ||
+                        (e.keyCode === 67 && (e.ctrlKey || e.metaKey)) ||
+                        (e.keyCode === 86 && (e.ctrlKey || e.metaKey)) ||
+                        (e.keyCode === 88 && (e.ctrlKey || e.metaKey))
+                      ) {
+                        return; // let it happen, don't do anything
+                      }
+                      // Ensure that it is a number and stop the keypress
+                      if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                        e.preventDefault();
+                      }
+                    }}
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  />
                 </div>
               </div>
-  
-              <h3 className="text-lg font-semibold text-gray-200">
-                Additional Information
-              </h3>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-200">
+              Vehicle Information
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-200">
-                  Anything Else
+                  Vehicle Type<span className="text-red-500"> *</span>
                 </label>
-                <textarea
-                  name="anything_else"
-                  value={bookingDetails.anything_else}
-                  onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
+                <select
+                  name="vehicle_type"
+                  value={bookingDetails.vehicle_type}
+                  onChange={(e) => setBookingDetails({ ...bookingDetails, vehicle_type: e.target.value })}
                   className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  required
+                >
+                  <option value="">Select a vehicle type</option>
+                  <option value="jeep">Jeep</option>
+                  <option value="car">Car</option>
+                  <option value="van">Van</option>
+                  <option value="suv">SUV</option>
+                  <option value="cab">Cab</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-200">
+                  Vehicle Number<span className="text-red-500"> *</span>
+                </label>
+                <input
+                  placeholder="Ex: ABC-1234"
+                  maxLength={8}
+                  type="text"
+                  name="bveh_num"
+                  value={bookingDetails.bveh_num}
+                  onChange={(e) => {
+                    const sanitizedValue = e.target.value.replace(/[^a-zA-Z0-9-]/g, '').toUpperCase();
+                    setBookingDetails({ ...bookingDetails, bveh_num: sanitizedValue });
+                  }}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  required
                 />
               </div>
-  
-              {/* <h3 className="text-lg font-semibold text-gray-200">
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-200">
+              Booking Date & Time
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-200">
+                  Date<span className="text-red-500"> *</span>
+                </label>
+                <input
+                  placeholder="Enter a date"
+                  type="date"
+                  name="b_date"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  min={minDateStr}
+                  max={maxDateStr}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-200">
+                  Time Slot<span className="text-red-500"> *</span>
+                </label>
+
+
+                <select
+                  name="b_time"
+                  value={selectedTimeSlot}
+                  onChange={(e) => setSelectedTimeSlot(e.target.value)}
+                  className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  required
+                >
+                  <option value="" disabled>Select a time slot</option>
+                  {timeSlots.map((slot, index) => {
+                  
+                    return (
+                      <option key={index} value={slot.slot} disabled={(!slot.available)||shouldDisableSlot(slot.slot)}>
+                        {slot.slot} {slot.available ? '(Available)' : '(Booked)'}
+                      </option>
+                    )
+                  })}
+                </select>
+
+              </div>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-200">
+              Additional Information
+            </h3>
+            <div>
+              <label className="block text-sm font-medium text-gray-200">
+                Anything Else
+              </label>
+              <textarea
+                maxLength={100}
+                name="anything_else"
+                value={bookingDetails.anything_else}
+                onChange={(e) => setBookingDetails({ ...bookingDetails, anything_else: e.target.value })}
+                className="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+
+            {/* <h3 className="text-lg font-semibold text-gray-200">
                 Select Services
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -1346,11 +1382,11 @@ const Booking = () => {
               </div>
    */}
 
-<h3 className="text-lg font-semibold text-gray-200">
+            <h3 className="text-lg font-semibold text-gray-200">
               Select Services
-           </h3>
-           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-             {services.map(service => (
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {services.map(service => (
                 <div key={service.slist_id} className="flex items-center">
                   <input
                     type="checkbox"
@@ -1362,20 +1398,20 @@ const Booking = () => {
                 </div>
               ))}
             </div>
-              <div className="flex justify-center">
-                <button
-                  type="submit"
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded"
-                >
-                  Submit Booking
-                </button>
-              </div>
-            </form>
-          </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded"
+              >
+                Submit Booking
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-    );
-  };
-  
-  export default Booking;
-  
+    </div>
+  );
+};
+
+export default Booking;
+

@@ -165,7 +165,7 @@ function ShowServices() {
                                     <td className="border px-4 py-2">{service.s_name}</td>
                                     <td className="border px-4 py-2">{service.s_price}</td>
                                     <td className="border px-4 py-2">
-                                        <Link to={`/edit_service/${service.service_id}`} className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2">
+                                        <Link to={`/edit_service/${service.service_id}`} className="bg-slate-500 text-white px-4 py-2 rounded-md mr-2">
                                             Edit
                                         </Link>
                                     </td>

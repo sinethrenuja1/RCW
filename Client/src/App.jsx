@@ -47,7 +47,9 @@ import Edituser from "./Pages/workers/editUser";
 import ShowprevBookings from "./Pages/booking/showpreviousbooking";
 import Pastjobcard from "./Pages/servicejobs/pastjobcard";
 import Aboutus from "./Components/about";  
-import Lowstock from './Pages/reportsofsystem/lowstock'
+import Lowstock from './Pages/reportsofsystem/lowstock';
+import BuyingReport from './Pages/reportsofsystem/buyingStock';
+import UsedpartReport from './Pages/reportsofsystem/usedpart_report';
 const  WebLayout = () => {
   return (
     <>
@@ -144,7 +146,9 @@ const router = createBrowserRouter([
       {path:"/editUser/:user_id",element:<Edituser/>},
       {path:"/showprevBookings",element:<ShowprevBookings/>},
       {path:"/pastjobcard",element:<Pastjobcard/>},
-      {path:"/lowstock",element:<Lowstock/>}
+      {path:"/lowstock",element:<Lowstock/>},
+      {path:"/buyingReport",element:<BuyingReport/>},
+      {path:"/usedpartReport",element:<UsedpartReport/>}
       ],
   },
 
