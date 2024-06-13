@@ -50,7 +50,7 @@ const DeletePackages = () => {
   return (
     <div className="bg-gray-200 min-h-screen">
       <ShopHeader pageName="Show Packages" />
-      <div className="flex mt-5 ml-5 mr-5 bg-primary justify-center items-center">
+      <div className="flex mt-5 bg-blue-50 ml-5 mr-5 bg-primary justify-center items-center">
         <div className="bg-white rounded shadow-lg p-6">
           <Link to="/AddPackages" className="bg-green-500 text-white font-bold py-2 px-4 rounded mb-4 inline-block">Add Package</Link>
           

@@ -347,17 +347,17 @@ function ShowWorkers() {
                                     <td className="border px-4 py-2">{worker.address}</td>
                                     <td className="border px-4 py-2">{worker.tel_no}</td>
                                     <td className="border px-4 py-2">
-                                        <Link to={`/edit_worker/${worker.worker_id}`} className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2">
+                                        <Link to={`/edit_worker/${worker.worker_id}`} className="bg-lightblue text-white px-4 py-2 rounded-md mr-2">
                                             Edit
                                         </Link>
                                         <button
-                                            className="bg-yellow-400 text-white px-4 py-2 rounded-md mr-2"
+                                            className="bg-lightblue text-white px-4 py-2 rounded-md mr-2"
                                             onClick={() => handleViewClick(worker.worker_id)}
                                         >
                                             View
                                         </button>
                                         <button
-                                            className="bg-yellow-400 text-white px-4 py-2 rounded-md"
+                                            className="bg-lightblue text-white px-4 py-2 rounded-md"
                                             onClick={() => handleResignClick(worker.worker_id)}
                                             disabled={resigningWorker === worker.worker_id}
                                         >

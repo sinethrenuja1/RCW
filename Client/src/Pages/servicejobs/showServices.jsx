@@ -132,7 +132,7 @@ function ShowServices() {
     return (
         <div>
             <ShopHeader pageName="Services" />
-            <div className="w-full mx-auto bg-white shadow-lg rounded-lg mt-5">
+            <div className="w-full bg-blue-50 mx-auto bg-white shadow-lg rounded-lg mt-5">
                 <div className="px-6 py-4">
                     <div className="flex justify-between items-center">
                         <input

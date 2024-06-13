@@ -353,7 +353,7 @@ function AddPackages() {
     return (
         <div className="bg-gray-200 min-h-screen">
             <ShopHeader pageName="Settings" />
-            <div className="flex justify-center items-center bg-gray-100 p-4">
+            <div className="flex bg-blue-50 justify-center items-center bg-gray-100 p-4">
                 <div className="flex flex-col w-full max-w-lg px-6 py-8 bg-white rounded-lg shadow-md">
                     <h1 className="text-2xl font-bold mb-6 text-center">Add Package</h1>
                     <form onSubmit={handleSubmit} className="space-y-4">

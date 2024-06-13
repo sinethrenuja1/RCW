@@ -203,7 +203,7 @@ const Dashboard = () => {
         <div>
             <ShopHeader pageName="Dashboard" />
 
-            <div className="container mx-auto p-4">
+            <div className="container bg mx-auto p-4">
                 <h2 className="text-2xl font-bold mb-4">Income Overview</h2>
                 <div className="mb-4 space-x-2">
                     <button onClick={() => setPeriod('daily')} className={`px-3 py-1 rounded ${period === 'daily' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}>Daily</button>

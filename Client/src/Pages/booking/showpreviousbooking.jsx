@@ -155,7 +155,7 @@ export default function BookingDetails() {
     return (
         <div>
             <ShopHeader pageName="Booking" />
-            <div className="container mx-auto px-4 py-4">
+            <div className="container  bg-blue-50 mx-auto px-4 py-4">
                 <h1 className="text-2xl font-bold mb-4">Cancelled and Completed Booking Details</h1>
                 <div className="flex flex-col md:flex-row md:items-center mb-4">
                     <div className="mb-2 md:mb-0 md:mr-4">

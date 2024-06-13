@@ -184,6 +184,7 @@ import PropTypes from 'prop-types';
 import ShopHeader from '../../Components/shopheader';
 import { useNavigate } from 'react-router-dom';
 
+
 // Row Component
 Row.propTypes = {
     row: PropTypes.shape({
@@ -217,7 +218,7 @@ function Row({ row }) {
 
     return (
         <>
-            <tr className="border-b border-gray-300">
+            <tr className="border-b    border-gray-300">
                 <td className="p-4 text-center">
                     <button className="text-black" onClick={handleButtonClick}>
                         {open ? '▲' : '▼'}

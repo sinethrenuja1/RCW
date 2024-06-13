@@ -14,7 +14,7 @@ const JobCard = ({ jobcard_id, veh_num, mileage }) => {
     };
 
     return (
-        <div className="bg-white shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
+        <div className="bg-blue-50  shadow-lg rounded-lg p-6 transition-transform transform hover:scale-105 hover:shadow-xl">
             <h3 className="text-xl font-bold mb-2">Job Card ID: {jobcard_id}</h3>
             <p className="text-gray-700 mb-2">Vehicle Number: {veh_num}</p>
             <p className="text-gray-700 mb-4">Mileage: {mileage}</p>

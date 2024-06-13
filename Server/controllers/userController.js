@@ -81,12 +81,15 @@ export const loginUser = (req, res) => {
 //         u_birthday
 //     } = req.body;
 
+//     // Encrypt the user's password before storing it in the database
+//     const hashedPassword = bcrypt.hashSync(u_password, 10);
+
 //     const q = `
 //         INSERT INTO user_info (u_name, u_nic, u_connum, u_email, u_address, user_name, u_password, acc_type, u_birthday)
 //         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 //     `;
 
-//     db.query(q, [u_name, u_nic, u_connum, u_email, u_address, user_name, u_password, acc_type, u_birthday], (err, result) => {
+//     db.query(q, [u_name, u_nic, u_connum, u_email, u_address, user_name, hashedPassword, acc_type, u_birthday], (err, result) => {
 //         if (err) {
 //             console.error('Error adding user:', err);
 //             return res.status(500).json({ error: 'Error adding user' });
@@ -94,6 +97,9 @@ export const loginUser = (req, res) => {
 //         res.status(201).json({ message: 'User added successfully', userId: result.insertId });
 //     });
 // };
+
+// import bcrypt from 'bcrypt';
+// import db from '../db'; // Adjust the import based on your project structure
 
 export const addUser = (req, res) => {
     const {
@@ -111,17 +117,32 @@ export const addUser = (req, res) => {
     // Encrypt the user's password before storing it in the database
     const hashedPassword = bcrypt.hashSync(u_password, 10);
 
-    const q = `
-        INSERT INTO user_info (u_name, u_nic, u_connum, u_email, u_address, user_name, u_password, acc_type, u_birthday)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    const checkQuery = `
+        SELECT * FROM user_info WHERE user_name = ? OR u_nic = ? OR u_connum = ?
     `;
 
-    db.query(q, [u_name, u_nic, u_connum, u_email, u_address, user_name, hashedPassword, acc_type, u_birthday], (err, result) => {
-        if (err) {
-            console.error('Error adding user:', err);
-            return res.status(500).json({ error: 'Error adding user' });
+    db.query(checkQuery, [user_name, u_nic, u_connum], (checkErr, checkResult) => {
+        if (checkErr) {
+            console.error('Error checking existing user:', checkErr);
+            return res.status(500).json({ error: 'Error checking existing user' });
         }
-        res.status(201).json({ message: 'User added successfully', userId: result.insertId });
+
+        if (checkResult.length > 0) {
+            return res.status(400).json({ error: 'User with the same username, NIC, or contact number already exists' });
+        }
+
+        const insertQuery = `
+            INSERT INTO user_info (u_name, u_nic, u_connum, u_email, u_address, user_name, u_password, acc_type, u_birthday)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
+
+        db.query(insertQuery, [u_name, u_nic, u_connum, u_email, u_address, user_name, hashedPassword, acc_type, u_birthday], (insertErr, result) => {
+            if (insertErr) {
+                console.error('Error adding user:', insertErr);
+                return res.status(500).json({ error: 'User name is already exists.' });
+            }
+            res.status(201).json({ message: 'User added successfully', userId: result.insertId });
+        });
     });
 };
 

@@ -503,7 +503,7 @@ function AddReplaceParts() {
         <div>
             <ShopHeader pageName="Assign jobs" />
             <div className="px-5 pt-4">
-                <form className="flex items-center gap-4">
+                <form className="flex bg-blue-50 items-center gap-4">
                     <div className="flex flex-col">
                         <label htmlFor="veh_num" className="text-black">
                             Vehicle Number:

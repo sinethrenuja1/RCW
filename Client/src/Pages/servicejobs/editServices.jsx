@@ -145,7 +145,7 @@ function EditService() {
     return (
         <div>
             <ShopHeader pageName="Edit Service" />
-            <div className="container mx-auto p-8 max-w-md bg-white shadow-md rounded-lg">
+            <div className="container bg-blue-50 mx-auto p-8 max-w-md bg-white shadow-md rounded-lg">
                 <h2 className="text-2xl font-bold mb-6 text-center">Edit Service</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>

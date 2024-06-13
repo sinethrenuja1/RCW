@@ -1311,7 +1311,7 @@ function RegisterVehicle() {
                 <ShopHeader pageName="Register Vehicle" />
             </div>
             <div>
-                <div className="flex mt-12 justify-center">
+                <div className="flex mt-12 bg-blue-50 justify-center">
                     <div className="bg-slate-200 flex justify-center mx-5 py-11 gap-12 rounded-lg">
                         <div className="grid-cols-1 md:grid-cols-2">
                             <div className="col-span-1 bg-gray-50 rounded-lg shadow-md px-4 py-4 mx-7">

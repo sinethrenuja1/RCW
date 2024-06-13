@@ -48,7 +48,7 @@ const Setting_main = () => {
     return (
         <div className="min-h-screen bg-gray-100">
             <ShopHeader pageName="Settings" />
-            <div className="bg-white shadow-lg rounded-lg mx-3 my-6 p-6">
+            <div className="bg-blue-50 shadow-lg rounded-lg mx-3 my-6 p-6">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-800 mb-4">Booking Page Section</h1>
                     <div className="flex flex-wrap justify-center">

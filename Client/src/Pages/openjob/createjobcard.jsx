@@ -216,7 +216,7 @@ function Create_jobcard() {
     return (
         <div>
             <ShopHeader pageName="Create Job Card" />
-            <div className="flex justify-center py-8">
+            <div className="flex bg-blue-50 justify-center py-8">
                 <form onSubmit={handleSubmit} className="w-1/2 bg-white p-6 rounded-lg shadow-md flex flex-col gap-4">
                     <div className="flex flex-col">
                         <div className="flex items-center justify-center mb-8">

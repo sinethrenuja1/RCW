@@ -207,7 +207,7 @@ function HolidayManagement() {
         <div>
             <div><ShopHeader pageName="Add Holidays"/></div>
 
-            <div className="container mx-auto p-20 w-3/4 mt-8">
+            <div className="container bg-blue-50 mx-auto p-20 w-3/4 mt-8">
                 <h2 className="text-2xl font-bold mb-4">Manage Holidays</h2>
 
                 {/* Form to add a new holiday */}

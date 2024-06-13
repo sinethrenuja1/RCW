@@ -112,7 +112,7 @@ function AddServices({ jobcard_id }) {
   };
 
   return (
-    <div className="px-5 pt-4">
+    <div className="px-5 bg-blue-50 pt-4">
       <form className="flex items-center gap-4">
         <div className="flex flex-col">
           <label htmlFor="veh_num" className="text-black">Vehicle Number:</label>
