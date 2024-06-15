@@ -25,7 +25,7 @@ function OpenJob() {
     }
 
     return (
-        <div className="flex bg-blue-50 flex-col min-h-screen justify-center ">
+        <div className="flex  flex-col min-h-screen justify-center ">
             <div>
             <ShopHeader pageName="Open Job Card"/>
             </div>
@@ -42,8 +42,8 @@ function OpenJob() {
             {/* Right Column */}
             <div className="flex flex-col justify-center items-center w-1/2">
                 {/* Input Field */}
-                <div className="mb-6  bg-blue-50">
-                    <label htmlFor="vehicleNumber" className="text-gray-700  bg-blue-50">Enter Vehicle Number:</label>
+                <div className="mb-6  ">
+                    <label htmlFor="vehicleNumber" className="text-gray-700  ">Enter Vehicle Number:</label>
                     <input
                         id="vehicleNumber"
                         type="text"

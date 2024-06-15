@@ -54,8 +54,8 @@ const LowStock = () => {
   return (
     <div>
         <ShopHeader pageName="Low Stock Data" />
-    <div className="container bg-blue-50 mx-auto px-4 py-8">
-      <h2 className="text-2xl">Low Stock Data</h2>
+    <div className="container  mx-auto px-4 py-8">
+      
       <input
         type="text"
         placeholder="Search by Part Code or Name"

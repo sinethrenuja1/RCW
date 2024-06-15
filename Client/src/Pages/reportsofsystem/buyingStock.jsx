@@ -71,7 +71,7 @@ const TotalBuying = () => {
     <div>
       <ShopHeader pageName="Total Buying Information" />
       <div className="container mx-auto px-4 py-8 ">
-        <h2 className="text-2xl">Total Buying Information</h2>
+        
         <div className="flex space-x-4 mt-4">
           <input
             type="text"

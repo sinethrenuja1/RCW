@@ -18,7 +18,7 @@ const JobCard = ({ jobcard_id, veh_num, mileage, status }) => {
             <p className="text-gray-700 mb-2">Vehicle Number: {veh_num}</p>
             <p className="text-gray-700 mb-2">Mileage: {mileage}</p>
             <p className="text-gray-700 mb-2">Status: {status}</p>
-            <button 
+            <button
                 onClick={handleStartJob}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Continue Job
@@ -75,7 +75,16 @@ const SupervisorDashboardOngoing = () => {
                             />
                         ))
                     ) : (
-                        <p className="text-gray-700 col-span-full">No job cards assigned.</p>
+                        // <p className="text-gray-700 col-span-full">No job cards assigned.</p>
+
+                        <div className="flex flex-col items-center justify-center bg-gradient-to-r from-blue-50 to-blue-100 shadow-lg rounded-lg p-6 max-w-2xl mx-auto">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-16 h-16 text-blue-400 mb-4">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2m-8 0a9 9 0 1018 0 9 9 0 10-18 0z" />
+                            </svg>
+                            <p className="text-gray-800 text-xl font-semibold mb-2">No Ongoing Job cards</p>
+                            <p className="text-gray-600 text-center">You're all caught up! There are no job cards assigned to you at the moment.</p>
+                        </div>
+
                     )}
                 </div>
             </div>

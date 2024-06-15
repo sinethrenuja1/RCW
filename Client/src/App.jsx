@@ -50,6 +50,9 @@ import Aboutus from "./Components/about";
 import Lowstock from './Pages/reportsofsystem/lowstock';
 import BuyingReport from './Pages/reportsofsystem/buyingStock';
 import UsedpartReport from './Pages/reportsofsystem/usedpart_report';
+import ProtectedRoute from "./Components/ProtectedRoute";
+import Reoorts from "./Pages/reportsofsystem/reports";
+
 const  WebLayout = () => {
   return (
     <>
@@ -114,7 +117,7 @@ const router = createBrowserRouter([
   
 
   {
-    path: "/",element: <DashLayout/>,
+    path: "/",element: <ProtectedRoute><DashLayout/></ProtectedRoute>,
     children: [
       {path: "/stock" , element: <Stock/>,},
       {path: "/openjob" , element: <Openjob/>,},
@@ -148,7 +151,8 @@ const router = createBrowserRouter([
       {path:"/pastjobcard",element:<Pastjobcard/>},
       {path:"/lowstock",element:<Lowstock/>},
       {path:"/buyingReport",element:<BuyingReport/>},
-      {path:"/usedpartReport",element:<UsedpartReport/>}
+      {path:"/usedpartReport",element:<UsedpartReport/>},
+      {path:"/reports",element:<Reoorts/>}
       ],
   },
 

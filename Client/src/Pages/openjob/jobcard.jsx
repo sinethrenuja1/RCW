@@ -28,7 +28,7 @@ const Jobcard_add = () => {
             
             <ShopHeader pageName={getPageName()} />
             {/**start sub navbar */}
-            <div className='flex bg-blue-50 bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
+            <div className='flex  bg-side-nav-bg p-2 h-9 pl-3 -10 gap-6 font-inter border-b-2'>
                 <button className={`${activeTopic === 'AddServices' ? 'topic' : 'text-gray-500'}`}
                     onClick={() => handleTopicClick('AddServices')}>Add Services</button>
                 <button className={`${activeTopic === 'AddParts' ? 'topic' : 'text-gray-500'}`}
