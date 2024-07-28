@@ -220,11 +220,11 @@ function Row({ row }) {
     return (
         <>
             <tr className="border-b    border-gray-300">
-                {/* <td className="p-4 text-center">
+                <td className="p-4 text-center">
                     <button className="text-black" onClick={handleButtonClick}>
                         {open ? '▲' : '▼'}
                     </button>
-                </td> */}
+                </td>
                 <td className="p-4 text-base" style={{ width: '20px' }}>{row.jobcard_id}</td>
                 <td className="p-4 text-right text-base">{row.veh_num}</td>
                 <td className="p-4 text-right text-base">{row.u_name}</td>
@@ -342,7 +342,7 @@ export default function CollapsibleTable() {
                 <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
                     <thead className="bg-gray-200">
                         <tr>
-                            {/* <th className="p-4"></th> */}
+                            <th className="p-4"></th>
                             <th className="p-4 text-left font-semibold">JobCard Id</th>
                             <th className="p-4 text-right font-semibold">Vehicle Number</th>
                             <th className="p-4 text-right font-semibold">Supervisor</th>

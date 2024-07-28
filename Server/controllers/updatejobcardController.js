@@ -290,32 +290,92 @@ console.log(servicesResults);
 // };
 
 
+// export const getJobCardshowDetails = (req, res) => {
+//     const { jobcard_id } = req.params;
+
+// const usedServicesQuery = `
+//         SELECT us.service_id, wi.name AS worker_name, us.s_quantity,us.s_price, sl.s_name, sl.s_price
+//         FROM used_services us
+//         JOIN service_list sl ON us.service_id = sl.service_id
+//         JOIN worker_info wi ON us.worker_id = wi.worker_id
+//         WHERE us.jobcard_id = ?
+//     `;
+
+//     // SQL query to fetch records from used_items with the given jobcard_id
+//     const usedItemsQuery = `
+//         SELECT ui.upart_id, ui.u_quantity, wi.name AS worker_name, s.price, s.name
+//         FROM used_items ui
+//         JOIN stock s ON ui.upart_id = s.part_id
+//         JOIN worker_info wi ON ui.uworker_id = wi.worker_id
+//         WHERE ui.ujobcard_id = ?
+//     `;
+
+//     // Perform both queries in parallel using Promise.all
+//     Promise.all([
+//         new Promise((resolve, reject) => {
+//             db.query(usedServicesQuery, [jobcard_id], (err, results) => {
+//                 if (err) return reject(err);
+//                 console.log(jobcard_id, results);
+//                 resolve(results);
+//             });
+//         }),
+//         new Promise((resolve, reject) => {
+//             db.query(usedItemsQuery, [jobcard_id], (err, results) => {
+//                 if (err) return reject(err);
+//                 resolve(results);
+//             });
+//         })
+//     ])
+//     .then(([servicesResults, itemsResults]) => {
+//         const serviceDetails = servicesResults.map(row => ({
+//             service_name: row.s_name,
+//             s_quantity: row.s_quantity,
+//             worker_name: row.worker_name,
+//             s_price: row.s_price
+//         }));
+// console.log(servicesResults);
+//         const itemDetails = itemsResults.map(row => ({
+//             part_id: row.upart_id,
+//             part_name: row.name,
+//             u_quantity: row.u_quantity,
+//             worker_name: row.worker_name,
+//             price: row.price
+//         }));
+//         console.log(itemDetails);   
+
+//         res.json({
+//             services: serviceDetails.length > 0 ? serviceDetails : 'No services found',
+//             parts: itemDetails.length > 0 ? itemDetails : 'No parts used'
+//         });
+//     })
+//     .catch(err => {
+//         res.status(500).json({ error: 'An error occurred while fetching job card details.' });
+//     });
+// };
+
 export const getJobCardshowDetails = (req, res) => {
     const { jobcard_id } = req.params;
 
-const usedServicesQuery = `
-        SELECT us.service_id, wi.name AS worker_name, us.s_quantity,us.s_price, sl.s_name, sl.s_price
+    const usedServicesQuery = `
+        SELECT us.service_id, wi.name AS worker_name, us.s_quantity, us.s_price, sl.s_name, sl.s_price
         FROM used_services us
-        JOIN service_list sl ON us.service_id = sl.service_id
-        JOIN worker_info wi ON us.worker_id = wi.worker_id
+        LEFT JOIN service_list sl ON us.service_id = sl.service_id
+        LEFT JOIN worker_info wi ON us.worker_id = wi.worker_id
         WHERE us.jobcard_id = ?
     `;
 
-    // SQL query to fetch records from used_items with the given jobcard_id
     const usedItemsQuery = `
         SELECT ui.upart_id, ui.u_quantity, wi.name AS worker_name, s.price, s.name
         FROM used_items ui
-        JOIN stock s ON ui.upart_id = s.part_id
-        JOIN worker_info wi ON ui.uworker_id = wi.worker_id
+        LEFT JOIN stock s ON ui.upart_id = s.part_id
+        LEFT JOIN worker_info wi ON ui.uworker_id = wi.worker_id
         WHERE ui.ujobcard_id = ?
     `;
 
-    // Perform both queries in parallel using Promise.all
     Promise.all([
         new Promise((resolve, reject) => {
             db.query(usedServicesQuery, [jobcard_id], (err, results) => {
                 if (err) return reject(err);
-                console.log(jobcard_id, results);
                 resolve(results);
             });
         }),
@@ -328,12 +388,13 @@ const usedServicesQuery = `
     ])
     .then(([servicesResults, itemsResults]) => {
         const serviceDetails = servicesResults.map(row => ({
+            service_id: row.service_id,
             service_name: row.s_name,
             s_quantity: row.s_quantity,
             worker_name: row.worker_name,
             s_price: row.s_price
         }));
-console.log(servicesResults);
+
         const itemDetails = itemsResults.map(row => ({
             part_id: row.upart_id,
             part_name: row.name,
@@ -341,7 +402,6 @@ console.log(servicesResults);
             worker_name: row.worker_name,
             price: row.price
         }));
-        console.log(itemDetails);   
 
         res.json({
             services: serviceDetails.length > 0 ? serviceDetails : 'No services found',
