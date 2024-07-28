@@ -171,7 +171,7 @@ const Dashboard = () => {
                 const response = await axios.get('http://localhost:8800/api/dashboard/getOngoingjob_count');
                 if (response.data && response.data.success) {
                     setOngoingJobCounts(response.data.data);
-                    console.log(response.data.data);
+                    // console.log(response.data.data);
                 } else {
                     console.error('No data received');
                 }
@@ -234,7 +234,7 @@ const Dashboard = () => {
                                 <FaReceipt className="text-5xl text-blue-500 mr-4" />
                                 <div>
                                     <h3 className="text-xl font-bold text-gray-700">Ongoing Jobs</h3>
-                                    <p className="text-lg text-gray-900">Started: 2{ongoingJobCounts.Started}</p>
+                                    <p className="text-lg text-gray-900">Started: {ongoingJobCounts['started']}</p>
                                     <p className="text-lg text-gray-900">Not Started: {ongoingJobCounts['not started']}</p>
                                 </div>
                             </div>
