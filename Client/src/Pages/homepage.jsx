@@ -1,5 +1,3 @@
-
-
 import "../App.css";
 import { useEffect, useState } from 'react';
 import Nav_bar from "../Components/home_nav";
