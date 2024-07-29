@@ -1,5 +1,3 @@
-
-
 import ShopHeader from "../../Components/shopheader";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -27,7 +25,7 @@ function AddReplaceParts() {
                 ]);
                 const { services = [], parts = [] } = jobCardResponse.data;
 
-                console.log("Job Card Details:", jobCardResponse.data); // Check the structure of the job card details
+                console.log("Job Card Details:", jobCardResponse.data); 
 
                 setServices(services);
                 setParts(parts);
@@ -68,7 +66,7 @@ function AddReplaceParts() {
             await axios.put(`http://localhost:8800/api/supervisor/updatePartWorker`, {
                 ujobcard_id: jobcardId,
                 upart_id: parts[index].upart_id
-                , // Ensure this property exists in parts array
+                , 
                 uworker_id: workerId
             });
             setParts(prevParts => {

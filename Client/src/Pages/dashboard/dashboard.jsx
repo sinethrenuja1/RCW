@@ -6,14 +6,14 @@ import ShopHeader from '../../Components/shopheader';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { FaReceipt,FaBriefcase } from 'react-icons/fa';
 
-// Helper function to format dates
+
 const formatDate = (dateString) => {
     const date = new Date(dateString);
-    date.setDate(date.getDate() + 1); // Adjust for the date offset
+    date.setDate(date.getDate() + 1); 
     return date.toISOString().split('T')[0];
 };
 
-// Process the income data for the chart
+
 const processIncomeData = (billDetails, period) => {
     const incomeMap = billDetails.reduce((acc, bill) => {
         const date = formatDate(bill.b_date);
@@ -43,7 +43,8 @@ const groupByWeek = (data) => {
     const weeklyData = [];
     let currentWeek = [];
     let currentWeekStart = new Date(data[0].date);
-    currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay()); // Get the start of the week (Sunday)
+    currentWeekStart.setDate(currentWeekStart.getDate() - currentWeekStart.getDay()); 
+    // Get the start of the week (Sunday)
 
     data.forEach(entry => {
         const entryDate = new Date(entry.date);
